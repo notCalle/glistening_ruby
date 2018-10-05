@@ -1,0 +1,10 @@
+AllCops:
+  TargetRubyVersion: 2.3
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/*_spec.rb'
+
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/*_spec.rb'
