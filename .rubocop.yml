@@ -8,3 +8,7 @@ Metrics/BlockLength:
 Style/BlockDelimiters:
   Exclude:
     - 'spec/*_spec.rb'
+
+Style/MixinUsage:
+  Exclude:
+    - 'features/support/*.rb'
