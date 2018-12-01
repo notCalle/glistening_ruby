@@ -41,3 +41,22 @@ Feature: Drawable canvas
             0 0 0 0 0 0 0 128 0 0 0 0 0 0 0
             0 0 0 0 0 0 0 0 0 0 0 0 0 0 255
             """
+
+    Scenario: Lines in a PPM file should not exceed 70 characters
+
+        Given c := Canvas[10, 2]
+         When every pixel of c is set to Color[1, 0.8, 0.6]
+          And ppm := c.to_ppm
+         Then lines 4 to 7 of ppm are
+            """
+            255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
+            153 255 204 153 255 204 153 255 204 153 255 204 153
+            255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
+            153 255 204 153 255 204 153 255 204 153 255 204 153
+            """
+
+    Scenario: PPM files are terminated by a newline
+
+        Given c := Canvas[5, 3]
+         When ppm := c.to_ppm
+         Then the last character of ppm is a newline

@@ -6,6 +6,14 @@ When(
   seval(canvas)[x, y] = seval(color)
 end
 
+When(
+  'every pixel of {variable} is set to Color[{scalar}, {scalar}, {scalar}]'
+) do |canvas, red, green, blue|
+  color = Color[red, green, blue]
+  canvas = seval(canvas)
+  canvas.each { |_, x, y| canvas[x, y] = color }
+end
+
 Then(
   '{variable}[{int}, {int}] = {variable}'
 ) do |canvas, x, y, color|
@@ -24,4 +32,8 @@ Then(
 ) do |from, to, var, example|
   text = seval(var).lines[(from - 1)..(to - 1)].join
   expect(text).to eq(example + "\n")
+end
+
+Then('the last character of {variable} is a newline') do |var|
+  expect(seval(var)[-1..-1]).to eq "\n"
 end
