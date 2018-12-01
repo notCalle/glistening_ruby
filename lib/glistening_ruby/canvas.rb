@@ -38,7 +38,18 @@ module GlisteningRuby
     end
 
     def to_ppm
-      "P3\n#{@w} #{@h}\n255\n"
+      count = 0
+      header = +"P3\n#{@w} #{@h}\n255\n"
+      @pixels.each.with_object(header) do |pixel, result|
+        count += 1
+        result << color_to_ppm(pixel) << ((count % @w).zero? ? "\n" : ' ')
+      end
+    end
+
+    private
+
+    def color_to_ppm(color)
+      color.to_a[0..2].map { |c| (255 * c).round.clamp(0, 255) }.join(' ')
     end
   end
 end
