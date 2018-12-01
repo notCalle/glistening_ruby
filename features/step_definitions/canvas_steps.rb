@@ -1,11 +1,5 @@
 # frozen_string_literal: true
 
-Given(
-  '{variable} := Canvas[{scalar}, {scalar}]'
-) do |var, width, height|
-  seval(var, :'=', Canvas[width, height])
-end
-
 When(
   '{variable}[{int}, {int}] := {variable}'
 ) do |canvas, x, y, color|
