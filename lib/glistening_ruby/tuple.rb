@@ -15,6 +15,9 @@ module GlisteningRuby
     end
 
     attr_accessor :x, :y, :z, :w
+    alias r x
+    alias g y
+    alias b z
 
     def is_a?(kind)
       super ||
