@@ -2,7 +2,8 @@
 
 def map_operator(operator)
   {
-    ·: :dot
+    ·: :dot,
+    X: :cross
   }.fetch(operator, operator)
 end
 
