@@ -8,6 +8,12 @@ ParameterType(
 )
 
 ParameterType(
+  name: 'matrix',
+  regexp: /[A-Z]/,
+  transformer: ->(name) { "@#{name}".to_sym }
+)
+
+ParameterType(
   name: 'class',
   regexp: /[A-Z][A-Za-z]+/,
   transformer: ->(klass) { GlisteningRuby.const_get(klass) }
