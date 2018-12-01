@@ -8,7 +8,7 @@ ParameterType(
 
 ParameterType(
   name: 'variable',
-  regexp: /[A-Za-z]+/,
+  regexp: /[a-z][a-z0-9]*/,
   transformer: ->(name) { "@#{name}".to_sym }
 )
 
