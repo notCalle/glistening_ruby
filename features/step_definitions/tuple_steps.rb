@@ -43,6 +43,20 @@ Then(
 end
 
 Then(
+  '{prefixop}{variable}'\
+  ' = {class}[{float}, {float}, {float}]'
+) do |op, a, klass, *tuple|
+  expect(seval(a, op)).to eq klass[*tuple]
+end
+
+Then(
+  '{prefixop}{variable}'\
+  ' = {class}[{float}, {float}, {float}, {float}]'
+) do |op, a, klass, *tuple|
+  expect(seval(a, op)).to eq klass[*tuple]
+end
+
+Then(
   '{variable} {operator} {variable}'\
   ' = {class}[{float}, {float}, {float}]'
 ) do |a, op, b, klass, *tuple|

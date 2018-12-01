@@ -23,3 +23,9 @@ ParameterType(
   regexp: /[+-]/,
   transformer: ->(op) { op.to_sym }
 )
+
+ParameterType(
+  name: 'prefixop',
+  regexp: /[-]/,
+  transformer: ->(op) { "#{op}@".to_sym }
+)
