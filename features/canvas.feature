@@ -13,3 +13,14 @@ Feature: Drawable canvas
           And red := Color[1, 0, 0]
          When c[2, 3] := red
          Then c[2, 3] = red
+
+    Scenario: Constructing the PPM header
+
+        Given c := Canvas[5, 3]
+        When ppm := c.to_ppm
+        Then lines 1 to 3 of ppm are
+            """
+            P3
+            5 3
+            255
+            """

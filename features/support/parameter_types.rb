@@ -27,7 +27,7 @@ ParameterType(
 
 ParameterType(
   name: 'method',
-  regexp: /[a-z]+/,
+  regexp: /[a-z_]+/,
   use_for_snippets: false,
   transformer: ->(name) { name.to_sym }
 )
