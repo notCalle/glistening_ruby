@@ -20,7 +20,7 @@ ParameterType(
 
 ParameterType(
   name: 'operator',
-  regexp: /[+-]/,
+  regexp: %r{[*/+-]},
   transformer: ->(op) { op.to_sym }
 )
 
