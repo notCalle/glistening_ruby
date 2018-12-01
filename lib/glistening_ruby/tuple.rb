@@ -42,6 +42,10 @@ module GlisteningRuby
       Tuple[@x - other.x, @y - other.y, @z - other.z, @w - other.w]
     end
 
+    def -@
+      Tuple[-@x, -@y, -@z, -@w]
+    end
+
     private
 
     def point?
