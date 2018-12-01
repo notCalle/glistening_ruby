@@ -14,6 +14,15 @@ module GlisteningRuby
       @w = w_axis
     end
 
+    def to_a
+      [@x, @y, @z, @w]
+    end
+
+    def to_s
+      "(#{@x}, #{@y}, #{@z}, #{@w})"
+    end
+    alias inspect to_s
+
     attr_accessor :x, :y, :z, :w
     alias r x
     alias g y
