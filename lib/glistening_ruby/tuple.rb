@@ -34,6 +34,14 @@ module GlisteningRuby
         close?(@w, other.w)
     end
 
+    def +(other)
+      Tuple[@x + other.x, @y + other.y, @z + other.z, @w + other.w]
+    end
+
+    def -(other)
+      Tuple[@x - other.x, @y - other.y, @z - other.z, @w - other.w]
+    end
+
     private
 
     def point?
