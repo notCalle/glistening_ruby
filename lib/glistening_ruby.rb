@@ -2,6 +2,7 @@
 
 require 'glistening_ruby/canvas'
 require 'glistening_ruby/color'
+require 'glistening_ruby/matrix'
 require 'glistening_ruby/point'
 require 'glistening_ruby/tuple'
 require 'glistening_ruby/vector'
