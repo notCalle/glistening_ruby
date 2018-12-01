@@ -10,8 +10,8 @@ module GlisteningRuby
     end
 
     def initialize(width, height)
-      @w = width
-      @h = height
+      @w = width.to_i
+      @h = height.to_i
       @pixels = Array.new(width * height, Color[0, 0, 0])
     end
 
@@ -35,6 +35,10 @@ module GlisteningRuby
           x = 0
         end
       end
+    end
+
+    def to_ppm
+      "P3\n#{@w} #{@h}\n255\n"
     end
   end
 end
