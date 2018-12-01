@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 Given(
+  '{variable} := {float}'
+) do |var, value|
+  seval(var, :'=', value)
+end
+
+Given(
   '{variable} := {class}[{float}, {float}, {float}]'
 ) do |var, klass, *tuple|
   seval(var, :'=', klass[*tuple])
