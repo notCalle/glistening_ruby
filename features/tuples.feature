@@ -65,3 +65,14 @@ Feature: Tuples, points and vectors
         Given u := Vector[3.0, 2.0, 1.0]
           And v := Vector[5.0, 6.0, 7.0]
          Then u - v = Vector[-2.0, -4.0, -6.0]
+
+    Scenario: Subtracting a vector from the zero vector
+
+        Given zero := Vector[0.0, 0.0, 0.0]
+          And v := Vector[1.0, -2.0, 3.0]
+         Then zero - v = Vector[-1.0, 2.0, -3.0]
+
+    Scenario: Negating a tuple
+
+        Given a := Tuple[1.0, -2.0, 3.0, -4.0]
+         Then -a = Tuple[-1.0, 2.0, -3.0, 4.0]
