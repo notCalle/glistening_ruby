@@ -1,4 +1,4 @@
-Feature: Tuples, points and vectors
+Feature: Basic of tuples, points and vectors
 
     Scenario: A tuple with w = 1.0 is a point
 
