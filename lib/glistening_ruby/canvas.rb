@@ -17,6 +17,11 @@ module GlisteningRuby
 
     attr_reader :w, :h
 
+    def to_s
+      "#<#{self.class}: #{@w} x #{@h}>"
+    end
+    alias inspect to_s
+
     def [](x_pos, y_pos)
       @pixels[y_pos][x_pos]
     end
@@ -33,8 +38,8 @@ module GlisteningRuby
       end
     end
 
-    def to_ppm
-      +"P3\n#{@w} #{@h}\n255\n" << pixels_to_ppm
+    def to_ppm(output = +'')
+      output << "P3\n#{@w} #{@h}\n255\n" << pixels_to_ppm
     end
 
     private

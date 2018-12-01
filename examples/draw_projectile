@@ -1,0 +1,73 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'glistening_ruby'
+
+# Simulation environment
+class Environment
+  include GlisteningRuby
+
+  def initialize(gravity, wind)
+    @gravity = gravity
+    @wind = wind
+  end
+
+  attr_reader :gravity, :wind
+end
+
+# Simulated projectile
+class Projectile
+  include GlisteningRuby
+
+  def initialize(position, velocity)
+    @position = position
+    @velocity = velocity
+  end
+
+  attr_reader :position, :velocity
+
+  def tick(environment)
+    @position += @velocity
+    @velocity += environment.gravity + environment.wind
+  end
+end
+
+# Example physics simulation
+class Main
+  include GlisteningRuby
+
+  def initialize
+    start_position = Point[0, 1, 0]
+    velocity = Vector[1, 1.8, 0].normalize * 11.25
+
+    @projectile = Projectile.new(start_position, velocity)
+
+    gravity = Vector[0, -0.1, 0]
+    wind = Vector[-0.01, 0, 0]
+
+    @environment = Environment.new(gravity, wind)
+
+    @canvas = Canvas[900, 550]
+  end
+
+  def simulate
+    loop do
+      pos = @projectile.position
+      coord = [pos.x, 550 - pos.y]
+      @canvas[*coord] = Color[1.0, 0.67, 0.33]
+      @projectile.tick(@environment)
+      break if @projectile.position.y.negative?
+    end
+    self
+  end
+
+  def save(filename)
+    File.open(filename, 'w') do |file|
+      @canvas.to_ppm(file)
+    end
+  end
+end
+
+require 'pry'
+Pry.start Main.new
