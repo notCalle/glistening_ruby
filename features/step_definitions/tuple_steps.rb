@@ -83,6 +83,12 @@ Then(
 end
 
 Then(
+  '{variable} {operator} {variable} = {scalar}'
+) do |a, op, b, value|
+  expect(seval(a, op, b)).to be_within(EPSILON).of value
+end
+
+Then(
   '{variable} {operator} {variable}'\
   ' = {class}[{scalar}, {scalar}, {scalar}]'
 ) do |a, op, b, klass, *tuple|
