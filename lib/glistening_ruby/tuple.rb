@@ -54,6 +54,14 @@ module GlisteningRuby
       Tuple[-@x, -@y, -@z, -@w]
     end
 
+    def magnitude
+      (@x * @x + @y * @y + @z * @z + @w * @w)**0.5
+    end
+
+    def normalize
+      self / magnitude
+    end
+
     private
 
     def point?
