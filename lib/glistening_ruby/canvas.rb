@@ -12,44 +12,67 @@ module GlisteningRuby
     def initialize(width, height)
       @w = width.to_i
       @h = height.to_i
-      @pixels = Array.new(width * height, Color[0, 0, 0])
+      @pixels = Array.new(height) { Array.new(width, Color[0, 0, 0]) }
     end
 
     attr_reader :w, :h
 
     def [](x_pos, y_pos)
-      @pixels[x_pos + y_pos * @w]
+      @pixels[y_pos][x_pos]
     end
 
     def []=(x_pos, y_pos, color)
-      @pixels[x_pos + y_pos * @w] = color
+      @pixels[y_pos][x_pos] = color
     end
 
     def each
-      x = y = 0
-      @pixels.each do |pixel|
-        yield pixel, x, y
-        x += 1
-        if x == @w
-          y += 1
-          x = 0
+      0.upto(@h - 1) do |y|
+        0.upto(@w - 1) do |x|
+          yield self[x, y], x, y
         end
       end
     end
 
     def to_ppm
-      count = 0
-      header = +"P3\n#{@w} #{@h}\n255\n"
-      @pixels.each.with_object(header) do |pixel, result|
-        count += 1
-        result << color_to_ppm(pixel) << ((count % @w).zero? ? "\n" : ' ')
-      end
+      +"P3\n#{@w} #{@h}\n255\n" << pixels_to_ppm
     end
 
     private
 
-    def color_to_ppm(color)
-      color.to_a[0..2].map { |c| (255 * c).round.clamp(0, 255) }.join(' ')
+    def pixels_to_ppm
+      0.upto(@h - 1).with_object(+'') do |y_pos, result|
+        result << pixels_to_ppm_line(y_pos) << "\n"
+      end
+    end
+
+    def pixels_to_ppm_line(y_pos)
+      length = 0
+      pixels_to_line_array(y_pos).each.with_object(+'') do |item, result|
+        item, length = ppm_item(item, length)
+        result << item
+      end
+    end
+
+    def ppm_item(item, length)
+      if length + item.length >= 70
+        separator = +"\n"
+        length = item.length
+      else
+        separator = length.zero? ? +'' : +' '
+        length = length + item.length + 1
+      end
+
+      [separator << item, length]
+    end
+
+    def pixels_to_line_array(y_pos)
+      0.upto(@w - 1).with_object([]) do |x_pos, line|
+        line.concat color_to_str_a(self[x_pos, y_pos])
+      end
+    end
+
+    def color_to_str_a(color)
+      color.to_a[0..2].map { |c| (255 * c).round.clamp(0, 255).to_s }
     end
   end
 end
