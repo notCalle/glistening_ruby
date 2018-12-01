@@ -54,6 +54,10 @@ module GlisteningRuby
       Tuple[-@x, -@y, -@z, -@w]
     end
 
+    def dot(other)
+      @x * other.x + @y * other.y + @z * other.z + @w * other.w
+    end
+
     def magnitude
       (@x * @x + @y * @y + @z * @z + @w * @w)**0.5
     end
