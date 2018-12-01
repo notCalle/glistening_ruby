@@ -1,23 +1,5 @@
 # frozen_string_literal: true
 
-Given(
-  '{variable} := {scalar}'
-) do |var, value|
-  seval(var, :'=', value)
-end
-
-Given(
-  '{variable} := {class}[{scalar}, {scalar}, {scalar}]'
-) do |var, klass, *tuple|
-  seval(var, :'=', klass[*tuple])
-end
-
-Given(
-  '{variable} := {class}[{scalar}, {scalar}, {scalar}, {scalar}]'
-) do |var, klass, *tuple|
-  seval(var, :'=', klass[*tuple])
-end
-
 Then(
   '{variable}.{method} = {scalar}'
 ) do |a, op, value|

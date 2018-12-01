@@ -23,7 +23,7 @@ module GlisteningRuby
     end
     alias inspect to_s
 
-    attr_accessor :x, :y, :z, :w
+    attr_reader :x, :y, :z, :w
     alias r x
     alias g y
     alias b z
