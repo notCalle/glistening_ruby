@@ -3,6 +3,7 @@
 ParameterType(
   name: 'variable',
   regexp: /[a-z][a-z0-9]*/,
+  use_for_snippets: false,
   transformer: ->(name) { "@#{name}".to_sym }
 )
 
@@ -27,6 +28,7 @@ ParameterType(
 ParameterType(
   name: 'method',
   regexp: /[a-z]+/,
+  use_for_snippets: false,
   transformer: ->(name) { name.to_sym }
 )
 
