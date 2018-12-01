@@ -42,6 +42,14 @@ module GlisteningRuby
       Tuple[@x - other.x, @y - other.y, @z - other.z, @w - other.w]
     end
 
+    def *(other)
+      Tuple[@x * other, @y * other, @z * other, @w * other]
+    end
+
+    def /(other)
+      Tuple[@x / other, @y / other, @z / other, @w / other]
+    end
+
     def -@
       Tuple[-@x, -@y, -@z, -@w]
     end
