@@ -14,7 +14,19 @@ module GlisteningRuby
       @w = w_axis
     end
 
+    def to_a
+      [@x, @y, @z, @w]
+    end
+
+    def to_s
+      "(#{@x}, #{@y}, #{@z}, #{@w})"
+    end
+    alias inspect to_s
+
     attr_accessor :x, :y, :z, :w
+    alias r x
+    alias g y
+    alias b z
 
     def is_a?(kind)
       super ||
@@ -43,7 +55,11 @@ module GlisteningRuby
     end
 
     def *(other)
-      Tuple[@x * other, @y * other, @z * other, @w * other]
+      if other.is_a?(Tuple)
+        hadamard_product(other)
+      else
+        scalar_product(other)
+      end
     end
 
     def /(other)
@@ -84,6 +100,14 @@ module GlisteningRuby
 
     def vector?
       close?(@w, 0.0)
+    end
+
+    def hadamard_product(other)
+      Tuple[@x * other.x, @y * other.y, @z * other.z, @w * other.w]
+    end
+
+    def scalar_product(other)
+      Tuple[@x * other, @y * other, @z * other, @w * other]
     end
   end
 end
