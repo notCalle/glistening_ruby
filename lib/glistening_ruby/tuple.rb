@@ -46,7 +46,11 @@ module GlisteningRuby
     end
 
     def *(other)
-      Tuple[@x * other, @y * other, @z * other, @w * other]
+      if other.is_a?(Tuple)
+        hadamard_product(other)
+      else
+        scalar_product(other)
+      end
     end
 
     def /(other)
@@ -87,6 +91,14 @@ module GlisteningRuby
 
     def vector?
       close?(@w, 0.0)
+    end
+
+    def hadamard_product(other)
+      Tuple[@x * other.x, @y * other.y, @z * other.z, @w * other.w]
+    end
+
+    def scalar_product(other)
+      Tuple[@x * other, @y * other, @z * other, @w * other]
     end
   end
 end
