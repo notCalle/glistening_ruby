@@ -17,3 +17,9 @@ ParameterType(
   regexp: /[A-Z][A-Za-z]+/,
   transformer: ->(klass) { GlisteningRuby.const_get(klass) }
 )
+
+ParameterType(
+  name: 'operator',
+  regexp: /[+-]/,
+  transformer: ->(op) { op.to_sym }
+)
