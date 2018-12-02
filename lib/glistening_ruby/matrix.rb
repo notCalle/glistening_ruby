@@ -88,4 +88,6 @@ module GlisteningRuby
       @size = array_of_arrays.size
     end
   end
+
+  Matrix::IDENTITY = Matrix.new(4)
 end

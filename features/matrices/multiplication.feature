@@ -27,7 +27,7 @@ Feature: Matrix multiplication
             |   0 |   0 |   0 |   1 |
           And b := Tuple[1, 2, 3, 1]
          Then A * b = Tuple[18, 24, 33, 1]
-@wip
+
     Scenario: Multiplying a matrix by the identity matrix
 
         Given the following 4x4 matrix A:
@@ -37,7 +37,7 @@ Feature: Matrix multiplication
             |   4 |   8 |  16 |  32 |
           And the identity matrix I
          Then A * I = A
-@wip
+
     Scenario: Multiplying the identity matrix by a tuple
 
         Given the identity matrix I
