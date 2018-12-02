@@ -47,6 +47,13 @@ Given(
 end
 
 Given(
+  '{matrix} := {matrix} * {matrix} * {matrix}'
+) do |r, *matrices|
+  result = matrices.map { |matrix| seval(matrix) }.reduce(&:*)
+  seval(r, :'=', result)
+end
+
+Given(
   '{matrix} := {matrix}.{method} {int}, {int}'
 ) do |a, b, method, row, col|
   seval(a, :'=', feval(b, method, row, col))
