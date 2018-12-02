@@ -44,6 +44,20 @@ module GlisteningRuby
       self[0, 0] * self[1, 1] - self[0, 1] * self[1, 0]
     end
 
+    def submatrix(drop_row, drop_col)
+      result = []
+      0.upto(size - 1) do |row|
+        next if row == drop_row
+
+        new_row = []
+        0.upto(size - 1) do |col|
+          new_row << self[row, col] unless col == drop_col
+        end
+        result << new_row
+      end
+      Matrix.new(*result)
+    end
+
     def transpose
       Matrix.new(size) do |result|
         0.upto(size - 1) do |row|

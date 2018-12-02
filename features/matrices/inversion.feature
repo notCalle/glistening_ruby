@@ -6,7 +6,7 @@ Feature: Matrix inversion
             |  1 |  5 |
             | -3 |  2 |
          Then A.determinant = 17
-@wip
+
     Scenario: A submatrix of a 3x3 matrix is a 2x2 matrix
 
         Given the following 3x3 matrix A:
@@ -16,7 +16,7 @@ Feature: Matrix inversion
          Then A.submatrix 0, 2 is the following 2x2 matrix:
             | -3 |  2 |
             |  0 |  6 |
-@wip
+
     Scenario: A submatrix of a 4x4 matrix is a 3x3 matrix
 
         Given the following 4x4 matrix A:
