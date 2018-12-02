@@ -1,4 +1,3 @@
-@wip
 Feature: Scaling matrices
 
     Background: We have a scaling matrix
