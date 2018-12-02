@@ -19,3 +19,9 @@ Feature: Scaling matrices
         Given v := Vector[-4, 6, 8]
          When S := T.inverse
          Then S * v = Vector[-2, 2, 2]
+
+    Scenario: Reflection is scaling by a negative value
+
+        Given R := Scaling[-1, 1, 1]
+          And p := Point[2, 3, 4]
+         Then R * p = Point[-2, 3, 4]
