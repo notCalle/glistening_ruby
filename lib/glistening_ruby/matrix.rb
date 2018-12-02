@@ -56,6 +56,20 @@ module GlisteningRuby
       end
     end
 
+    def each_element
+      each_row_col do |row, col|
+        yield self[row, col], row, col
+      end
+    end
+
+    def each_row_col
+      0.upto(size - 1) do |row|
+        0.upto(size - 1) do |col|
+          yield row, col
+        end
+      end
+    end
+
     def invertible?
       !determinant.zero?
     end
@@ -80,10 +94,8 @@ module GlisteningRuby
 
     def transpose
       Matrix.new(size) do |result|
-        0.upto(size - 1) do |row|
-          0.upto(size - 1) do |col|
-            result[col, row] = self[row, col]
-          end
+        each_element do |element, row, col|
+          result[col, row] = element
         end
       end
     end
