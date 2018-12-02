@@ -16,6 +16,12 @@ Given(
 end
 
 Given(
+  '{matrix} := {matrix}.{method}'
+) do |a, b, method|
+  seval(a, :'=', feval(b, method))
+end
+
+Given(
   '{matrix} := {matrix}.{method} {int}, {int}'
 ) do |a, b, method, row, col|
   seval(a, :'=', feval(b, method, row, col))
@@ -23,6 +29,12 @@ end
 
 Then(
   '{matrix}[{int},{int}] = {scalar}'
+) do |name, row, col, value|
+  expect(seval(name)[row, col]).to be_within(EPSILON).of value
+end
+
+Then(
+  '{matrix}[{int},{int}] = {rational}'
 ) do |name, row, col, value|
   expect(seval(name)[row, col]).to be_within(EPSILON).of value
 end
@@ -63,6 +75,15 @@ end
 
 Then('{matrix} {operator} {variable} = {variable}') do |a, op, b, r|
   expect(seval(a, op, b)).to eq seval(r)
+end
+
+Then(
+  '{matrix} is the following {int}x{int} matrix:'
+) do |matrix, rows, cols, expected|
+  expected = Matrix[*table_to_matrix(expected)]
+  expect(cols).to eq rows
+  expect(expected.size).to eq rows
+  expect(seval(matrix)).to eq expected
 end
 
 Then(

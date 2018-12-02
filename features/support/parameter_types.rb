@@ -40,11 +40,17 @@ ParameterType(
 
 ParameterType(
   name: 'scalar',
-  regexp: '([-√])?([0-9]+(\.[0-9+]+)?)',
+  regexp: '([-√])?(([0-9]+\.)?[0-9]+)',
   transformer: lambda do |prefix = nil, scalar|
     value = scalar.to_f
     value **= 0.5 if prefix == '√'
     value = -value if prefix == '-'
     value
   end
+)
+
+ParameterType(
+  name: 'rational',
+  regexp: '-?[0-9]+/[0-9]+',
+  transformer: ->(scalar) { scalar.to_r }
 )
