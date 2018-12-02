@@ -31,3 +31,10 @@ Then(
   expect(expected.size).to eq rows
   expect(seval(left, op, right)).to eq expected
 end
+
+Then(
+  '{matrix} {operator} {variable}'\
+  ' = {class}[{scalar}, {scalar}, {scalar}, {scalar}]'
+) do |matrix, op, tuple, klass, x, y, z, w|
+  expect(seval(matrix, op, tuple)).to eq klass[x, y, z, w]
+end
