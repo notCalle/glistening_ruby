@@ -28,3 +28,13 @@ Feature: Matrix inversion
             | -6 |  1 |  6 |
             | -8 |  8 |  6 |
             | -7 | -1 |  1 |
+@wip
+    Scenario: Calculating a minor of a 3x3 matrix
+
+        Given the following 3x3 matrix A:
+            |  3 |  5 |  0 |
+            |  2 | -1 | -7 |
+            |  6 | -1 |  5 |
+          And B := A.submatrix 1, 0
+         Then B.determinant = 25
+          And A.minor 1, 0 = 25

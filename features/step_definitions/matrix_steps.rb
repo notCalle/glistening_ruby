@@ -15,6 +15,12 @@ Given(
   seval(name, :'=', Matrix::IDENTITY)
 end
 
+Given(
+  '{matrix} := {matrix}.{method} {int}, {int}'
+) do |a, b, method, row, col|
+  seval(a, :'=', feval(b, method, row, col))
+end
+
 Then(
   '{matrix}[{int},{int}] = {scalar}'
 ) do |name, row, col, value|
@@ -35,6 +41,12 @@ end
 
 Then('{matrix}.{method} = {scalar}') do |matrix, method, value|
   expect(feval(matrix, method)).to be_within(EPSILON).of value
+end
+
+Then(
+  '{matrix}.{method} {int}, {int} = {scalar}'
+) do |matrix, method, row, col, value|
+  expect(feval(matrix, method, row, col)).to be_within(EPSILON).of value
 end
 
 Then('{matrix}.{method} = {matrix}') do |a, op, r|
