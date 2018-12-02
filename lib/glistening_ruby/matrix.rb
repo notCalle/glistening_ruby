@@ -56,6 +56,10 @@ module GlisteningRuby
       end
     end
 
+    def invertible?
+      !determinant.zero?
+    end
+
     def minor(row, col)
       submatrix(row, col).determinant
     end

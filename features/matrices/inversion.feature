@@ -73,7 +73,7 @@ Feature: Matrix inversion
           And A.cofactor 0, 2 = 210
           And A.cofactor 0, 3 = 51
           And A.determinant = -4071
-@wip
+
     Scenario: Testing an invertible matrix for invertibility
 
         Given the following 4x4 matrix A:
@@ -83,7 +83,7 @@ Feature: Matrix inversion
             |  9 |  1 |  7 | -6 |
          Then A.determinant = -2120
           And A is invertible
-@wip
+
     Scenario: Testing a non-invertible matrix for invertibility
 
         Given the following 4x4 matrix A:
