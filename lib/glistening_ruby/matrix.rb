@@ -44,6 +44,10 @@ module GlisteningRuby
       self[0, 0] * self[1, 1] - self[0, 1] * self[1, 0]
     end
 
+    def minor(row, col)
+      submatrix(row, col).determinant
+    end
+
     def submatrix(drop_row, drop_col)
       result = []
       0.upto(size - 1) do |row|

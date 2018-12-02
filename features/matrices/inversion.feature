@@ -28,7 +28,7 @@ Feature: Matrix inversion
             | -6 |  1 |  6 |
             | -8 |  8 |  6 |
             | -7 | -1 |  1 |
-@wip
+
     Scenario: Calculating a minor of a 3x3 matrix
 
         Given the following 3x3 matrix A:
