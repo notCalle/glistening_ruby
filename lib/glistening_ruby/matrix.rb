@@ -27,12 +27,11 @@ module GlisteningRuby
     attr_reader :rows, :size
 
     def *(other)
-      raise 'matrix sizes differ' unless size == other.size
-
-      0.upto(size - 1).with_object(Matrix.new(size)) do |row, result|
-        0.upto(size - 1) do |col|
-          result[row, col] = cross(other, row, col)
-        end
+      case other
+      when Matrix
+        multiply_matrix_by_matrix(other)
+      when Tuple
+        multiply_matrix_by_tuple(other)
       end
     end
 
@@ -44,7 +43,25 @@ module GlisteningRuby
 
     private
 
-    def cross(other, row, col)
+    def multiply_matrix_by_tuple(other)
+      result = []
+      0.upto(size - 1) do |row|
+        result << Tuple[*@rows[row]].dot(other)
+      end
+      Tuple[*result]
+    end
+
+    def multiply_matrix_by_matrix(other)
+      raise 'matrix sizes differ' unless size == other.size
+
+      0.upto(size - 1).with_object(Matrix.new(size)) do |row, result|
+        0.upto(size - 1) do |col|
+          result[row, col] = row_dot_col(other, row, col)
+        end
+      end
+    end
+
+    def row_dot_col(other, row, col)
       0.upto(size - 1).reduce(0) do |sum, i|
         sum + self[row, i] * other[i, col]
       end

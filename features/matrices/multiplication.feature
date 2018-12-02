@@ -17,7 +17,7 @@ Feature: Matrix multiplication
             |  44 |  54 | 114 | 108 |
             |  40 |  58 | 110 | 102 |
             |  16 |  26 |  46 |  42 |
-@wip
+
     Scenario: Multiplying a matrix by a tuple
 
         Given the following 4x4 matrix A:
