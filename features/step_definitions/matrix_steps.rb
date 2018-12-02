@@ -22,6 +22,12 @@ Given(
 end
 
 Given(
+  '{matrix} := {matrix} {operator} {matrix}'
+) do |r, a, op, b|
+  seval(r, :'=', seval(a, op, b))
+end
+
+Given(
   '{matrix} := {matrix}.{method} {int}, {int}'
 ) do |a, b, method, row, col|
   seval(a, :'=', feval(b, method, row, col))
@@ -71,6 +77,12 @@ end
 
 Then('{matrix}.{method} = {matrix}') do |a, op, r|
   expect(feval(a, op)).to eq seval(r)
+end
+
+Then(
+  '{matrix} {operator} {matrix}.{method} = {matrix}'
+) do |a, op, b, method, r|
+  expect(feval(a, op, feval(b, method))).to eq seval(r)
 end
 
 Then('{matrix} {operator} {variable} = {variable}') do |a, op, b, r|
