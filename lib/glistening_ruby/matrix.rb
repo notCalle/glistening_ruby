@@ -73,6 +73,18 @@ module GlisteningRuby
       end
     end
 
+    # Matrix of cofactors / determinant, and transposed
+    def inverse
+      raise 'not invertible' unless invertible?
+
+      Matrix.new(size) do |result|
+        det = determinant
+        each_row_col do |row, col|
+          result[col, row] = cofactor(row, col) / det
+        end
+      end
+    end
+
     def invertible?
       !determinant.zero?
     end

@@ -93,7 +93,7 @@ Feature: Matrix inversion
             |  0 |  0 |  0 |  0 |
          Then A.determinant = 0
           And A is not invertible
-@wip
+
     Scenario: Calculating the inverse of a matrix
 
         Given the following 4x4 matrix A:
