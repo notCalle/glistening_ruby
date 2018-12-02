@@ -45,12 +45,6 @@ Then(
   expect(seval(name)[row, col]).to be_within(EPSILON).of value
 end
 
-Then(
-  '{matrix}[{int},{int}] = {rational}'
-) do |name, row, col, value|
-  expect(seval(name)[row, col]).to be_within(EPSILON).of value
-end
-
 Then('{matrix} = {matrix}') do |a, b|
   expect(seval(a)).to eq seval(b)
 end
