@@ -16,6 +16,12 @@ Given(
 end
 
 Given(
+  '{matrix} := {class}[{scalar}, {scalar}, {scalar}]'
+) do |matrix, klass, *args|
+  seval(matrix, :'=', klass[*args])
+end
+
+Given(
   '{matrix} := {matrix}.{method}'
 ) do |a, b, method|
   seval(a, :'=', feval(b, method))
@@ -87,6 +93,12 @@ end
 
 Then('{matrix} {operator} {variable} = {variable}') do |a, op, b, r|
   expect(seval(a, op, b)).to eq seval(r)
+end
+
+Then(
+  '{matrix} {operator} {variable} = {class}[{scalar}, {scalar}, {scalar}]'
+) do |m, op, v, klass, *args|
+  expect(seval(m, op, v)).to eq klass[*args]
 end
 
 Then(
