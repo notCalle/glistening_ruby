@@ -33,6 +33,10 @@ Then('{matrix} {operator} {matrix} = {matrix}') do |a, op, b, r|
   expect(seval(a, op, b)).to eq seval(r)
 end
 
+Then('{matrix}.{method} = {matrix}') do |a, op, r|
+  expect(seval(a, op)).to eq seval(r)
+end
+
 Then('{matrix} {operator} {variable} = {variable}') do |a, op, b, r|
   expect(seval(a, op, b)).to eq seval(r)
 end
@@ -44,6 +48,15 @@ Then(
   expect(cols).to eq rows
   expect(expected.size).to eq rows
   expect(seval(left, op, right)).to eq expected
+end
+
+Then(
+  '{matrix}.{method} is the following {int}x{int} matrix:'
+) do |matrix, method, rows, cols, expected|
+  expected = Matrix[*table_to_matrix(expected)]
+  expect(cols).to eq rows
+  expect(expected.size).to eq rows
+  expect(seval(matrix, method)).to eq expected
 end
 
 Then(

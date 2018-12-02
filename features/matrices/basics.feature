@@ -62,3 +62,22 @@ Feature: Basics of matrix creation and inspection
             | 8 | 7 | 6 | 5 |
             | 4 | 3 | 2 | 1 |
          Then A != B
+@wip
+    Scenario: Transposing a matrix
+
+        Given the following 4x4 matrix A:
+            | 0 | 9 | 3 | 0 |
+            | 9 | 8 | 0 | 8 |
+            | 1 | 8 | 5 | 3 |
+            | 0 | 0 | 5 | 8 |
+         Then A.transpose is the following 4x4 matrix:
+            | 0 | 9 | 1 | 0 |
+            | 9 | 8 | 8 | 0 |
+            | 3 | 0 | 5 | 5 |
+            | 0 | 8 | 3 | 8 |
+
+@wip
+    Scenario: Transposing the identity matrix
+
+        Given the identity matrix I
+         Then I.transpose = I
