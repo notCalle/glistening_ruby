@@ -33,6 +33,10 @@ Then('{matrix} {operator} {matrix} = {matrix}') do |a, op, b, r|
   expect(seval(a, op, b)).to eq seval(r)
 end
 
+Then('{matrix}.{method} = {scalar}') do |matrix, method, value|
+  expect(seval(matrix, method)).to be_within(EPSILON).of value
+end
+
 Then('{matrix}.{method} = {matrix}') do |a, op, r|
   expect(seval(a, op)).to eq seval(r)
 end
