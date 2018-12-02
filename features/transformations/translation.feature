@@ -1,4 +1,3 @@
-@wip
 Feature: Translation matrices
 
     Background: We have a translation matrix
