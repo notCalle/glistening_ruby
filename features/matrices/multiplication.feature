@@ -1,5 +1,5 @@
 Feature: Matrix multiplication
-@wip
+
     Scenario: Multiplying two matrices
 
         Given the following 4x4 matrix A:
