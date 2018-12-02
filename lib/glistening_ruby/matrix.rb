@@ -40,6 +40,10 @@ module GlisteningRuby
       end
     end
 
+    def cofactor(row, col)
+      minor(row, col) * ((row + col).odd? ? -1 : 1)
+    end
+
     def determinant
       self[0, 0] * self[1, 1] - self[0, 1] * self[1, 0]
     end
