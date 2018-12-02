@@ -12,3 +12,7 @@ Style/BlockDelimiters:
 Style/MixinUsage:
   Exclude:
     - 'features/support/*.rb'
+
+Metrics/ParameterLists:
+  Exclude:
+    - 'features/step_definitions/*.rb'
