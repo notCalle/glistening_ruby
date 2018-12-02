@@ -40,6 +40,16 @@ module GlisteningRuby
       end
     end
 
+    def transpose
+      Matrix.new(size) do |result|
+        0.upto(size - 1) do |row|
+          0.upto(size - 1) do |col|
+            result[col, row] = self[row, col]
+          end
+        end
+      end
+    end
+
     protected
 
     attr_reader :rows

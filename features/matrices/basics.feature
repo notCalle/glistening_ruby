@@ -62,7 +62,7 @@ Feature: Basics of matrix creation and inspection
             | 8 | 7 | 6 | 5 |
             | 4 | 3 | 2 | 1 |
          Then A != B
-@wip
+
     Scenario: Transposing a matrix
 
         Given the following 4x4 matrix A:
@@ -76,7 +76,6 @@ Feature: Basics of matrix creation and inspection
             | 3 | 0 | 5 | 5 |
             | 0 | 8 | 3 | 8 |
 
-@wip
     Scenario: Transposing the identity matrix
 
         Given the identity matrix I
