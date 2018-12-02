@@ -49,3 +49,27 @@ Feature: Matrix inversion
           And A.cofactor 0, 0 = -12
           And A.minor 1, 0 = 25
           And A.cofactor 1, 0 = -25
+@wip
+    Scenario: Calculating the determinant of a 3x3 matrix
+
+        Given the following 3x3 matrix A:
+            |  1 |  2 |  6 |
+            | -5 |  8 | -4 |
+            |  2 |  6 |  4 |
+         Then A.cofactor 0, 0 = 56
+          And A.cofactor 0, 1 = 12
+          And A.cofactor 0, 2 = -46
+          And A.determinant = -196
+@wip
+    Scenario: Calculating the determinant of a 4x4 matrix
+
+        Given the following 4x4 matrix A:
+            | -2 | -8 |  3 |  5 |
+            | -3 |  1 |  7 |  3 |
+            |  1 |  2 | -9 |  6 |
+            | -6 |  7 |  7 | -9 |
+         Then A.cofactor 0, 0 = 690
+          And A.cofactor 0, 1 = 447
+          And A.cofactor 0, 2 = 210
+          And A.cofactor 0, 3 = 51
+          And A.determinant = -4071
