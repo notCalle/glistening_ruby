@@ -9,6 +9,12 @@ Given(
   seval(name, :'=', Matrix[*arrays])
 end
 
+Given(
+  'the identity matrix {matrix}'
+) do |name|
+  seval(name, :'=', Matrix::IDENTITY)
+end
+
 Then(
   '{matrix}[{int},{int}] = {scalar}'
 ) do |name, row, col, value|
@@ -21,6 +27,14 @@ end
 
 Then('{matrix} != {matrix}') do |a, b|
   expect(seval(a)).not_to eq seval(b)
+end
+
+Then('{matrix} {operator} {matrix} = {matrix}') do |a, op, b, r|
+  expect(seval(a, op, b)).to eq seval(r)
+end
+
+Then('{matrix} {operator} {variable} = {variable}') do |a, op, b, r|
+  expect(seval(a, op, b)).to eq seval(r)
 end
 
 Then(
