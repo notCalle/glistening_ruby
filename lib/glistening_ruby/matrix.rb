@@ -20,13 +20,11 @@ module GlisteningRuby
       end
       yield self if block_given?
 
-      @rows.each(&:freeze)
-      @rows.freeze
-      freeze
+      deep_freeze
     end
 
     def to_s
-      +'[' << @rows.map(&:to_s).join("\n ") << ']'
+      +'[' << @rows.map { |r| row_to_s(r) }.join("\n ") << ']'
     end
 
     def inspect
@@ -64,20 +62,6 @@ module GlisteningRuby
 
       0.upto(size - 1).reduce(0) do |result, col|
         result + self[0, col] * cofactor(0, col)
-      end
-    end
-
-    def each_element
-      each_row_col do |row, col|
-        yield self[row, col], row, col
-      end
-    end
-
-    def each_row_col
-      0.upto(size - 1) do |row|
-        0.upto(size - 1) do |col|
-          yield row, col
-        end
       end
     end
 
