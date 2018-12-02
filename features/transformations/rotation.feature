@@ -1,4 +1,3 @@
-@wip
 Feature: Rotation matrices
 
     Scenario: Rotating a point around the X axis
