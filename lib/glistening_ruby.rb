@@ -21,4 +21,8 @@ module GlisteningRuby
   def close?(this, that)
     (this - that).abs < EPSILON
   end
+
+  def identity
+    Matrix::IDENTITY
+  end
 end

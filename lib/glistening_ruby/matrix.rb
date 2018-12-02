@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 require_relative 'matrix_private'
+require_relative 'matrix_transforms'
 
 module GlisteningRuby
   # A square matrix
   class Matrix
     include MatrixPrivate
+    include MatrixTransforms
 
     def self.[](*rows)
       new(*rows)
