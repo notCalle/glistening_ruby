@@ -14,6 +14,11 @@ module GlisteningRuby
       else
         initialize_from_arrays(rows)
       end
+      yield self if block_given?
+
+      @rows.each(&:freeze)
+      @rows.freeze
+      freeze
     end
 
     def [](row, col)
@@ -24,7 +29,7 @@ module GlisteningRuby
       @rows == other.rows
     end
 
-    attr_reader :rows, :size
+    attr_reader :size
 
     def *(other)
       case other
@@ -36,6 +41,8 @@ module GlisteningRuby
     end
 
     protected
+
+    attr_reader :rows
 
     def []=(row, col, new_value)
       @rows[row][col] = new_value
@@ -54,9 +61,11 @@ module GlisteningRuby
     def multiply_matrix_by_matrix(other)
       raise 'matrix sizes differ' unless size == other.size
 
-      0.upto(size - 1).with_object(Matrix.new(size)) do |row, result|
-        0.upto(size - 1) do |col|
-          result[row, col] = row_dot_col(other, row, col)
+      Matrix.new(size) do |result|
+        0.upto(size - 1) do |row|
+          0.upto(size - 1) do |col|
+            result[row, col] = row_dot_col(other, row, col)
+          end
         end
       end
     end
