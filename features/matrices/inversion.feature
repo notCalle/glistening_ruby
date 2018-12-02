@@ -38,3 +38,14 @@ Feature: Matrix inversion
           And B := A.submatrix 1, 0
          Then B.determinant = 25
           And A.minor 1, 0 = 25
+@wip
+    Scenario: Calculating a cofactor of a 3x3 matrix
+
+        Given the following 3x3 matrix A:
+            |  3 |  5 |  0 |
+            |  2 | -1 | -7 |
+            |  6 | -1 |  5 |
+         Then A.minor 0, 0 = -12
+          And A.cofactor 0, 0 = -12
+          And A.minor 1, 0 = 25
+          And A.cofactor 1, 0 = -25
