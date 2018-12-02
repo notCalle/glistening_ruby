@@ -1,4 +1,3 @@
-@wip
 Feature: Shearing transformation matrices
 
     Background: We have a point to be sheared
