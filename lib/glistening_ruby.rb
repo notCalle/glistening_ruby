@@ -14,6 +14,7 @@ require 'glistening_ruby/version'
 # book [The Raytracer Challenge]()
 module GlisteningRuby
   EPSILON = 0.00001
+  TAU = 6.283185307179586
 
   def close?(this, that)
     (this - that).abs < EPSILON
