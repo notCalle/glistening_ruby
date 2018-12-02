@@ -30,7 +30,10 @@ module GlisteningRuby
     end
 
     def ==(other)
-      @rows == other.rows
+      each_element do |element, row, col|
+        return false unless close?(element, other[row, col])
+      end
+      true
     end
 
     attr_reader :size
