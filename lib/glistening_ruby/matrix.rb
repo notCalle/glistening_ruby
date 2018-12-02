@@ -25,6 +25,14 @@ module GlisteningRuby
       freeze
     end
 
+    def to_s
+      +'[' << @rows.map(&:to_s).join("\n ") << ']'
+    end
+
+    def inspect
+      "#<#{self.class}: #{size}x#{size}\n#{self}>"
+    end
+
     def [](row, col)
       @rows[row][col]
     end
