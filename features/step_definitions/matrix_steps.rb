@@ -35,6 +35,14 @@ Then('{matrix} != {matrix}') do |a, b|
   expect(seval(a)).not_to eq seval(b)
 end
 
+Then('{matrix} is invertible') do |matrix|
+  expect(seval(matrix)).to be_invertible
+end
+
+Then('{matrix} is not invertible') do |matrix|
+  expect(seval(matrix)).not_to be_invertible
+end
+
 Then('{matrix} {operator} {matrix} = {matrix}') do |a, op, b, r|
   expect(seval(a, op, b)).to eq seval(r)
 end
