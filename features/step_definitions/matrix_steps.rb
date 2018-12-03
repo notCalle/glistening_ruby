@@ -16,6 +16,25 @@ Given(
 end
 
 Given(
+  '{matrix} := {class}[{scalar}]'
+) do |matrix, klass, *args|
+  seval(matrix, :'=', klass[*args])
+end
+
+Given(
+  '{matrix} := {class}[{scalar}, {scalar}, {scalar}]'
+) do |matrix, klass, *args|
+  seval(matrix, :'=', klass[*args])
+end
+
+Given(
+  '{matrix} := '\
+  '{class}[{scalar}, {scalar}, {scalar}, {scalar}, {scalar}, {scalar}]'
+) do |matrix, klass, *args|
+  seval(matrix, :'=', klass[*args])
+end
+
+Given(
   '{matrix} := {matrix}.{method}'
 ) do |a, b, method|
   seval(a, :'=', feval(b, method))
@@ -28,6 +47,13 @@ Given(
 end
 
 Given(
+  '{matrix} := {matrix} * {matrix} * {matrix}'
+) do |r, *matrices|
+  result = matrices.map { |matrix| seval(matrix) }.reduce(&:*)
+  seval(r, :'=', result)
+end
+
+Given(
   '{matrix} := {matrix}.{method} {int}, {int}'
 ) do |a, b, method, row, col|
   seval(a, :'=', feval(b, method, row, col))
@@ -35,12 +61,6 @@ end
 
 Then(
   '{matrix}[{int},{int}] = {scalar}'
-) do |name, row, col, value|
-  expect(seval(name)[row, col]).to be_within(EPSILON).of value
-end
-
-Then(
-  '{matrix}[{int},{int}] = {rational}'
 ) do |name, row, col, value|
   expect(seval(name)[row, col]).to be_within(EPSILON).of value
 end
@@ -87,6 +107,12 @@ end
 
 Then('{matrix} {operator} {variable} = {variable}') do |a, op, b, r|
   expect(seval(a, op, b)).to eq seval(r)
+end
+
+Then(
+  '{matrix} {operator} {variable} = {class}[{scalar}, {scalar}, {scalar}]'
+) do |m, op, v, klass, *args|
+  expect(seval(m, op, v)).to eq klass[*args]
 end
 
 Then(

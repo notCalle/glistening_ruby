@@ -29,3 +29,9 @@ Given(
 ) do |var, klass, *tuple|
   seval(var, :'=', klass[*tuple])
 end
+
+When(
+  '{variable} := {matrix} {operator} {variable}'
+) do |a, m, op, b|
+  seval(a, :'=', seval(m, op, b))
+end
