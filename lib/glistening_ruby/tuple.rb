@@ -28,6 +28,10 @@ module GlisteningRuby
     alias g y
     alias b z
 
+    def xy
+      [x, y]
+    end
+
     def is_a?(kind)
       super ||
         case self

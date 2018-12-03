@@ -25,7 +25,7 @@ module GlisteningRuby
       Shearing.new(*args) * self
     end
 
-    def translate(d_x, d_y, d_z)
+    def translate(d_x, d_y = 0, d_z = 0)
       Translation.new(d_x, d_y, d_z) * self
     end
   end
