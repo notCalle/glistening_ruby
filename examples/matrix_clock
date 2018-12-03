@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'glistening_ruby/world'
+
+# Draw a clock face
+class Main < GlisteningRuby::World
+  def initialize(size = 64)
+    @canvas = Canvas[size, size]
+    @projection = identity.translate(1.0, 1.0).scale(size / 2)
+  end
+
+  def clock_face
+    color = Color[0, 1, 0.5]
+    spacing = identity.rotate_z('-1/12'.to_r)
+    point = Point[0, 0.9, 0]
+    1.upto(12) do
+      point = spacing * point
+      pixel = @projection * point
+      @canvas[*pixel.xy] = color
+    end
+    self
+  end
+
+  def save(filename)
+    File.open(filename, 'w') do |file|
+      @canvas.to_ppm(file)
+    end
+  end
+end
+
+require 'pry'
+Pry.start Main.new
