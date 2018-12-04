@@ -12,3 +12,9 @@ Then(
 ) do |var, index, value|
   expect(seval(var)[index]).to be_within(EPSILON).of value
 end
+
+Then(
+  '{variable}[{int}].{method} = {variable}'
+) do |a, index, method, b|
+  expect(feval(seval(a)[index], method)).to eq seval(b)
+end
