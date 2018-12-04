@@ -34,7 +34,9 @@ module GlisteningRuby
       a = ray.direction.dot(ray.direction)
       b = 2 * ray.direction.dot(sphere_to_ray)
       c = sphere_to_ray.dot(sphere_to_ray) - @radius_squared
-      quadratic(a, b, c)
+
+      intersections = quadratic(a, b, c).map { |t| Intersection.new(t, self) }
+      Intersections.new(*intersections)
     end
   end
 end
