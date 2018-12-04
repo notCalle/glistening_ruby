@@ -18,3 +18,9 @@ Then(
 ) do |a, index, method, b|
   expect(seval(seval(a)[index], method)).to eq seval(b)
 end
+
+Then(
+  '{variable}[{int}].{method} = {scalar}'
+) do |a, index, method, value|
+  expect(seval(seval(a)[index], method)).to be_within(EPSILON).of value
+end

@@ -1,3 +1,4 @@
+@wip
 Feature: Ray/Sphere Intersections
 
     Background: We have a sphere, and the direction of a ray
@@ -11,8 +12,8 @@ Feature: Ray/Sphere Intersections
          When r := Ray[p, v]
           And xs := s.intersect r
          Then xs.count = 2
-          And xs[0] = 4.0
-          And xs[1] = 6.0
+          And xs[0].t = 4.0
+          And xs[1].t = 6.0
 
     Scenario: A ray intersects a sphere at a tangent
 
@@ -20,8 +21,8 @@ Feature: Ray/Sphere Intersections
          When r := Ray[p, v]
           And xs := s.intersect r
          Then xs.count = 2
-          And xs[0] = 5.0
-          And xs[1] = 5.0
+          And xs[0].t = 5.0
+          And xs[1].t = 5.0
 
     Scenario: A ray misses a sphere
 
@@ -36,8 +37,8 @@ Feature: Ray/Sphere Intersections
          When r := Ray[p, v]
           And xs := s.intersect r
          Then xs.count = 2
-          And xs[0] = -1.0
-          And xs[1] = 1.0
+          And xs[0].t = -1.0
+          And xs[1].t = 1.0
 
     Scenario: A sphere is behind a ray
 
@@ -45,8 +46,8 @@ Feature: Ray/Sphere Intersections
          When r := Ray[p, v]
           And xs := s.intersect r
          Then xs.count = 2
-          And xs[0] = -6.0
-          And xs[1] = -4.0
+          And xs[0].t = -6.0
+          And xs[1].t = -4.0
 
     Scenario: An intersection encapsulates t and object
 
@@ -65,3 +66,12 @@ Feature: Ray/Sphere Intersections
          Then xs.count = 2
           And xs[0].t = t1
           And xs[1].t = t2
+
+    Scenario: Intersect sets the object on the intersection
+
+        Given p := Point[0, 0, -5]
+         When r := Ray[p, v]
+          And xs := s.intersect r
+         Then xs.count = 2
+          And xs[0].object = s
+          And xs[1].object = s
