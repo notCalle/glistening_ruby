@@ -2,6 +2,8 @@
 
 require 'glistening_ruby/canvas'
 require 'glistening_ruby/color'
+require 'glistening_ruby/intersection'
+require 'glistening_ruby/intersections'
 require 'glistening_ruby/matrix'
 require 'glistening_ruby/point'
 require 'glistening_ruby/ray'

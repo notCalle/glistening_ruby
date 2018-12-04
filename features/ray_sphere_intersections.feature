@@ -47,14 +47,14 @@ Feature: Ray/Sphere Intersections
          Then xs.count = 2
           And xs[0] = -6.0
           And xs[1] = -4.0
-@wip
+
     Scenario: An intersection encapsulates t and object
 
         Given t := 3.5
          When i := Intersection[t, s]
          Then i.t = t
           And i.object = s
-@wip
+
     Scenario: Aggregating interections
 
         Given t1 := 1
