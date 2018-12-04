@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
+require_relative 'quadratic'
+
 module GlisteningRuby
   # Sphere
   class Sphere
+    include Quadratic
+
     def self.[](*args)
       new(*args)
     end
@@ -10,6 +14,7 @@ module GlisteningRuby
     def initialize
       @origin = Point[0, 0, 0]
       @radius = 1.0
+      @radius_squared = @radius * @radius
     end
 
     def to_s
@@ -18,8 +23,18 @@ module GlisteningRuby
 
     attr_reader :origin, :radius
 
-    def intersect(_ray)
-      raise NotImplementedError
+    # O = ray.origin
+    # D = ray.direction
+    # C = sphere.origin
+    # R = sphere.radius
+    #
+    # |O + tD - C|^2 - R^2 = 0
+    def intersect(ray)
+      sphere_to_ray = ray.origin - @origin
+      a = ray.direction.dot(ray.direction)
+      b = 2 * ray.direction.dot(sphere_to_ray)
+      c = sphere_to_ray.dot(sphere_to_ray) - @radius_squared
+      quadratic(a, b, c)
     end
   end
 end
