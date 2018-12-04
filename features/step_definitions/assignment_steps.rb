@@ -9,7 +9,7 @@ end
 Given(
   '{variable} := {variable}.{method}'
 ) do |lhs, rhs, method|
-  seval(lhs, :'=', seval(rhs, method))
+  seval(lhs, :'=', rhs, method)
 end
 
 Given(
@@ -39,13 +39,13 @@ end
 When(
   '{variable} := {variable}.{method} {variable}'
 ) do |r, a, method, b|
-  seval(r, :'=', seval(a, method, b))
+  seval(r, :'=', a, method, b)
 end
 
 When(
   '{variable} := {matrix} {operator} {variable}'
 ) do |a, m, op, b|
-  seval(a, :'=', seval(m, op, b))
+  seval(a, :'=', m, op, b)
 end
 
 When(
@@ -91,13 +91,13 @@ end
 Given(
   '{matrix} := {matrix}.{method}'
 ) do |a, b, method|
-  seval(a, :'=', feval(b, method))
+  seval(a, :'=', b, method)
 end
 
 Given(
   '{matrix} := {matrix} {operator} {matrix}'
 ) do |r, a, op, b|
-  seval(r, :'=', seval(a, op, b))
+  seval(r, :'=', a, op, b)
 end
 
 Given(
@@ -110,5 +110,5 @@ end
 Given(
   '{matrix} := {matrix}.{method} {int}, {int}'
 ) do |a, b, method, row, col|
-  seval(a, :'=', feval(b, method, row, col))
+  seval(a, :'=', b, method, row, col)
 end

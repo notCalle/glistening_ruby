@@ -4,7 +4,7 @@ Then(
   '{variable}.{method} {scalar} = {class}[{scalar}, {scalar}, {scalar}]'
 ) do |var, method, method_arg, klass, *args|
   expected = klass[*args]
-  expect(feval(var, method, method_arg)).to eq expected
+  expect(seval(var, method, method_arg)).to eq expected
 end
 
 Then(
@@ -16,5 +16,5 @@ end
 Then(
   '{variable}[{int}].{method} = {variable}'
 ) do |a, index, method, b|
-  expect(feval(seval(a)[index], method)).to eq seval(b)
+  expect(seval(seval(a)[index], method)).to eq seval(b)
 end

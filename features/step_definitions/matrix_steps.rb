@@ -27,23 +27,23 @@ Then('{matrix} {operator} {matrix} = {matrix}') do |a, op, b, r|
 end
 
 Then('{matrix}.{method} = {scalar}') do |matrix, method, value|
-  expect(feval(matrix, method)).to be_within(EPSILON).of value
+  expect(seval(matrix, method)).to be_within(EPSILON).of value
 end
 
 Then(
   '{matrix}.{method} {int}, {int} = {scalar}'
 ) do |matrix, method, row, col, value|
-  expect(feval(matrix, method, row, col)).to be_within(EPSILON).of value
+  expect(seval(matrix, method, row, col)).to be_within(EPSILON).of value
 end
 
 Then('{matrix}.{method} = {matrix}') do |a, op, r|
-  expect(feval(a, op)).to eq seval(r)
+  expect(seval(a, op)).to eq seval(r)
 end
 
 Then(
   '{matrix} {operator} {matrix}.{method} = {matrix}'
 ) do |a, op, b, method, r|
-  expect(feval(a, op, feval(b, method))).to eq seval(r)
+  expect(seval(a, op, seval(b, method))).to eq seval(r)
 end
 
 Then('{matrix} {operator} {variable} = {variable}') do |a, op, b, r|
@@ -89,7 +89,7 @@ Then(
   expected = Matrix[*table_to_matrix(expected)]
   expect(cols).to eq rows
   expect(expected.size).to eq rows
-  expect(feval(matrix, method, row, col)).to eq expected
+  expect(seval(matrix, method, row, col)).to eq expected
 end
 
 Then(
