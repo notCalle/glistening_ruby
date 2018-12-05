@@ -14,7 +14,7 @@ Feature: Surface materials
           And m.diffuse = 0.9
           And m.specular = 0.9
           And m.shininess = 200
-@wip
+
     Scenario: Lighting with the eye between the light and the surface
 
         Given eyev := Vector[0, 0, -1]
@@ -22,7 +22,7 @@ Feature: Surface materials
          When light := PointLight[p, c]
           And result := m.lighting light, position, eyev, normalv
          Then result = Color[1.9, 1.9, 1.9]
-@wip
+
     Scenario: Lighting with the eye between the light and surface, offset 45°
 
         Given eyev := Vector[0, √2/2, -√2/2]
@@ -30,7 +30,7 @@ Feature: Surface materials
          When light := PointLight[p, c]
           And result := m.lighting light, position, eyev, normalv
          Then result = Color[1.0, 1.0, 1.0]
-@wip
+
     Scenario: Lighting with eye opposite surface, light offset 45°
 
         Given eyev := Vector[0, 0, -1]
@@ -38,7 +38,7 @@ Feature: Surface materials
          When light := PointLight[p, c]
           And result := m.lighting light, position, eyev, normalv
          Then result = Color[0.7364, 0.7364, 0.7364]
-@wip
+
     Scenario: Lighting with eye opposite surface, light offset 45°
 
         Given eyev := Vector[0, -√2/2, -√2/2]
@@ -46,7 +46,7 @@ Feature: Surface materials
          When light := PointLight[p, c]
           And result := m.lighting light, position, eyev, normalv
          Then result = Color[1.6364, 1.6364, 1.6364]
-@wip
+
     Scenario: Lighting with the light behind the surface
 
         Given eyev := Vector[0, 0, -1]
