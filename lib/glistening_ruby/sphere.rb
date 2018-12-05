@@ -25,6 +25,10 @@ module GlisteningRuby
       Intersections.new(*intersections(ray.transform(@transform.inverse)))
     end
 
+    def normal_at(point)
+      point - Point::ZERO
+    end
+
     private
 
     # O = ray.origin
