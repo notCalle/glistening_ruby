@@ -186,3 +186,15 @@ Feature: Spheres
           And s.transform= M
           And n := s.normal_at p
          When n = Vector[0, 0.97014, -0.24254]
+
+    Scenario: A sphere has a default material
+
+        When m := s.material
+        Then m = Material[]
+
+    Scenario: A sphere may be assigned a material
+
+        Given m := Material[]
+          And m.ambient= 1
+         When s.material= m
+         Then m = s.material

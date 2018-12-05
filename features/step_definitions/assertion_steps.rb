@@ -13,6 +13,12 @@ Then(
 end
 
 Then(
+  '{variable} = {class}[]'
+) do |a, klass|
+  expect(seval(a)).to eq klass[]
+end
+
+Then(
   '{variable} is nothing'
 ) do |var|
   expect(seval(var)).to be_nil

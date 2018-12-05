@@ -55,6 +55,18 @@ When(
 end
 
 When(
+  '{variable}.{method} {scalar}'
+) do |a, method, value|
+  seval(a, method, value)
+end
+
+When(
+  '{variable}.{method} {variable}'
+) do |a, method, b|
+  seval(a, method, b)
+end
+
+When(
   '{variable} := {variable}.{method} {matrix}'
 ) do |r, a, method, m|
   seval(r, :'=', a, method, m)
