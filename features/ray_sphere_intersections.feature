@@ -74,7 +74,7 @@ Feature: Ray/Sphere Intersections
          Then xs.count = 2
           And xs[0].object = s
           And xs[1].object = s
-@wip
+
     Scenario: The hit, when all intersections have positive t
 
         Given i1 := Intersection[1, s]
@@ -82,7 +82,7 @@ Feature: Ray/Sphere Intersections
           And xs := Intersections[i2, i1]
          When i := xs.hit
          Then i = i1
-@wip
+
     Scenario: The hit, when some intersections have negative t
 
         Given i1 := Intersection[-1, s]
@@ -90,7 +90,7 @@ Feature: Ray/Sphere Intersections
           And xs := Intersections[i2, i1]
          When i := xs.hit
          Then i = i2
-@wip
+
     Scenario: The hit, when all intersections have negative t
 
         Given i1 := Intersection[-2, s]
@@ -98,7 +98,7 @@ Feature: Ray/Sphere Intersections
           And xs := Intersections[i2, i1]
          When i := xs.hit
          Then i is nothing
-@wip
+
     Scenario: The hit is always the lowest non-negative intersection
 
         Given i1 := Intersection[5, s]

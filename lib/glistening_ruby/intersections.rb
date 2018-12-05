@@ -11,9 +11,12 @@ module GlisteningRuby
     end
 
     def initialize(*intersections)
-      raise TypeError unless intersections.all? { |i| i.is_a?(Intersection) }
-
       super(intersections)
+    end
+
+    def hit
+      result = min
+      return result unless result&.t&.negative?
     end
   end
 end
