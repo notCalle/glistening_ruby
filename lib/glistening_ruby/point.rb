@@ -14,4 +14,6 @@ module GlisteningRuby
       obj.is_a?(Tuple) && close?(obj.w, 1.0)
     end
   end
+
+  Point::ZERO = Point[0, 0, 0]
 end

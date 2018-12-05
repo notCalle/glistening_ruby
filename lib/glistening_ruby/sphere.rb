@@ -11,29 +11,19 @@ module GlisteningRuby
       new(*args)
     end
 
-    def initialize
-      @origin = Point[0, 0, 0]
-      @radius = 1.0
-      @radius_squared = @radius * @radius
-    end
-
-    def to_s
-      "#<#{self.class}: ·#{@origin} r=#{@radius}>"
-    end
-
-    attr_reader :origin, :radius
-
     # O = ray.origin
     # D = ray.direction
-    # C = sphere.origin
-    # R = sphere.radius
+    # C = sphere.origin = (0, 0, 0)
+    # R = sphere.radius = 1.0
     #
     # |O + tD - C|^2 - R^2 = 0
+    # |O + tD - 0|^2 - 1 = 0
     def intersect(ray)
-      sphere_to_ray = ray.origin - @origin
-      a = ray.direction.dot(ray.direction)
-      b = 2 * ray.direction.dot(sphere_to_ray)
-      c = sphere_to_ray.dot(sphere_to_ray) - @radius_squared
+      l = ray.origin - Point::ZERO
+      d = ray.direction
+      a = d.dot(d)
+      b = 2 * d.dot(l)
+      c = l.dot(l) - 1
 
       intersections = quadratic(a, b, c).map { |t| Intersection.new(t, self) }
       Intersections.new(*intersections)
