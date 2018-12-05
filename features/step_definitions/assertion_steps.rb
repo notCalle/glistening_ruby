@@ -7,6 +7,12 @@ Then(
 end
 
 Then(
+  '{variable} = {variable}.{method}'
+) do |a, b, method|
+  expect(seval(a)).to eq seval(b, method)
+end
+
+Then(
   '{variable} is nothing'
 ) do |var|
   expect(seval(var)).to be_nil

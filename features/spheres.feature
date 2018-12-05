@@ -138,3 +138,33 @@ Feature: Spheres
           And s.transform= M
           And xs := s.intersect r
          Then xs.count = 0
+@wip
+    Scenario: The normal on a sphere at a point on the x axis
+
+        Given p := Point[1, 0, 0]
+         When n := s.normal_at p
+         Then n = Vector[1, 0, 0]
+@wip
+    Scenario: The normal on a sphere at a point on the y axis
+
+        Given p := Point[0, 1, 0]
+         When n := s.normal_at p
+         Then n = Vector[0, 1, 0]
+@wip
+    Scenario: The normal on a sphere at a point on the z axis
+
+        Given p := Point[0, 0, 1]
+         When n := s.normal_at p
+         Then n = Vector[0, 0, 1]
+@wip
+    Scenario: The normal on a shpere at a non-axial point
+
+        Given p := Point[√3/3, √3/3, √3/3]
+         When n := s.normal_at p
+         Then n = Vector[√3/3, √3/3, √3/3]
+@wip
+    Scenario: The normal is a normalized vector
+
+        Given p := Point[√3/3, √3/3, √3/3]
+         When n := s.normal_at p
+         Then n = n.normalize
