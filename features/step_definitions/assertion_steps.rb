@@ -38,6 +38,12 @@ Then(
 end
 
 Then(
+  '{variable}.{method} = {matrix}'
+) do |name, method, matrix|
+  expect(seval(name, method)).to eq seval(matrix)
+end
+
+Then(
   '{variable}.{method} is the identity matrix'
 ) do |name, method|
   expect(seval(name, method)).to eq Matrix::IDENTITY

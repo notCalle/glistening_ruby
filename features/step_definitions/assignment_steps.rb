@@ -49,9 +49,9 @@ When(
 end
 
 When(
-  '{variable}.{method} {variable}'
-) do |a, method, b|
-  seval(a, method, b)
+  '{variable}.{method} {matrix}'
+) do |a, method, m|
+  seval(a, method, m)
 end
 
 When(

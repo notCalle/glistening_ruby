@@ -115,6 +115,26 @@ Feature: Spheres
 @wip
     Scenario: Changing a sphere's transformation
 
-        Given t := Translation[2, 3, 4]
-         When s.transform= t
-         Then s.transform = t
+        Given M := Translation[2, 3, 4]
+         When s.transform= M
+         Then s.transform = M
+@wip
+    Scenario: Intersecting a scaled sphere with a ray
+
+        Given p := Point[0, 0, -5]
+          And M := Scaling[2, 2, 2]
+         When r := Ray[p, v]
+          And s.transform= M
+          And xs := s.intersect r
+         Then xs.count = 2
+          And xs[0].t = 3
+          And xs[1].t = 7
+@wip
+    Scenario: Intersecting a translated sphere with a ray
+
+        Given p := Point[0, 0, -5]
+          And M := Translation[5, 0, 0]
+         When r := Ray[p, v]
+          And s.transform= M
+          And xs := s.intersect r
+         Then xs.count = 0
