@@ -49,6 +49,12 @@ When(
 end
 
 When(
+  '{variable} := {variable}.{method} {matrix}'
+) do |r, a, method, m|
+  seval(r, :'=', a, method, m)
+end
+
+When(
   '{variable} := {matrix} {operator} {variable}'
 ) do |a, m, op, b|
   seval(a, :'=', m, op, b)
