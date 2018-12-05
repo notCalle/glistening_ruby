@@ -96,6 +96,10 @@ module GlisteningRuby
       self / magnitude
     end
 
+    def reflect(normal)
+      self - normal * (2 * dot(normal))
+    end
+
     private
 
     def point?

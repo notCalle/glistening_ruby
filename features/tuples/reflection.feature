@@ -1,4 +1,3 @@
-@wip
 Feature: Reflection
 
     Scenario: Reflecting a vector approaching at 45°
