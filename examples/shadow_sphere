@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'glistening_ruby/world'
+
+# Draw sphere shadow
+class Main < GlisteningRuby::World
+  def initialize
+    @sphere = Sphere[]
+    @sphere.transform = identity.scale(0.3).translate(0.0, 0.0, 0.5)
+    @camera = Point[0, 0, 1]
+  end
+
+  def progress(done, total)
+    STDOUT << "#{100 * done / total}% done.\r"
+  end
+
+  def render(pixel, projection, color)
+    cast_at = projection * pixel
+    ray = Ray[@camera, cast_at - @camera]
+    @canvas[*pixel.xy] = color if @sphere.intersect(ray).hit
+  end
+
+  def shadow_sphere(size = 128)
+    @canvas = Canvas[size, size]
+    projection = identity.translate(1, 1).scale(size / 2).inverse.scale(1, -1)
+    red = Color[1, 0.3, 0.1]
+
+    @canvas.each do |_, x, y|
+      render(Point[x, y, 0], projection, red)
+      progress(y, size) if x == y
+    end
+    self
+  end
+
+  def save(filename)
+    File.open(filename, 'w') do |file|
+      @canvas.to_ppm(file)
+    end
+  end
+end
+
+require 'pry'
+Pry.start Main.new
