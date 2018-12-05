@@ -17,16 +17,27 @@ module GlisteningRuby
 
     def initialize
       @transform = Matrix::IDENTITY
+      @inverse = Matrix::IDENTITY
+      @inverse_transpose = Matrix::IDENTITY
     end
 
-    attr_accessor :transform
+    attr_reader :transform
+
+    def transform=(transform)
+      @transform = transform
+      @inverse = transform.inverse
+      @inverse_transpose = transform.submatrix(3, 3).inverse.transpose
+    end
 
     def intersect(ray)
-      Intersections.new(*intersections(ray.transform(@transform.inverse)))
+      Intersections.new(*intersections(ray.transform(@inverse)))
     end
 
-    def normal_at(point)
-      point - Point::ZERO
+    def normal_at(world_point)
+      object_point = @inverse * world_point
+      object_normal = object_point - Point::ZERO
+      world_normal = @inverse_transpose * object_normal
+      world_normal.normalize
     end
 
     private
