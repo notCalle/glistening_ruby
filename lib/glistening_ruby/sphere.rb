@@ -3,6 +3,7 @@
 require_relative 'intersection'
 require_relative 'intersections'
 require_relative 'matrix'
+require_relative 'material'
 require_relative 'point'
 require_relative 'quadratic'
 
@@ -19,8 +20,10 @@ module GlisteningRuby
       @transform = Matrix::IDENTITY
       @inverse = Matrix::IDENTITY
       @inverse_transpose = Matrix::IDENTITY
+      @material = Material[]
     end
 
+    attr_accessor :material
     attr_reader :transform
 
     def transform=(transform)
