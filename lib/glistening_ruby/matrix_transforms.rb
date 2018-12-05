@@ -15,9 +15,7 @@ module GlisteningRuby
       RotationZ.new(tau) * self
     end
 
-    def scale(s_x, s_y = nil, s_z = nil)
-      s_z = s_y = s_x unless s_y && s_z
-
+    def scale(s_x, s_y = s_x, s_z = s_x)
       Scaling.new(s_x, s_y, s_z) * self
     end
 

@@ -7,9 +7,9 @@ module GlisteningRuby
   class Translation < Matrix
     def initialize(d_x, d_y, d_z)
       super(4) do
-        self[0, 3] = d_x
-        self[1, 3] = d_y
-        self[2, 3] = d_z
+        self[0, 3] = d_x.to_f
+        self[1, 3] = d_y.to_f
+        self[2, 3] = d_z.to_f
       end
     end
   end
