@@ -1,4 +1,4 @@
-Feature: Ray/Sphere Intersections
+Feature: Spheres
 
     Background: We have a sphere, and the direction of a ray
 
@@ -108,3 +108,13 @@ Feature: Ray/Sphere Intersections
           And xs := Intersections[i1, i2, i3, i4]
          When i := xs.hit
          Then i = i4
+@wip
+    Scenario: A sphere's default transformation
+
+        Then s.transform is the identity matrix
+@wip
+    Scenario: Changing a sphere's transformation
+
+        Given t := Translation[2, 3, 4]
+         When s.transform= t
+         Then s.transform = t

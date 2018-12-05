@@ -36,3 +36,9 @@ Then(
 ) do |a, index, method, value|
   expect(seval(seval(a)[index], method)).to be_within(EPSILON).of value
 end
+
+Then(
+  '{variable}.{method} is the identity matrix'
+) do |name, method|
+  expect(seval(name, method)).to eq Matrix::IDENTITY
+end
