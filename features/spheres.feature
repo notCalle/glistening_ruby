@@ -108,17 +108,17 @@ Feature: Spheres
           And xs := Intersections[i1, i2, i3, i4]
          When i := xs.hit
          Then i = i4
-@wip
+
     Scenario: A sphere's default transformation
 
         Then s.transform is the identity matrix
-@wip
+
     Scenario: Changing a sphere's transformation
 
         Given M := Translation[2, 3, 4]
          When s.transform= M
          Then s.transform = M
-@wip
+
     Scenario: Intersecting a scaled sphere with a ray
 
         Given p := Point[0, 0, -5]
@@ -129,7 +129,7 @@ Feature: Spheres
          Then xs.count = 2
           And xs[0].t = 3
           And xs[1].t = 7
-@wip
+
     Scenario: Intersecting a translated sphere with a ray
 
         Given p := Point[0, 0, -5]

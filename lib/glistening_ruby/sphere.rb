@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require_relative 'intersection'
+require_relative 'intersections'
+require_relative 'matrix'
+require_relative 'point'
 require_relative 'quadratic'
 
 module GlisteningRuby
@@ -11,6 +15,18 @@ module GlisteningRuby
       new(*args)
     end
 
+    def initialize
+      @transform = Matrix::IDENTITY
+    end
+
+    attr_accessor :transform
+
+    def intersect(ray)
+      Intersections.new(*intersections(ray.transform(@transform.inverse)))
+    end
+
+    private
+
     # O = ray.origin
     # D = ray.direction
     # C = sphere.origin = (0, 0, 0)
@@ -18,15 +34,14 @@ module GlisteningRuby
     #
     # |O + tD - C|^2 - R^2 = 0
     # |O + tD - 0|^2 - 1 = 0
-    def intersect(ray)
+    def intersections(ray)
       l = ray.origin - Point::ZERO
       d = ray.direction
       a = d.dot(d)
       b = 2 * d.dot(l)
       c = l.dot(l) - 1
 
-      intersections = quadratic(a, b, c).map { |t| Intersection.new(t, self) }
-      Intersections.new(*intersections)
+      quadratic(a, b, c).map { |t| Intersection.new(t, self) }
     end
   end
 end
