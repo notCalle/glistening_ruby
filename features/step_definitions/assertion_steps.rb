@@ -1,6 +1,18 @@
 # frozen_string_literal: true
 
 Then(
+  '{variable} = {variable}'
+) do |a, b|
+  expect(seval(a)).to eq seval(b)
+end
+
+Then(
+  '{variable} is nothing'
+) do |var|
+  expect(seval(var)).to be_nil
+end
+
+Then(
   '{variable}.{method} {scalar} = {class}[{scalar}, {scalar}, {scalar}]'
 ) do |var, method, method_arg, klass, *args|
   expected = klass[*args]

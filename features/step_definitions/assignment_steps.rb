@@ -36,6 +36,12 @@ Given(
   seval(var, :'=', klass[*tuple])
 end
 
+Given(
+  '{variable} := {class}[{variable}, {variable}, {variable}, {variable}]'
+) do |var, klass, *tuple|
+  seval(var, :'=', klass[*tuple.map { |i| seval(i) }])
+end
+
 When(
   '{variable} := {variable}.{method} {variable}'
 ) do |r, a, method, b|
@@ -50,6 +56,12 @@ end
 
 When(
   '{variable} := {class}[{variable}, {variable}]'
+) do |var, klass, *args|
+  seval(var, :'=', klass[*args.map { |arg| seval(arg) }])
+end
+
+When(
+  '{variable} := {class}[{scalar}, {variable}]'
 ) do |var, klass, *args|
   seval(var, :'=', klass[*args.map { |arg| seval(arg) }])
 end

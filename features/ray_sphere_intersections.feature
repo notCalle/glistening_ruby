@@ -1,4 +1,3 @@
-@wip
 Feature: Ray/Sphere Intersections
 
     Background: We have a sphere, and the direction of a ray
@@ -75,3 +74,37 @@ Feature: Ray/Sphere Intersections
          Then xs.count = 2
           And xs[0].object = s
           And xs[1].object = s
+@wip
+    Scenario: The hit, when all intersections have positive t
+
+        Given i1 := Intersection[1, s]
+          And i2 := Intersection[2, s]
+          And xs := Intersections[i2, i1]
+         When i := xs.hit
+         Then i = i1
+@wip
+    Scenario: The hit, when some intersections have negative t
+
+        Given i1 := Intersection[-1, s]
+          And i2 := Intersection[1, s]
+          And xs := Intersections[i2, i1]
+         When i := xs.hit
+         Then i = i2
+@wip
+    Scenario: The hit, when all intersections have negative t
+
+        Given i1 := Intersection[-2, s]
+          And i2 := Intersection[-1, s]
+          And xs := Intersections[i2, i1]
+         When i := xs.hit
+         Then i is nothing
+@wip
+    Scenario: The hit is always the lowest non-negative intersection
+
+        Given i1 := Intersection[5, s]
+          And i2 := Intersection[7, s]
+          And i3 := Intersection[-3, s]
+          And i4 := Intersection[2, s]
+          And xs := Intersections[i1, i2, i3, i4]
+         When i := xs.hit
+         Then i = i4
