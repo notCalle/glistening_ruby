@@ -9,12 +9,12 @@ module GlisteningRuby
                    y_x, y_z,
                    z_x, z_y)
       super(4) do
-        self[0, 1] = x_y
-        self[0, 2] = x_z
-        self[1, 0] = y_x
-        self[1, 2] = y_z
-        self[2, 0] = z_x
-        self[2, 1] = z_y
+        self[0, 1] = x_y.to_f
+        self[0, 2] = x_z.to_f
+        self[1, 0] = y_x.to_f
+        self[1, 2] = y_z.to_f
+        self[2, 0] = z_x.to_f
+        self[2, 1] = z_y.to_f
       end
     end
   end

@@ -7,23 +7,21 @@ def map_operator(operator)
   }.fetch(operator, operator)
 end
 
-# Symbol expression evaluation helper
-def seval(lhs, operator = nil, rhs = nil)
-  operator = map_operator(operator)
-  if operator == :'='
-    instance_variable_set(lhs, rhs)
-  elsif operator.nil?
-    instance_variable_get(lhs)
-  elsif rhs.nil?
-    instance_variable_get(lhs).send(operator)
+def seval(recv, method = nil, *args)
+  case method
+  when :'='
+    instance_variable_set(recv, seval(*args))
+  when nil
+    recv.is_a?(Symbol) ? instance_variable_get(recv) : recv
   else
-    instance_variable_get(lhs).send(operator, instance_variable_get(rhs))
+    fcall(map_operator(method), recv, *args)
   end
 end
 
-# Symbolic object method call helper
-def feval(sym, method, *args)
-  instance_variable_get(sym).send(method, *args)
+def fcall(method, *args)
+  method.to_proc.call(*args.map do |arg|
+    arg.is_a?(Symbol) ? instance_variable_get(arg) : arg
+  end)
 end
 
 def table_to_matrix(table)

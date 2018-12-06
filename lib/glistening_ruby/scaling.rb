@@ -7,9 +7,9 @@ module GlisteningRuby
   class Scaling < Matrix
     def initialize(s_x, s_y, s_z)
       super(4) do
-        self[0, 0] = s_x
-        self[1, 1] = s_y
-        self[2, 2] = s_z
+        self[0, 0] = s_x.to_f
+        self[1, 1] = s_y.to_f
+        self[2, 2] = s_z.to_f
       end
     end
   end

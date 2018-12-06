@@ -2,10 +2,12 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'glistening_ruby/world'
+require 'glistening_ruby'
 
 # Draw a clock face
-class Main < GlisteningRuby::World
+class Main
+  include GlisteningRuby
+
   def initialize(size = 64)
     @canvas = Canvas[size, size]
     @projection = identity.translate(1.0, 1.0).scale(size / 2)

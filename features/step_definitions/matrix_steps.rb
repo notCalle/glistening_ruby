@@ -1,64 +1,5 @@
 # frozen_string_literal: true
 
-Given(
-  'the following {int}x{int} matrix {matrix}:'
-) do |rows, cols, name, table|
-  arrays = table_to_matrix(table)
-  expect(cols).to eq rows
-  expect(arrays.size).to eq rows
-  seval(name, :'=', Matrix[*arrays])
-end
-
-Given(
-  'the identity matrix {matrix}'
-) do |name|
-  seval(name, :'=', Matrix::IDENTITY)
-end
-
-Given(
-  '{matrix} := {class}[{scalar}]'
-) do |matrix, klass, *args|
-  seval(matrix, :'=', klass[*args])
-end
-
-Given(
-  '{matrix} := {class}[{scalar}, {scalar}, {scalar}]'
-) do |matrix, klass, *args|
-  seval(matrix, :'=', klass[*args])
-end
-
-Given(
-  '{matrix} := '\
-  '{class}[{scalar}, {scalar}, {scalar}, {scalar}, {scalar}, {scalar}]'
-) do |matrix, klass, *args|
-  seval(matrix, :'=', klass[*args])
-end
-
-Given(
-  '{matrix} := {matrix}.{method}'
-) do |a, b, method|
-  seval(a, :'=', feval(b, method))
-end
-
-Given(
-  '{matrix} := {matrix} {operator} {matrix}'
-) do |r, a, op, b|
-  seval(r, :'=', seval(a, op, b))
-end
-
-Given(
-  '{matrix} := {matrix} * {matrix} * {matrix}'
-) do |r, *matrices|
-  result = matrices.map { |matrix| seval(matrix) }.reduce(&:*)
-  seval(r, :'=', result)
-end
-
-Given(
-  '{matrix} := {matrix}.{method} {int}, {int}'
-) do |a, b, method, row, col|
-  seval(a, :'=', feval(b, method, row, col))
-end
-
 Then(
   '{matrix}[{int},{int}] = {scalar}'
 ) do |name, row, col, value|
@@ -86,23 +27,23 @@ Then('{matrix} {operator} {matrix} = {matrix}') do |a, op, b, r|
 end
 
 Then('{matrix}.{method} = {scalar}') do |matrix, method, value|
-  expect(feval(matrix, method)).to be_within(EPSILON).of value
+  expect(seval(matrix, method)).to be_within(EPSILON).of value
 end
 
 Then(
   '{matrix}.{method} {int}, {int} = {scalar}'
 ) do |matrix, method, row, col, value|
-  expect(feval(matrix, method, row, col)).to be_within(EPSILON).of value
+  expect(seval(matrix, method, row, col)).to be_within(EPSILON).of value
 end
 
 Then('{matrix}.{method} = {matrix}') do |a, op, r|
-  expect(feval(a, op)).to eq seval(r)
+  expect(seval(a, op)).to eq seval(r)
 end
 
 Then(
   '{matrix} {operator} {matrix}.{method} = {matrix}'
 ) do |a, op, b, method, r|
-  expect(feval(a, op, feval(b, method))).to eq seval(r)
+  expect(seval(a, op, seval(b, method))).to eq seval(r)
 end
 
 Then('{matrix} {operator} {variable} = {variable}') do |a, op, b, r|
@@ -148,7 +89,7 @@ Then(
   expected = Matrix[*table_to_matrix(expected)]
   expect(cols).to eq rows
   expect(expected.size).to eq rows
-  expect(feval(matrix, method, row, col)).to eq expected
+  expect(seval(matrix, method, row, col)).to eq expected
 end
 
 Then(
