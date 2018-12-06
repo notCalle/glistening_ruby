@@ -2,10 +2,12 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'glistening_ruby/world'
+require 'glistening_ruby'
 
 # Draw sphere shadow
-class Main < GlisteningRuby::World
+class Main
+  include GlisteningRuby
+
   def initialize
     @sphere = Sphere[]
     @sphere.transform = identity.scale(0.3).translate(0.0, 0.0, 0.5)

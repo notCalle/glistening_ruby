@@ -5,6 +5,8 @@ require 'glistening_ruby'
 module GlisteningRuby
   # World
   class World
-    include GlisteningRuby
+    def self.[](*args)
+      new(*args)
+    end
   end
 end
