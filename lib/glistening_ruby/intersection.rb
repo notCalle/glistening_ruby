@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+require_relative 'computations'
+
 module GlisteningRuby
   # An intersection between a ray and something
   class Intersection
     include Comparable
+    extend Forwardable
 
     def self.[](*args)
       new(*args)
@@ -16,12 +20,11 @@ module GlisteningRuby
 
     attr_reader :object, :t
 
-    # Negative intersections are further away than any positive intersection
-    def <=>(other)
-      return 1 if t.negative?
-      return -1 if other.t.negative?
 
-      t.<=>(other.t)
+    def <=>(other)
+      @t.<=>other.t
     end
+
+    def_delegators :@t, :positive?, :negative?, :zero?
   end
 end
