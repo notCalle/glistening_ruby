@@ -23,6 +23,17 @@ module GlisteningRuby
         intersections << object.intersect(ray)
       end
     end
+
+    def light=(light)
+      @lights = [light]
+    end
+
+    def shade_hit(comps)
+      material = comps.object.material
+      @lights.reduce(Color::BLACK) do |color, light|
+        color + material.lighting(light, comps.point, comps.eyev, comps.normalv)
+      end
+    end
   end
 
   World::DEFAULT = World.new do |w|

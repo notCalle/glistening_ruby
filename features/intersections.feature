@@ -37,7 +37,7 @@ Feature: Ray / object intersections
           And comps is inside
               # Normal is inverted on the inside!
           And comps.normalv = Vector[0, 0, -1]
-@wip
+
     Scenario: Shading an intersection
 
         Given w is the default world
@@ -49,7 +49,7 @@ Feature: Ray / object intersections
          When comps := i.prepare r
           And c := w.shade_hit comps
          Then c = Color[0.38066, 0.47583, 0.2855]
-@wip
+
     Scenario: Shading an intersection from the inside
 
         Given w is the default world
