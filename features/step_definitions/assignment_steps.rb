@@ -86,6 +86,12 @@ When(
 end
 
 When(
+  '{variable} := {class}[{variable}]'
+) do |var, klass, *args|
+  seval(var, :'=', klass[*args.map { |arg| seval(arg) }])
+end
+
+When(
   '{variable} := {class}[{variable}, {variable}]'
 ) do |var, klass, *args|
   seval(var, :'=', klass[*args.map { |arg| seval(arg) }])
@@ -154,4 +160,10 @@ Given(
   '{matrix} := {matrix}.{method} {int}, {int}'
 ) do |a, b, method, row, col|
   seval(a, :'=', b, method, row, col)
+end
+
+When('{variable} is the {word} {word}') do |var, const, klass|
+  klass = GlisteningRuby.const_get(klass.capitalize)
+  const = klass.const_get(const.upcase)
+  seval(var, :'=', const)
 end

@@ -13,6 +13,12 @@ Then(
 end
 
 Then(
+  '{variable}.{method} = {variable}.{method}'
+) do |a, a_method, b, b_method|
+  expect(seval(a, a_method)).to eq seval(b, b_method)
+end
+
+Then(
   '{variable} = {class}[]'
 ) do |a, klass|
   expect(seval(a)).to eq klass[]
@@ -22,6 +28,18 @@ Then(
   '{variable} is nothing'
 ) do |var|
   expect(seval(var)).to be_nil
+end
+
+Then(
+  '{variable} is inside'
+) do |var|
+  expect(seval(var)).to be_inside
+end
+
+Then(
+  '{variable} is not inside'
+) do |var|
+  expect(seval(var)).not_to be_inside
 end
 
 Then(
@@ -59,4 +77,12 @@ Then(
   '{variable}.{method} is the identity matrix'
 ) do |name, method|
   expect(seval(name, method)).to eq Matrix::IDENTITY
+end
+
+Then('{variable} contains no objects') do |name|
+  expect(seval(name).objects).to be_empty
+end
+
+Then('{variable} has no light source') do |name|
+  expect(seval(name).lights).to be_empty
 end
