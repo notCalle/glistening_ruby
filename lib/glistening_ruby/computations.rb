@@ -9,6 +9,15 @@ module GlisteningRuby
       @point = ray.position(@t)
       @eyev = -ray.direction
       @normalv = @object.normal_at(@point)
+      @inside = false
+      return unless @normalv.dot(@eyev).negative?
+
+      @inside = true
+      @normalv = -@normalv
+    end
+
+    def inside?
+      @inside
     end
 
     attr_accessor :eyev, :normalv, :object, :point, :t
