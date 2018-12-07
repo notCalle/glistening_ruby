@@ -21,6 +21,10 @@ module GlisteningRuby
       @t.<=>other.t
     end
 
+    def prepare(ray)
+      Computations.new(self, ray)
+    end
+
     def_delegators :@t, :positive?, :negative?, :zero?
   end
 end
