@@ -1,17 +1,14 @@
 # frozen_string_literal: true
 
+require_relative 'base'
 require_relative 'matrix_private'
 require_relative 'matrix_transforms'
 
 module GlisteningRuby
   # A square matrix
-  class Matrix
+  class Matrix < Base
     include MatrixPrivate
     include MatrixTransforms
-
-    def self.[](*rows)
-      new(*rows)
-    end
 
     def initialize(*rows)
       size, = *rows
@@ -20,8 +17,8 @@ module GlisteningRuby
       else
         initialize_from_arrays(rows)
       end
-      yield self if block_given?
 
+      super
       deep_freeze
     end
 

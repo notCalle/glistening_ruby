@@ -1,18 +1,16 @@
 # frozen_string_literal: true
 
+require_relative 'base'
 require_relative 'color'
 
 module GlisteningRuby
   # A drawable canvas
-  class Canvas
-    def self.[](*args)
-      new(*args)
-    end
-
+  class Canvas < Base
     def initialize(width, height)
       @w = width.to_i
       @h = height.to_i
       @pixels = Array.new(height) { Array.new(width, Color[0, 0, 0]) }
+      super
     end
 
     attr_reader :w, :h

@@ -1,17 +1,14 @@
 # frozen_string_literal: true
 
 require 'forwardable'
+require_relative 'base'
 require_relative 'intersection'
 
 module GlisteningRuby
   # A set of intersections
-  class Intersections
+  class Intersections < Base
     extend Forwardable
     include Enumerable
-
-    def self.[](*args)
-      new(*args)
-    end
 
     def initialize(*intersections)
       @intersections = []

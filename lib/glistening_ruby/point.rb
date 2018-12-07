@@ -11,7 +11,7 @@ module GlisteningRuby
     end
 
     def self.===(obj)
-      obj.is_a?(Tuple) && close?(obj.w, 1.0)
+      obj.is_a?(Tuple) && obj.close?(obj.w, 1.0)
     end
   end
 
