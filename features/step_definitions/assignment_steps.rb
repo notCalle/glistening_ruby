@@ -13,6 +13,12 @@ Given(
 end
 
 Given(
+  '{variable} := {variable}.{method}[{int}]'
+) do |lhs, rhs, method, index|
+  seval(lhs, :'=', seval(rhs, method)[index])
+end
+
+Given(
   '{variable} := {class}[]'
 ) do |var, klass|
   seval(var, :'=', klass[])
@@ -71,6 +77,12 @@ When(
   '{variable}.{method} {variable}'
 ) do |a, method, b|
   seval(a, method, b)
+end
+
+Given(
+  '{variable}.{method} {class}[{scalar}, {scalar}, {scalar}]'
+) do |var, method, klass, *tuple|
+  seval(var, method, klass[*tuple])
 end
 
 When(
