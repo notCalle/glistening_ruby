@@ -45,7 +45,7 @@ Feature: View the world through a camera
           And r := c.ray_for_pixel 100, 50
          Then r.origin = Point[0, 2, -5]
           And r.direction = Vector[√2/2, 0, -√2/2]
-@wip
+
     Scenario: Rendering a world with a camera
 
         Given w is the default world

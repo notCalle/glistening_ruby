@@ -33,6 +33,15 @@ module GlisteningRuby
       Ray.new(origin, direction)
     end
 
+    def render(world)
+      Canvas.new(@w, @h) do |canvas|
+        canvas.each do |_, x, y|
+          ray = ray_for_pixel(x, y)
+          canvas[x, y] = world.color_at ray
+        end
+      end
+    end
+
     private
 
     def initialize_half(aspect, fov)
