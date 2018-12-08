@@ -137,6 +137,12 @@ Given(
 end
 
 Given(
+  '{matrix} := {class}[{variable}, {variable}, {variable}]'
+) do |matrix, klass, *args|
+  seval(matrix, :'=', klass[*args.map { |a| seval(a) }])
+end
+
+Given(
   '{matrix} := {class}[{scalar}, {scalar}, {scalar}]'
 ) do |matrix, klass, *args|
   seval(matrix, :'=', klass[*args])
