@@ -13,6 +13,12 @@ Given(
 end
 
 Given(
+  '{variable} := {variable}.{method} {scalar}, {scalar}'
+) do |lhs, rhs, method, *args|
+  seval(lhs, :'=', rhs, method, *args)
+end
+
+Given(
   '{variable} := {variable}.{method}[{int}]'
 ) do |lhs, rhs, method, index|
   seval(lhs, :'=', seval(rhs, method)[index])
