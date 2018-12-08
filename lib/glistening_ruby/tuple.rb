@@ -31,6 +31,10 @@ module GlisteningRuby
       [x, y]
     end
 
+    def xyz
+      [x, y, z]
+    end
+
     def is_a?(kind)
       super ||
         case self
