@@ -64,7 +64,7 @@ Feature: Ray / object intersections
          When comps := i.prepare r
           And c := w.shade_hit comps
          Then c = Color[0.90498, 0.90498, 0.90498]
-@wip
+
     Scenario: The color when a ray misses
 
         Given w is the default world
@@ -73,7 +73,7 @@ Feature: Ray / object intersections
           And r := Ray[p, v]
          When c := w.color_at r
          Then c = Color[0, 0, 0]
-@wip
+
     Scenario: The color when a ray hits
 
         Given w is the default world
@@ -82,7 +82,7 @@ Feature: Ray / object intersections
           And r := Ray[p, v]
          When c := w.color_at r
          Then c = Color[0.38066, 0.47583, 0.2855]
-@wip
+
     Scenario: The color with an intersection behind the ray
 
         Given w is the default world
@@ -97,4 +97,3 @@ Feature: Ray / object intersections
           And r := Ray[p, v]
          When c := w.color_at r
          Then c = inner_material.color
-

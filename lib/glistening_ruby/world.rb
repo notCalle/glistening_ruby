@@ -18,6 +18,13 @@ module GlisteningRuby
 
     attr_accessor :lights, :objects
 
+    def color_at(ray)
+      hit = intersect(ray).hit
+      return shade_hit(hit.prepare(ray)) if hit
+
+      Color::BLACK
+    end
+
     def intersect(ray)
       @objects.each.with_object(Intersections.new) do |object, intersections|
         intersections << object.intersect(ray)
