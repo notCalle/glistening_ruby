@@ -45,3 +45,16 @@ Feature: View the world through a camera
           And r := c.ray_for_pixel 100, 50
          Then r.origin = Point[0, 2, -5]
           And r.direction = Vector[√2/2, 0, -√2/2]
+@wip
+    Scenario: Rendering a world with a camera
+
+        Given w is the default world
+          And c := Camera[11, 11, 1/4]
+          And origin := Point[0, 0, -5]
+          And lookat := Point[0, 0, 0]
+          And up := Vector[0, 1, 0]
+          And T := ViewTransform[origin, lookat, up]
+          And c.transform= T
+         When image := c.render w
+          And color := Color[0.38066, 0.47583, 0.28550]
+         Then image[5, 5] = color
