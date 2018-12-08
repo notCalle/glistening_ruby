@@ -1,4 +1,3 @@
-@wip
 Feature: View transformations
 
     Scenario: The transformation matrix of the default orientation

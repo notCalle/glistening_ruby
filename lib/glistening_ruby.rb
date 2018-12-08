@@ -17,6 +17,7 @@ require 'glistening_ruby/translation'
 require 'glistening_ruby/tuple'
 require 'glistening_ruby/vector'
 require 'glistening_ruby/version'
+require 'glistening_ruby/view_transform'
 require 'glistening_ruby/world'
 
 # Glistening Ruby is my implementation of the Raytracer described in the
