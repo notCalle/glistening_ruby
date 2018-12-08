@@ -174,8 +174,7 @@ Given(
   seval(a, :'=', b, method, row, col)
 end
 
-When('{variable} is the {word} {word}') do |var, const, klass|
+When('{variable} is the {method} {word}') do |var, method, klass|
   klass = GlisteningRuby.const_get(klass.capitalize)
-  const = klass.const_get(const.upcase)
-  seval(var, :'=', const)
+  seval(var, :'=', klass, method)
 end

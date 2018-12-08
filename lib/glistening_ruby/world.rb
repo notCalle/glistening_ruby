@@ -41,15 +41,17 @@ module GlisteningRuby
         color + material.lighting(light, comps.point, comps.eyev, comps.normalv)
       end
     end
-  end
 
-  World::DEFAULT = World.new do |w|
-    w.objects << Sphere.new do |s|
-      s.material.color = [0.8, 1.0, 0.6]
-      s.material.diffuse = 0.7
-      s.material.specular = 0.2
+    def self.default # rubocop:disable Metrics/AbcSize
+      World.new do |w|
+        w.objects << Sphere.new do |s|
+          s.material.color = [0.8, 1.0, 0.6]
+          s.material.diffuse = 0.7
+          s.material.specular = 0.2
+        end
+        w.objects << Sphere.new { |s| s.transform = Scaling.new(0.5, 0.5, 0.5) }
+        w.lights << PointLight.new(Point[-10, 10, -10], Color::WHITE)
+      end
     end
-    w.objects << Sphere.new { |s| s.transform = Scaling.new(0.5, 0.5, 0.5) }
-    w.lights << PointLight.new(Point[-10, 10, -10], Color::WHITE)
   end
 end
