@@ -13,6 +13,18 @@ Given(
 end
 
 Given(
+  '{variable} := {variable}.{method} {scalar}, {scalar}'
+) do |lhs, rhs, method, *args|
+  seval(lhs, :'=', rhs, method, *args)
+end
+
+Given(
+  '{variable} := {variable}.{method}[{int}]'
+) do |lhs, rhs, method, index|
+  seval(lhs, :'=', seval(rhs, method)[index])
+end
+
+Given(
   '{variable} := {class}[]'
 ) do |var, klass|
   seval(var, :'=', klass[])
@@ -34,6 +46,12 @@ Given(
   '{variable} := {class}[{scalar}, {scalar}, {scalar}, {scalar}]'
 ) do |var, klass, *tuple|
   seval(var, :'=', klass[*tuple])
+end
+
+Given(
+  '{variable} := {class}[{variable}, {variable}, {variable}]'
+) do |var, klass, *tuple|
+  seval(var, :'=', klass[*tuple.map { |i| seval(i) }])
 end
 
 Given(
@@ -73,6 +91,12 @@ When(
   seval(a, method, b)
 end
 
+Given(
+  '{variable}.{method} {class}[{scalar}, {scalar}, {scalar}]'
+) do |var, method, klass, *tuple|
+  seval(var, method, klass[*tuple])
+end
+
 When(
   '{variable} := {variable}.{method} {matrix}'
 ) do |r, a, method, m|
@@ -83,6 +107,12 @@ When(
   '{variable} := {matrix} {operator} {variable}'
 ) do |a, m, op, b|
   seval(a, :'=', m, op, b)
+end
+
+When(
+  '{variable} := {class}[{variable}]'
+) do |var, klass, *args|
+  seval(var, :'=', klass[*args.map { |arg| seval(arg) }])
 end
 
 When(
@@ -116,6 +146,12 @@ Given(
   '{matrix} := {class}[{scalar}]'
 ) do |matrix, klass, *args|
   seval(matrix, :'=', klass[*args])
+end
+
+Given(
+  '{matrix} := {class}[{variable}, {variable}, {variable}]'
+) do |matrix, klass, *args|
+  seval(matrix, :'=', klass[*args.map { |a| seval(a) }])
 end
 
 Given(
@@ -154,4 +190,9 @@ Given(
   '{matrix} := {matrix}.{method} {int}, {int}'
 ) do |a, b, method, row, col|
   seval(a, :'=', b, method, row, col)
+end
+
+When('{variable} is the {method} {word}') do |var, method, klass|
+  klass = GlisteningRuby.const_get(klass.capitalize)
+  seval(var, :'=', klass, method)
 end

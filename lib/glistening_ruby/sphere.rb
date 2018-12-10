@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'base'
 require_relative 'intersection'
 require_relative 'intersections'
 require_relative 'matrix'
@@ -9,18 +10,15 @@ require_relative 'quadratic'
 
 module GlisteningRuby
   # Sphere
-  class Sphere
+  class Sphere < Base
     include Quadratic
-
-    def self.[](*args)
-      new(*args)
-    end
 
     def initialize
       @transform = Matrix::IDENTITY
       @inverse = Matrix::IDENTITY
       @inverse_transpose = Matrix::IDENTITY
       @material = Material[]
+      super
     end
 
     attr_accessor :material

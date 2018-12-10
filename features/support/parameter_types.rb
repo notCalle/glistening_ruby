@@ -2,7 +2,7 @@
 
 ParameterType(
   name: 'variable',
-  regexp: /[a-z][a-z0-9]*/,
+  regexp: /[a-z][a-z0-9_]*/,
   use_for_snippets: false,
   transformer: ->(name) { "@#{name}".to_sym }
 )

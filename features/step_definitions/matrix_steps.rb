@@ -51,6 +51,12 @@ Then('{matrix} {operator} {variable} = {variable}') do |a, op, b, r|
 end
 
 Then(
+  '{matrix} = {class}[{scalar}, {scalar}, {scalar}]'
+) do |m, klass, *args|
+  expect(seval(m)).to eq klass[*args]
+end
+
+Then(
   '{matrix} {operator} {variable} = {class}[{scalar}, {scalar}, {scalar}]'
 ) do |m, op, v, klass, *args|
   expect(seval(m, op, v)).to eq klass[*args]
@@ -97,4 +103,10 @@ Then(
   ' = {class}[{scalar}, {scalar}, {scalar}, {scalar}]'
 ) do |matrix, op, tuple, klass, x, y, z, w|
   expect(seval(matrix, op, tuple)).to eq klass[x, y, z, w]
+end
+
+Then(
+  '{matrix} is the identity matrix'
+) do |name|
+  expect(seval(name)).to eq Matrix::IDENTITY
 end

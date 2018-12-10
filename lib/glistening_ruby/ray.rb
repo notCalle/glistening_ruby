@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
+require_relative 'base'
+
 module GlisteningRuby
   # A ray to be cast into the world
-  class Ray
-    def self.[](*args)
-      new(*args)
-    end
-
+  class Ray < Base
     def initialize(origin, direction)
       @origin = origin
       @direction = direction
+      super
       freeze
     end
 

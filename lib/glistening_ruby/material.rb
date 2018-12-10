@@ -1,23 +1,27 @@
 # frozen_string_literal: true
 
+require_relative 'base'
 require_relative 'color'
 
 module GlisteningRuby
   # A Phong material
-  class Material
-    def self.[](*args)
-      new(*args)
-    end
-
+  class Material < Base
     def initialize
       @ambient = 0.1
       @color = Color[1, 1, 1]
       @diffuse = 0.9
       @shininess = 200
       @specular = 0.9
+      super
     end
 
-    attr_accessor :ambient, :color, :diffuse, :shininess, :specular
+    attr_accessor :ambient, :diffuse, :shininess, :specular
+
+    attr_reader :color
+    def color=(new_color)
+      new_color = Color[*new_color] if new_color.is_a?(Array)
+      @color = new_color
+    end
 
     def ==(other)
       @ambient == other.ambient &&

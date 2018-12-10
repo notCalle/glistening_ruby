@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'glistening_ruby'
+
+# Draw sphere with lighting
+class Main < GlisteningRuby::Base
+  include GlisteningRuby
+
+  def initialize
+    @camera = Camera.new(128, 128, '1/4'.to_r) do |camera|
+      origin = Point[0, 0, -2]
+      look_at = Point[0, 0, 0]
+      up = Vector[0, 1, 0]
+      camera.transform = ViewTransform[origin, look_at, up]
+    end
+
+    @world = initialize_world
+  end
+
+  def initialize_world
+    World.new do |world|
+      world.objects << initialize_sphere1
+      world.objects << initialize_sphere2
+      world.objects << initialize_sphere3
+      world.light = PointLight[Point[-3.5, 2, -4], Color[1.0, 0.9, 0.6]]
+    end
+  end
+
+  def initialize_sphere1
+    Sphere.new do |sphere|
+      sphere.material.color = Color[1, 0.3, 0.1]
+      sphere.transform = identity.translate(-0.5, -0.5, 0)
+    end
+  end
+
+  def initialize_sphere2
+    Sphere.new do |sphere|
+      sphere.material.color = Color[1, 1.0, 0.1]
+      sphere.material.shininess = 20
+      sphere.transform = identity.translate(1, 1, 1)
+    end
+  end
+
+  def initialize_sphere3
+    Sphere.new do |sphere|
+      sphere.material.color = Color[0.2, 0.5, 1.0]
+      sphere.transform = identity.scale(2, 2, 2).translate(-2, 2, 4)
+    end
+  end
+
+  def render
+    @canvas = @camera.render(@world)
+    self
+  end
+
+  def save(filename)
+    File.open(filename, 'w') do |file|
+      @canvas.to_ppm(file)
+    end
+  end
+end
+
+require 'pry'
+Pry.start Main.new

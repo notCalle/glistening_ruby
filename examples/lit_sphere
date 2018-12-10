@@ -22,7 +22,7 @@ class Main
     STDOUT << "#{100 * done / total}% done.\r"
   end
 
-  def render(pixel, projection) # rubocop:disable Metrics/AbcSize
+  def render(pixel, projection)
     cast_at = projection * pixel
     ray = Ray[@camera, (cast_at - @camera).normalize]
     hit = @sphere.intersect(ray).hit

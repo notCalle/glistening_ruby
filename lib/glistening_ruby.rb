@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'glistening_ruby/camera'
 require 'glistening_ruby/canvas'
 require 'glistening_ruby/color'
 require 'glistening_ruby/intersection'
@@ -17,18 +18,12 @@ require 'glistening_ruby/translation'
 require 'glistening_ruby/tuple'
 require 'glistening_ruby/vector'
 require 'glistening_ruby/version'
+require 'glistening_ruby/view_transform'
+require 'glistening_ruby/world'
 
 # Glistening Ruby is my implementation of the Raytracer described in the
 # book [The Raytracer Challenge]()
 module GlisteningRuby
   EPSILON = 0.00001
   TAU = 6.283185307179586
-
-  def close?(this, that)
-    (this - that).abs < EPSILON
-  end
-
-  def identity
-    Matrix::IDENTITY
-  end
 end

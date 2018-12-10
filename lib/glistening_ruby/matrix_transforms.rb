@@ -26,5 +26,9 @@ module GlisteningRuby
     def translate(d_x, d_y = 0, d_z = 0)
       Translation.new(d_x, d_y, d_z) * self
     end
+
+    def view(origin, look_at, upish)
+      ViewTransform.new(origin, look_at, upish) * self
+    end
   end
 end

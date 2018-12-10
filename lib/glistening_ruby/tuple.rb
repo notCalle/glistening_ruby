@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
+require_relative 'base'
+
 module GlisteningRuby
   # This is a 4D tuple, used for representing points and vectors
-  class Tuple
-    def self.[](*args)
-      new(*args)
-    end
-
+  class Tuple < Base
     def initialize(x_axis = 0, y_axis = 0, z_axis = 0, w_axis = 0)
       @x = x_axis
       @y = y_axis
       @z = z_axis
       @w = w_axis
+      super
     end
 
     def to_a
@@ -30,6 +29,10 @@ module GlisteningRuby
 
     def xy
       [x, y]
+    end
+
+    def xyz
+      [x, y, z]
     end
 
     def is_a?(kind)

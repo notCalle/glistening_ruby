@@ -1,22 +1,33 @@
 # frozen_string_literal: true
 
-require 'delegate'
+require 'forwardable'
+require_relative 'base'
 require_relative 'intersection'
 
 module GlisteningRuby
   # A set of intersections
-  class Intersections < SimpleDelegator
-    def self.[](*args)
-      new(*args)
-    end
+  class Intersections < Base
+    extend Forwardable
+    include Enumerable
 
     def initialize(*intersections)
-      super(intersections)
+      @intersections = []
+      @hit = nil
+      self << intersections
     end
 
-    def hit
-      result = min
-      return result unless result&.t&.negative?
+    def <<(intersections)
+      intersections.each do |intersection|
+        if intersection.positive?
+          @hit = intersection unless @hit && @hit < intersection
+        end
+        @intersections << intersection
+      end
+      @intersections.sort!
     end
+
+    attr_reader :hit
+
+    def_delegators :@intersections, :each, :[]
   end
 end
