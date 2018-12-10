@@ -16,3 +16,11 @@ Style/MixinUsage:
 Metrics/ParameterLists:
   Exclude:
     - 'features/step_definitions/*.rb'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'examples/*'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'examples/*'
