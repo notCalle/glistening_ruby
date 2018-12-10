@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'glistening_ruby/camera'
 require 'glistening_ruby/canvas'
 require 'glistening_ruby/color'
 require 'glistening_ruby/intersection'

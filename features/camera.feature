@@ -1,4 +1,3 @@
-@wip
 Feature: View the world through a camera
 
     Scenario: Constructing a camera
