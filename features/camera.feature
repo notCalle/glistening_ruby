@@ -20,21 +20,21 @@ Feature: View the world through a camera
 
         Given c := Camera[125, 200, 1/4]
          Then c.pixel_size = 0.01
-@wip
+
     Scenario: Constructing a ray through the center of the canvas
 
         Given c := Camera[201, 101, 1/4]
          When r := c.ray_for_pixel 100, 50
          Then r.origin = Point[0, 0, 0]
           And r.direction = Vector[0, 0, -1]
-@wip
+
     Scenario: Constructing a ray through a corner of the canvas
 
         Given c := Camera[201, 101, 1/4]
          When r := c.ray_for_pixel 0, 0
          Then r.origin = Point[0, 0, 0]
           And r.direction = Vector[0.66519, 0.33259, -0.66851]
-@wip
+
     Scenario: Constructing a ray when the camera is transformed
 
         Given c := Camera[201, 101, 1/4]

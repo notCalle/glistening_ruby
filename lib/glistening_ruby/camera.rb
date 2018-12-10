@@ -18,6 +18,21 @@ module GlisteningRuby
 
     attr_reader :fov, :h, :pixel_size, :transform, :w
 
+    def transform=(transform)
+      @transform = transform
+      @inverse = transform.inverse
+    end
+
+    def ray_for_pixel(px_x, px_y)
+      offset_x = (px_x + 0.5) * @pixel_size
+      offset_y = (px_y + 0.5) * @pixel_size
+      world_point = Point[@half_width - offset_x, @half_height - offset_y, -1]
+      pixel = @inverse * world_point
+      origin = @inverse * Point::ZERO
+      direction = (pixel - origin).normalize
+      Ray.new(origin, direction)
+    end
+
     private
 
     def initialize_half(aspect, fov)
