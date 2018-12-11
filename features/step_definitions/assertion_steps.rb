@@ -79,6 +79,24 @@ Then(
   expect(seval(name, method)).to eq Matrix::IDENTITY
 end
 
+Then(
+  '{variable}.{method} is less than -EPSILON÷2'
+) do |name, method|
+  expect(seval(name, method)).to be < -EPSILON / 2
+end
+
+Then(
+  '{variable} is {predicate} in {variable}'
+) do |subj, method, obj|
+  expect(seval(obj, method, subj)).to be_truthy
+end
+
+Then(
+  '{variable} is not {predicate} in {variable}'
+) do |subj, method, obj|
+  expect(seval(obj, method, subj)).to be_falsey
+end
+
 Then('{variable} contains no objects') do |name|
   expect(seval(name).objects).to be_empty
 end

@@ -31,10 +31,12 @@ module GlisteningRuby
         @specular == other.specular
     end
 
-    def lighting(light, point, eyev, normalv)
+    def lighting(light, point, eyev, normalv, in_shadow = false)
       effective_color = @color * light.intensity
-      lightv = (light.position - point).normalize
       ambient = effective_color * @ambient
+      return ambient if in_shadow
+
+      lightv = (light.position - point).normalize
       light_dot_normal = lightv.dot normalv
       return ambient if light_dot_normal.negative?
 

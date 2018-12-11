@@ -6,9 +6,10 @@ module GlisteningRuby
     def initialize(intersection, ray)
       @t = intersection.t
       @object = intersection.object
-      @point = ray.position(@t)
+      point = ray.position(@t)
       @eyev = -ray.direction
-      @normalv = @object.normal_at(@point)
+      @normalv = @object.normal_at(point)
+      @point = point + @normalv * EPSILON
       @inside = false
       return unless @normalv.dot(@eyev).negative?
 
