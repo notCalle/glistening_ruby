@@ -42,6 +42,14 @@ module GlisteningRuby
       end
     end
 
+    def shadowed?(point, light = @lights[0])
+      lightv = light.position - point
+      distance = lightv.magnitude
+      direction = lightv.normalize
+
+      intersect(Ray[point, direction]).hit&.t&.< distance
+    end
+
     def self.default # rubocop:disable Metrics/AbcSize
       World.new do |w|
         w.objects << Sphere.new do |s|
