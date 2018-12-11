@@ -1,45 +1,17 @@
 # frozen_string_literal: true
 
-require_relative 'base'
 require_relative 'intersection'
 require_relative 'intersections'
 require_relative 'matrix'
 require_relative 'material'
 require_relative 'point'
 require_relative 'quadratic'
+require_relative 'shape'
 
 module GlisteningRuby
   # Sphere
-  class Sphere < Base
+  class Sphere < Shape
     include Quadratic
-
-    def initialize
-      @transform = Matrix::IDENTITY
-      @inverse = Matrix::IDENTITY
-      @inverse_transpose = Matrix::IDENTITY
-      @material = Material[]
-      super
-    end
-
-    attr_accessor :material
-    attr_reader :transform
-
-    def transform=(transform)
-      @transform = transform
-      @inverse = transform.inverse
-      @inverse_transpose = transform.submatrix(3, 3).inverse.transpose
-    end
-
-    def intersect(ray)
-      Intersections.new(*intersections(ray.transform(@inverse)))
-    end
-
-    def normal_at(world_point)
-      object_point = @inverse * world_point
-      object_normal = object_point - Point::ZERO
-      world_normal = @inverse_transpose * object_normal
-      world_normal.normalize
-    end
 
     private
 
@@ -58,6 +30,10 @@ module GlisteningRuby
       c = l.dot(l) - 1
 
       quadratic(a, b, c).map { |t| Intersection.new(t, self) }
+    end
+
+    def object_normal(point)
+      point - Point::ZERO
     end
   end
 end
