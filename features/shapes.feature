@@ -48,3 +48,21 @@ Feature: Abstract shapes
           And lr := s.local_ray
          Then lr.origin = Point[-5, 0, -5]
           And lr.direction = Vector[0, 0, 1]
+@wip
+    Scenario: Computing the normal on a translated shape
+
+        Given M := Translation[0, 1, 0]
+          And p := Point[0, 1.70711, -0.70711]
+         When s.transform= M
+          And n := s.normal_at p
+         Then n = Vector[0, 0.70711, -0.70711]
+@wip
+    Scenario: Computing the normal on a transformed shape
+
+        Given S := Scaling[1, 0.5, 1]
+          And R := RotationZ[1/10]
+          And p := Point[0, √2/2, -√2/2]
+         When M := S * R
+          And s.transform= M
+          And n := s.normal_at p
+         When n = Vector[0, 0.97014, -0.24254]
