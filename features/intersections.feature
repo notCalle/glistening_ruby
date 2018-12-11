@@ -63,7 +63,7 @@ Feature: Ray / object intersections
           And i := Intersection[0.5, shape]
          When comps := i.prepare r
           And c := w.shade_hit comps
-         Then c = Color[0.90498, 0.90498, 0.90498]
+         Then c = Color[0.1, 0.1, 0.1]
 
     Scenario: The color when a ray misses
 

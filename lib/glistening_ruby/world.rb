@@ -37,8 +37,12 @@ module GlisteningRuby
 
     def shade_hit(comps)
       material = comps.object.material
+      point = comps.point
+      eyev = comps.eyev
+      normalv = comps.normalv
       @lights.reduce(Color::BLACK) do |color, light|
-        color + material.lighting(light, comps.point, comps.eyev, comps.normalv)
+        shadow = shadowed?(point, light)
+        color + material.lighting(light, point, eyev, normalv, shadow)
       end
     end
 

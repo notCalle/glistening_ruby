@@ -58,7 +58,7 @@ Feature: A scene world
         Given w is the default world
           And p := Point[-2, 2, -2]
          Then p is not shadowed in w
-@wip
+
     Scenario: shade_hit() is given an intersection in shadow
 
         Given w := World[]
