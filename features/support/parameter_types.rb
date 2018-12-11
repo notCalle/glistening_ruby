@@ -46,6 +46,13 @@ ParameterType(
 )
 
 ParameterType(
+  name: 'predicate',
+  regexp: /[a-z_]+/,
+  use_for_snippets: false,
+  transformer: ->(name) { "#{name}?".to_sym }
+)
+
+ParameterType(
   name: 'scalar',
   regexp: '(-?√?)((?:[0-9]+\.)?[0-9]+)(?:/([0-9]+))?',
   transformer: lambda do |prefix, scalar, divisor = 1|

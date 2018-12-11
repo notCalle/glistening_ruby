@@ -34,3 +34,27 @@ Feature: A scene world
           And xs[1].t = 4.5
           And xs[2].t = 5.5
           And xs[3].t = 6
+@wip
+    Scenario: There is no shadow when nothing is colinear with point and light
+
+        Given w is the default world
+          And p := Point[0, 10, 0]
+         Then p is not shadowed in w
+@wip
+    Scenario: The shadow when an object is between the point and the light
+
+        Given w is the default world
+          And p := Point[10, -10, 10]
+         Then p is shadowed in w
+@wip
+    Scenario: There is no shadow when an object is behind the light
+
+        Given w is the default world
+          And p := Point[-20, 20, -20]
+         Then p is not shadowed in w
+@wip
+    Scenario: There is no shadow when an object is behind the point
+
+        Given w is the default world
+          And p := Point[-2, 2, -2]
+         Then p is not shadowed in w
