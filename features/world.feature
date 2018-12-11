@@ -58,3 +58,23 @@ Feature: A scene world
         Given w is the default world
           And p := Point[-2, 2, -2]
          Then p is not shadowed in w
+@wip
+    Scenario: shade_hit() is given an intersection in shadow
+
+        Given w := World[]
+          And p := Point[0, 0, -10]
+          And light := PointLight[p]
+          And w.light= light
+          And s1 := Sphere[]
+          And s1 is added to w
+          And s2 := Sphere[]
+          And T := Translation[0, 0, 10]
+          And s2.transform= T
+          And s2 is added to w
+          And pr := Point[0, 0, 5]
+          And vr := Vector[0, 0, 1]
+          And r := Ray[pr, vr]
+          And i := Intersection[4, s2]
+         When comps := i.prepare r
+          And c := w.shade_hit comps
+         Then c = Color[0.1, 0.1, 0.1]
