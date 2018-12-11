@@ -13,4 +13,8 @@ class TestShape < GlisteningRuby::Shape
     @local_ray = ray
     Intersections.new
   end
+
+  def object_normal(point)
+    point - Point::ZERO
+  end
 end
