@@ -109,16 +109,6 @@ Feature: Spheres
          When i := xs.hit
          Then i = i4
 
-    Scenario: A sphere's default transformation
-
-        Then s.transform is the identity matrix
-
-    Scenario: Changing a sphere's transformation
-
-        Given M := Translation[2, 3, 4]
-         When s.transform= M
-         Then s.transform = M
-
     Scenario: Intersecting a scaled sphere with a ray
 
         Given p := Point[0, 0, -5]
@@ -168,33 +158,3 @@ Feature: Spheres
         Given p := Point[√3/3, √3/3, √3/3]
          When n := s.normal_at p
          Then n = n.normalize
-
-    Scenario: Computing the normal on a translated sphere
-
-        Given M := Translation[0, 1, 0]
-          And p := Point[0, 1.70711, -0.70711]
-         When s.transform= M
-          And n := s.normal_at p
-         Then n = Vector[0, 0.70711, -0.70711]
-
-    Scenario: Computing the normal on a transformed sphere
-
-        Given S := Scaling[1, 0.5, 1]
-          And R := RotationZ[1/10]
-          And p := Point[0, √2/2, -√2/2]
-         When M := S * R
-          And s.transform= M
-          And n := s.normal_at p
-         When n = Vector[0, 0.97014, -0.24254]
-
-    Scenario: A sphere has a default material
-
-        When m := s.material
-        Then m = Material[]
-
-    Scenario: A sphere may be assigned a material
-
-        Given m := Material[]
-          And m.ambient= 1
-         When s.material= m
-         Then m = s.material
