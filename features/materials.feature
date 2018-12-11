@@ -54,7 +54,7 @@ Feature: Surface materials
          When light := PointLight[p, c]
           And result := m.lighting light, position, eyev, normalv
          Then result = Color[0.1, 0.1, 0.1]
-@wip
+
     Scenario: Lighting with the surface in shadow
 
         Given eyev := Vector[0, 0, -1]
