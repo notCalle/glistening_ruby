@@ -8,6 +8,13 @@ ParameterType(
 )
 
 ParameterType(
+  name: 'boolean',
+  regexp: /true|false/,
+  use_for_snippets: false,
+  transformer: ->(name) { name == 'true' }
+)
+
+ParameterType(
   name: 'matrix',
   regexp: /[A-Z]/,
   transformer: ->(name) { "@#{name}".to_sym }

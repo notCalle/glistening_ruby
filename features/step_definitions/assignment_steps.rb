@@ -7,6 +7,12 @@ Given(
 end
 
 Given(
+  '{variable} := {boolean}'
+) do |var, value|
+  seval(var, :'=', value)
+end
+
+Given(
   '{variable} := {variable}.{method}'
 ) do |lhs, rhs, method|
   seval(lhs, :'=', rhs, method)
@@ -63,6 +69,13 @@ end
 Given(
   '{variable} := {variable}.{method}'\
   ' {variable}, {variable}, {variable}, {variable}'
+) do |a, b, method, *args|
+  seval(a, :'=', b, method, *args)
+end
+
+Given(
+  '{variable} := {variable}.{method}'\
+  ' {variable}, {variable}, {variable}, {variable}, {variable}'
 ) do |a, b, method, *args|
   seval(a, :'=', b, method, *args)
 end
