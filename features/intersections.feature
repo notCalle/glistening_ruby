@@ -10,7 +10,7 @@ Feature: Ray / object intersections
          When comps := i.prepare r
          Then comps.t = i.t
           And comps.object = i.object
-          And comps.point = Point[0, 0, -1]
+          And comps.point = Point[0, 0, -1.00001]
           And comps.eyev = Vector[0, 0, -1]
           And comps.normalv = Vector[0, 0, -1]
 
@@ -32,7 +32,7 @@ Feature: Ray / object intersections
           And shape := Sphere[]
           And i := Intersection[1, shape]
          When comps := i.prepare r
-         Then comps.point = Point[0, 0, 1]
+         Then comps.point = Point[0, 0, 1.00001]
           And comps.eyev = Vector[0, 0, -1]
           And comps is inside
               # Normal is inverted on the inside!
@@ -97,7 +97,7 @@ Feature: Ray / object intersections
           And r := Ray[p, v]
          When c := w.color_at r
          Then c = inner_material.color
-@wip
+
     Scenario: The hit should offset the point
 
         Given p := Point[0, 0, -5]
