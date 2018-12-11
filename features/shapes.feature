@@ -1,4 +1,3 @@
-@wip
 Feature: Abstract shapes
 
     Background: We have a test shape
