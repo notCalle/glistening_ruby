@@ -97,3 +97,16 @@ Feature: Ray / object intersections
           And r := Ray[p, v]
          When c := w.color_at r
          Then c = inner_material.color
+@wip
+    Scenario: The hit should offset the point
+
+        Given p := Point[0, 0, -5]
+          And v := Vector[0, 0, 1]
+          And r := Ray[p, v]
+          And shape := Sphere[]
+          And T := Translation[0, 0, 1]
+          And shape.transform= T
+          And i := Intersection[5, shape]
+         When comps := i.prepare r
+          And point := comps.point
+         Then point.z is less than -EPSILON÷2

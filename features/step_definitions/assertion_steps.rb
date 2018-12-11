@@ -80,6 +80,12 @@ Then(
 end
 
 Then(
+  '{variable}.{method} is less than -EPSILON÷2'
+) do |name, method|
+  expect(seval(name, method)).to be < -EPSILON / 2
+end
+
+Then(
   '{variable} is {predicate} in {variable}'
 ) do |subj, method, obj|
   expect(seval(obj, method, subj)).to be_truthy
