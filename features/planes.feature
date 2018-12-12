@@ -30,3 +30,25 @@ Feature: Snakeless planes
           And r := Ray[p, v]
          When xs := s.intersect r
          Then xs is empty
+@wip
+    Scenario: A ray intersecting a plane from above
+
+        Given s := Plane[]
+          And p := Point[0, 1, 0]
+          And v := Vector[0, -1, 0]
+          And r := Ray[p, v]
+         When xs := s.intersect r
+         Then xs.count = 1
+          And xs[0].t = 1
+          And xs[0].object = s
+@wip
+    Scenario: A ray intersecting a plane from below
+
+        Given s := Plane[]
+          And p := Point[0, -1, 0]
+          And v := Vector[0, 1, 0]
+          And r := Ray[p, v]
+         When xs := s.intersect r
+         Then xs.count = 1
+          And xs[0].t = 1
+          And xs[0].object = s
