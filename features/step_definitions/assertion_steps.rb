@@ -31,6 +31,12 @@ Then(
 end
 
 Then(
+  '{variable} is empty'
+) do |var|
+  expect(seval(var)).to be_empty
+end
+
+Then(
   '{variable} is inside'
 ) do |var|
   expect(seval(var)).to be_inside
