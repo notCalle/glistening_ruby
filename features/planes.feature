@@ -12,7 +12,7 @@ Feature: Snakeless planes
          Then n1 = Vector[0, 1, 0]
           And n2 = Vector[0, 1, 0]
           And n3 = Vector[0, 1, 0]
-@wip
+
     Scenario: Intersecting with a ray parallel to the plane
 
         Given s := Plane[]
@@ -21,7 +21,7 @@ Feature: Snakeless planes
           And r := Ray[p, v]
          When xs := s.intersect r
          Then xs is empty
-@wip
+
     Scenario: Intersecting with a coplanar ray
 
         Given s := Plane[]

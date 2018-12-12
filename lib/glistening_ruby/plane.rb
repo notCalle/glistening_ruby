@@ -7,6 +7,10 @@ module GlisteningRuby
   class Plane < Shape
     private
 
+    def intersections(ray)
+      return [] if close?(ray.direction.y, 0.0)
+    end
+
     def object_normal(_point)
       Vector[0, 1, 0]
     end

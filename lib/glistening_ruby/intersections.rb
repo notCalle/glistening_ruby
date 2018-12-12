@@ -28,6 +28,6 @@ module GlisteningRuby
 
     attr_reader :hit
 
-    def_delegators :@intersections, :each, :[]
+    def_delegators :@intersections, :each, :[], :empty?
   end
 end
