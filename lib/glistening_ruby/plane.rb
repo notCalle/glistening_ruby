@@ -9,6 +9,8 @@ module GlisteningRuby
 
     def intersections(ray)
       return [] if close?(ray.direction.y, 0.0)
+
+      [Intersection.new(-ray.origin.y / ray.direction.y, self)]
     end
 
     def object_normal(_point)
