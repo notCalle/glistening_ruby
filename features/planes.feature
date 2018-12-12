@@ -1,5 +1,5 @@
 Feature: Snakeless planes
-@wip
+
     Scenario: The normal of a plane is constant everywhere
 
         Given s := Plane[]
