@@ -10,7 +10,8 @@ module GlisteningRuby
       @w = width
       @h = height
       @fov = fov
-      initialize_half(width / height, fov)
+      aspect_ratio = Rational(width, height)
+      initialize_half(aspect_ratio, fov)
       @pixel_size = (@half_width * 2) / width
       self.transform = Matrix::IDENTITY
       super
