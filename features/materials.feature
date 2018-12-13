@@ -81,5 +81,5 @@ Feature: Surface materials
           And p2 := Point[1.1, 0, 0]
          When c1 := m.lighting light, p1, eyev, normalv
           And c2 := m.lighting light, p2, eyev, normalv
-         Then c1 := Color[1, 1, 1]
-          And c2 := Color[0, 0, 0]
+         Then c1 = white
+          And c2 = black
