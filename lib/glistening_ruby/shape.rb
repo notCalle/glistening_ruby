@@ -19,7 +19,7 @@ module GlisteningRuby
     end
 
     attr_accessor :material
-    attr_reader :transform
+    attr_reader :transform, :inverse
 
     def transform=(transform)
       @transform = transform
