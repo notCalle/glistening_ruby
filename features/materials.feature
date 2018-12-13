@@ -64,3 +64,22 @@ Feature: Surface materials
           And inshadow := true
          When result := m.lighting light, position, eyev, normalv, inshadow
          Then result = Color[0.1, 0.1, 0.1]
+@wip
+    Scenario: Lighting with a pattern applied
+
+        Given white := Color[1, 1, 1]
+          And black := Color[0, 0, 0]
+          And m.pattern= StripePattern[white, black]
+          And m.ambient= 1
+          And m.diffuse= 0
+          And m.specular= 0
+          And eyev := Vector[0, 0, -1]
+          And normalv := Vector[0, 0, -1]
+          And p := Point[0, 0, -10]
+          And light := PointLight[p]
+          And p1 := Point[0.9, 0, 0]
+          And p2 := Point[1.1, 0, 0]
+         When c1 := m.lighting light, p1, eyev, normalv
+          And c2 := m.lighting light, p2, eyev, normalv
+         Then c1 := Color[1, 1, 1]
+          And c2 := Color[0, 0, 0]

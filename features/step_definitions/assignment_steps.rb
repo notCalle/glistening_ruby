@@ -105,6 +105,12 @@ When(
 end
 
 Given(
+  '{variable}.{method} {class}[{variable}, {variable}]'
+) do |var, method, klass, *tuple|
+  seval(var, method, klass[*tuple.map { |v| seval(v) }])
+end
+
+Given(
   '{variable}.{method} {class}[{scalar}, {scalar}, {scalar}]'
 ) do |var, method, klass, *tuple|
   seval(var, method, klass[*tuple])
