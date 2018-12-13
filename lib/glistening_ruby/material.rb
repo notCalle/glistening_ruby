@@ -31,8 +31,9 @@ module GlisteningRuby
         @specular == other.specular
     end
 
-    def lighting(light, point, eyev, normalv, in_shadow = false)
-      effective_color = color_at(point) * light.intensity
+    def lighting(object, light, # rubocop:disable Metrics/ParameterLists
+                 point, eyev, normalv, in_shadow = false)
+      effective_color = color_at(object, point) * light.intensity
       ambient = effective_color * @ambient
       return ambient if in_shadow
 
@@ -47,8 +48,8 @@ module GlisteningRuby
 
     private
 
-    def color_at(point)
-      @pattern.nil? ? @color : @pattern.color_at(point)
+    def color_at(object, point)
+      @pattern.nil? ? @color : @pattern.color_at_object(object, point)
     end
 
     def diffuse_lighting(effective_color, light_dot_normal)

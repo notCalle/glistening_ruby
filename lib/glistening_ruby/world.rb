@@ -42,7 +42,8 @@ module GlisteningRuby
       normalv = comps.normalv
       @lights.reduce(Color::BLACK) do |color, light|
         shadow = shadowed?(point, light)
-        color + material.lighting(light, point, eyev, normalv, shadow)
+        color + material.lighting(comps.object, light, point,
+                                  eyev, normalv, shadow)
       end
     end
 

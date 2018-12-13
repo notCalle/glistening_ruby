@@ -3,6 +3,7 @@ Feature: Surface materials
     Background:
 
         Given m := Material[]
+          And shape := Sphere[]
           And c := Color[1, 1, 1]
           And position := Point[0, 0, 0]
           And normalv := Vector[0, 0, -1]
@@ -20,7 +21,7 @@ Feature: Surface materials
         Given eyev := Vector[0, 0, -1]
           And p := Point[0, 0, -10]
          When light := PointLight[p, c]
-          And result := m.lighting light, position, eyev, normalv
+          And result := m.lighting shape, light, position, eyev, normalv
          Then result = Color[1.9, 1.9, 1.9]
 
     Scenario: Lighting with the eye between the light and surface, offset 45°
@@ -28,7 +29,7 @@ Feature: Surface materials
         Given eyev := Vector[0, √2/2, -√2/2]
           And p := Point[0, 0, -10]
          When light := PointLight[p, c]
-          And result := m.lighting light, position, eyev, normalv
+          And result := m.lighting spahe, light, position, eyev, normalv
          Then result = Color[1.0, 1.0, 1.0]
 
     Scenario: Lighting with eye opposite surface, light offset 45°
@@ -36,7 +37,7 @@ Feature: Surface materials
         Given eyev := Vector[0, 0, -1]
           And p := Point[0, 10, -10]
          When light := PointLight[p, c]
-          And result := m.lighting light, position, eyev, normalv
+          And result := m.lighting shape, light, position, eyev, normalv
          Then result = Color[0.7364, 0.7364, 0.7364]
 
     Scenario: Lighting with eye opposite surface, light offset 45°
@@ -44,7 +45,7 @@ Feature: Surface materials
         Given eyev := Vector[0, -√2/2, -√2/2]
           And p := Point[0, 10, -10]
          When light := PointLight[p, c]
-          And result := m.lighting light, position, eyev, normalv
+          And result := m.lighting shape, light, position, eyev, normalv
          Then result = Color[1.6364, 1.6364, 1.6364]
 
     Scenario: Lighting with the light behind the surface
@@ -52,7 +53,7 @@ Feature: Surface materials
         Given eyev := Vector[0, 0, -1]
           And p := Point[0, 0, 10]
          When light := PointLight[p, c]
-          And result := m.lighting light, position, eyev, normalv
+          And result := m.lighting shape, light, position, eyev, normalv
          Then result = Color[0.1, 0.1, 0.1]
 
     Scenario: Lighting with the surface in shadow
@@ -62,7 +63,7 @@ Feature: Surface materials
           And p := Point[0, 0, -10]
           And light := PointLight[p, c]
           And inshadow := true
-         When result := m.lighting light, position, eyev, normalv, inshadow
+         When result := m.lighting shape, light, position, eyev, normalv, inshadow
          Then result = Color[0.1, 0.1, 0.1]
 
     Scenario: Lighting with a pattern applied
@@ -79,7 +80,7 @@ Feature: Surface materials
           And light := PointLight[p]
           And p1 := Point[0.9, 0, 0]
           And p2 := Point[1.1, 0, 0]
-         When c1 := m.lighting light, p1, eyev, normalv
-          And c2 := m.lighting light, p2, eyev, normalv
+         When c1 := m.lighting shape, light, p1, eyev, normalv
+          And c2 := m.lighting shape, light, p2, eyev, normalv
          Then c1 = white
           And c2 = black
