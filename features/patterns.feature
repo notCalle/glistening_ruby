@@ -4,7 +4,7 @@ Feature: Color Patterns
 
         Given black := Color[0, 0, 0]
           And white := Color[1, 1, 1]
-@wip
+
     Scenario: Creating a stripe pattern
 
         Given pattern := StripePattern[white, black]
