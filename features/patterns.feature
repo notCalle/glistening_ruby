@@ -37,4 +37,31 @@ Feature: Color Patterns
         | 1, 0, 0       | black |
         | -0.1, 0, 0    | black |
         | -1.1, 0, 0    | white |
+@wip
+    Scenario: Stripes with an object transformation
 
+        Given shape := Sphere[]
+          And shape.transform= Scaling[2, 2, 2]
+          And pattern := StripePattern[white, black]
+          And p := Point[1.5, 0, 0]
+         When c := pattern.color_at_object shape, p
+         Then c = white
+@wip
+    Scenario: Stripes with a pattern transformation
+
+        Given shape := Sphere[]
+          And pattern := StripePattern[white, black]
+          And pattern.transform= Scaling[2, 2, 2]
+          And p := Point[1.5, 0, 0]
+         When c := pattern.color_at_object shape, p
+         Then c = white
+@wip
+    Scenario: Stripes with both an object and a pattern transformation
+
+        Given shape := Sphere[]
+          And shape.transform= Scaling[2, 2, 2]
+          And pattern := StripePattern[white, black]
+          And pattern.transform= Translation[0.5, 0, 0]
+          And p := Point[2.5, 0, 0]
+         When c := pattern.color_at_object shape, p
+         Then c = white

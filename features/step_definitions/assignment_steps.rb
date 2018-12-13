@@ -68,6 +68,13 @@ end
 
 Given(
   '{variable} := {variable}.{method}'\
+  ' {variable}, {variable}'
+) do |a, b, method, *args|
+  seval(a, :'=', b, method, *args)
+end
+
+Given(
+  '{variable} := {variable}.{method}'\
   ' {variable}, {variable}, {variable}, {variable}'
 ) do |a, b, method, *args|
   seval(a, :'=', b, method, *args)
