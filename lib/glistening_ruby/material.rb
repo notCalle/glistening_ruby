@@ -15,7 +15,7 @@ module GlisteningRuby
       super
     end
 
-    attr_accessor :ambient, :diffuse, :shininess, :specular
+    attr_accessor :ambient, :diffuse, :pattern, :shininess, :specular
 
     attr_reader :color
     def color=(new_color)
@@ -32,7 +32,7 @@ module GlisteningRuby
     end
 
     def lighting(light, point, eyev, normalv, in_shadow = false)
-      effective_color = @color * light.intensity
+      effective_color = color_at(point) * light.intensity
       ambient = effective_color * @ambient
       return ambient if in_shadow
 
@@ -46,6 +46,10 @@ module GlisteningRuby
     end
 
     private
+
+    def color_at(point)
+      @pattern.nil? ? @color : @pattern.color_at(point)
+    end
 
     def diffuse_lighting(effective_color, light_dot_normal)
       effective_color * @diffuse * light_dot_normal

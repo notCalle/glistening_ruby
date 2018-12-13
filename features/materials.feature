@@ -64,7 +64,7 @@ Feature: Surface materials
           And inshadow := true
          When result := m.lighting light, position, eyev, normalv, inshadow
          Then result = Color[0.1, 0.1, 0.1]
-@wip
+
     Scenario: Lighting with a pattern applied
 
         Given white := Color[1, 1, 1]
