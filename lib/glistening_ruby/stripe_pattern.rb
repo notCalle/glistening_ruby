@@ -11,5 +11,9 @@ module GlisteningRuby
     end
 
     attr_reader :a, :b
+
+    def color_at(point)
+      (point.x.floor % 2).zero? ? @a : @b
+    end
   end
 end

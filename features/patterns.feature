@@ -10,12 +10,12 @@ Feature: Color Patterns
         Given pattern := StripePattern[white, black]
          Then pattern.a = white
           And pattern.b = black
-@wip
+
     Scenario Outline: A stripe pattern versus axis translation
 
         Given pattern := StripePattern[white, black]
           And p := Point[<point>]
-         When c := pattern.stripe_at p
+         When c := pattern.color_at p
          Then c = <color>
 
     Examples: Constant in Y
