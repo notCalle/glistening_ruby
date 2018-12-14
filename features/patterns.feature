@@ -90,3 +90,17 @@ Feature: Color Patterns
         | 0.25, 0, 0    | 0.75, 0.75, 0.75  |
         | 0.5, 0, 0     | 0.5, 0.5, 0.5     |
         | 0.75, 0, 0    | 0.25, 0.25, 0.25  |
+@wip
+    Scenario Outline: A ring should extend in both X and Z
+
+        Given pattern := RingPattern[white, black]
+          And point := Point[<point>]
+         When color := pattern.color_at point
+         Then color = Color[<color>]
+
+    Examples:
+        | point             | color     |
+        | 0, 0, 0           | 1, 1, 1   |
+        | 1, 0, 0           | 0, 0, 0   |
+        | 0, 0, 1           | 0, 0, 0   |
+        | 0.807, 0, 0.708   | 0, 0, 0   |
