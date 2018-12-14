@@ -76,7 +76,7 @@ Feature: Color Patterns
         Given pattern := TestPattern[]
          When pattern.transform= Translation[1, 2, 3]
          Then pattern.transform = Translation[1, 2, 3]
-@wip
+
     Scenario Outline: A gradient linearly interpolates between colors
 
         Given pattern := GradientPattern[white, black]
