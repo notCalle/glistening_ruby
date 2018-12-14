@@ -91,6 +91,10 @@ module GlisteningRuby
       ]
     end
 
+    def interpolate(other, fraction)
+      self + (other - self) * fraction
+    end
+
     def magnitude
       (@x * @x + @y * @y + @z * @z + @w * @w)**0.5
     end
