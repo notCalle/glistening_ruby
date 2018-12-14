@@ -76,3 +76,17 @@ Feature: Color Patterns
         Given pattern := TestPattern[]
          When pattern.transform= Translation[1, 2, 3]
          Then pattern.transform = Translation[1, 2, 3]
+@wip
+    Scenario Outline: A gradient linearly interpolates between colors
+
+        Given pattern := GradientPattern[white, black]
+          And point := Point[<point>]
+         When color := pattern.color_at point
+         Then color := Color[<color>]
+
+    Examples:
+        | point         | color             |
+        | 0, 0, 0       | 1.0, 1.0, 1.0     |
+        | 0.25, 0, 0    | 0.75, 0.75, 0.75  |
+        | 0.5, 0, 0     | 0.5, 0.5, 0.5     |
+        | 0.75, 0, 0    | 0.25, 0.25, 0.25  |
