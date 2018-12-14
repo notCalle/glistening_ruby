@@ -104,7 +104,7 @@ Feature: Color Patterns
         | 1, 0, 0           | black |
         | 0, 0, 1           | black |
         | 0.807, 0, 0.708   | black |
-@wip
+
     Scenario Outline: Checkers repeat in all axes
 
         Given pattern := CheckersPattern[white, black]
