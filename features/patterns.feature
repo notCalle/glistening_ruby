@@ -96,11 +96,37 @@ Feature: Color Patterns
         Given pattern := RingPattern[white, black]
           And point := Point[<point>]
          When color := pattern.color_at point
-         Then color = Color[<color>]
+         Then color = <color>
 
     Examples:
-        | point             | color     |
-        | 0, 0, 0           | 1, 1, 1   |
-        | 1, 0, 0           | 0, 0, 0   |
-        | 0, 0, 1           | 0, 0, 0   |
-        | 0.807, 0, 0.708   | 0, 0, 0   |
+        | point             | color |
+        | 0, 0, 0           | white |
+        | 1, 0, 0           | black |
+        | 0, 0, 1           | black |
+        | 0.807, 0, 0.708   | black |
+@wip
+    Scenario Outline: Checkers repeat in all axes
+
+        Given pattern := CheckersPattern[white, black]
+          And point := Point[<point>]
+         When color := pattern.color_at point
+         Then color = <color>
+
+    Examples: repeating in X
+        | point         | color |
+        | 0, 0, 0       | white |
+        | 0.99, 0, 0    | white |
+        | 1.01, 0, 0    | black |
+
+    Examples: repeating in Y
+        | point         | color |
+        | 0, 0, 0       | white |
+        | 0, 0.99, 0    | white |
+        | 0, 1.01, 0    | black |
+
+    Examples: repeating in Z
+        | point         | color |
+        | 0, 0, 0       | white |
+        | 0, 0, 0.99    | white |
+        | 0, 0, 1.01    | black |
+
