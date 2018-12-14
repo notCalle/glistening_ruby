@@ -21,7 +21,7 @@ module GlisteningRuby
         c = @pigments.count - 1
         p = g.floor % c
         a, b = @pigments[p..p + 1]
-        a.interpolate(b, constrain(g - p))
+        a.interpolate(b, g % 1)
       end
 
       def color_at_object(object, point)
@@ -37,15 +37,7 @@ module GlisteningRuby
       # :call-seq:
       #    grade(point) => scalar
       #
-      def grade(point)
-        point.x
-      end
-
-      # Constrain a value 0 <= constrain(value) <= 1
-      #
-      # :call-seq:
-      #    constrain(scalar) => scalar
-      def constrain(_value)
+      def grade(_point)
         raise NotImplementedError
       end
     end

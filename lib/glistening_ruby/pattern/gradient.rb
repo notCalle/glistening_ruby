@@ -8,8 +8,8 @@ module GlisteningRuby
     class Gradient < Base
       private
 
-      def constrain(value)
-        value % 1
+      def grade(point)
+        point.x
       end
     end
   end

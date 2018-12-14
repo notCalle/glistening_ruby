@@ -8,8 +8,8 @@ module GlisteningRuby
     class Stripe < Base
       private
 
-      def constrain(value)
-        value.floor % 2
+      def grade(point)
+        point.x.floor
       end
     end
   end
