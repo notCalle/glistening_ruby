@@ -130,3 +130,16 @@ Feature: Color Patterns
         | 0, 0, 0.99    | white |
         | 0, 0, 1.01    | black |
 
+    Scenario Outline: A tri-color pattern
+
+        Given gray := Color[0.5, 0.5, 0.5]
+          And pattern := StripePattern[white, gray, black]
+          And point := Point[<point>]
+         When color := pattern.color_at point
+         Then color = <color>
+
+    Examples:
+        | point     | color |
+        | 0.5, 0, 0 | white |
+        | 1.5, 0, 0 | gray  |
+        | 2.5, 0, 0 | black |
