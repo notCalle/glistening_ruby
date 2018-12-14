@@ -38,30 +38,41 @@ Feature: Color Patterns
         | -0.1, 0, 0    | black |
         | -1.1, 0, 0    | white |
 
-    Scenario: Stripes with an object transformation
+    Scenario: Pattern with an object transformation
 
         Given shape := Sphere[]
           And shape.transform= Scaling[2, 2, 2]
-          And pattern := StripePattern[white, black]
-          And p := Point[1.5, 0, 0]
+          And pattern := TestPattern[]
+          And p := Point[2, 3, 4]
          When c := pattern.color_at_object shape, p
-         Then c = white
+         Then c = Color[1, 1.5, 2]
 
-    Scenario: Stripes with a pattern transformation
+    Scenario: Pattern with a pattern transformation
 
         Given shape := Sphere[]
-          And pattern := StripePattern[white, black]
+          And pattern := TestPattern[]
           And pattern.transform= Scaling[2, 2, 2]
-          And p := Point[1.5, 0, 0]
+          And p := Point[2, 3, 4]
          When c := pattern.color_at_object shape, p
-         Then c = white
+         Then c = Color[1, 1.5, 2]
 
-    Scenario: Stripes with both an object and a pattern transformation
+    Scenario: Pattern with both an object and a pattern transformation
 
         Given shape := Sphere[]
           And shape.transform= Scaling[2, 2, 2]
-          And pattern := StripePattern[white, black]
-          And pattern.transform= Translation[0.5, 0, 0]
-          And p := Point[2.5, 0, 0]
+          And pattern := TestPattern[]
+          And pattern.transform= Translation[0.5, 1, 1.5]
+          And p := Point[2.5, 3, 3.5]
          When c := pattern.color_at_object shape, p
-         Then c = white
+         Then c = Color[0.75, 0.5, 0.25]
+
+    Scenario: The default pattern transformation
+
+        Given pattern := TestPattern[]
+         Then pattern.transform is the identity matrix
+
+    Scenario: Assigning a transformation
+
+        Given pattern := TestPattern[]
+         When pattern.transform= Translation[1, 2, 3]
+         Then pattern.transform = Translation[1, 2, 3]
