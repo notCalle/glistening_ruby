@@ -1,31 +1,21 @@
 # frozen_string_literal: true
 
-require_relative 'base'
 require_relative 'intersection'
 require_relative 'intersections'
 require_relative 'matrix'
 require_relative 'material'
 require_relative 'point'
+require_relative 'transformable'
 
 module GlisteningRuby
-  # Abstrace base shape
-  class Shape < Base
+  # Abstract base shape
+  class Shape < Transformable
     def initialize
-      @transform = Matrix::IDENTITY
-      @inverse = Matrix::IDENTITY
-      @inverse_transpose = Matrix::IDENTITY
       @material = Material[]
       super
     end
 
     attr_accessor :material
-    attr_reader :transform, :inverse
-
-    def transform=(transform)
-      @transform = transform
-      @inverse = transform.inverse
-      @inverse_transpose = transform.submatrix(3, 3).inverse.transpose
-    end
 
     def intersect(ray)
       Intersections.new(*intersections(ray.transform(@inverse)))
