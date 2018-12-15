@@ -73,6 +73,10 @@ module GlisteningRuby
       self.class.new(@x / other, @y / other, @z / other, @w / other)
     end
 
+    def **(other)
+      self.class.new(@x**other, @y**other, @z**other, @w**other)
+    end
+
     def -@
       self.class.new(-@x, -@y, -@z, -@w)
     end
