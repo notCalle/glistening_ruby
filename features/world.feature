@@ -92,4 +92,19 @@ Feature: A scene world
          When comps := i.prepare r
           And color := w.reflected_color comps
          Then color = Color[0, 0, 0]
+@wip
+    Scenario: The reflected color for a reflective material
 
+        Given w is the default world
+          And shape := Plane[]
+          And shape.transform= Translation[0, -1, 0]
+          And m := shape.material
+          And m.reflective= 0.5
+          And shape is added to w
+          And p := Point[0, 0, -3]
+          And v := Vector[0, -√2/2, √2/2]
+          And r := Ray[p, v]
+          And i := Intersection[√2, shape]
+         When comps := i.prepare r
+          And color := w.reflected_color comps
+         Then color = Color[0.19033, 0.23792, 0.14274]
