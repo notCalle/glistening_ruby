@@ -204,3 +204,10 @@ Feature: Color Patterns
         | geometric     | 1, 0, 0   | 0.70711, 0.70711, 0.70711 |
         | geometric     | 0, 0, 1   | 0, 0, 0                   |
         | geometric     | 1, 0, 1   | 0, 0, 0                   |
+@wip
+    Examples: Quadratic mean blends the colors quadratically
+        | blend mode    | point     | color                     |
+        | quadratic     | 0, 0, 0   | 1, 1, 1                   |
+        | quadratic     | 1, 0, 0   | 0.79057, 0.79057, 0.79057 |
+        | quadratic     | 0, 0, 1   | 0.70711, 0.70711, 0.70711 |
+        | quadratic     | 1, 0, 1   | 0.35355, 0.35355, 0.35355 |
