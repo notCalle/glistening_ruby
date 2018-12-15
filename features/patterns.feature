@@ -197,7 +197,7 @@ Feature: Color Patterns
         | arithmetic    | 1, 0, 0   | 0.75, 0.75, 0.75  |
         | arithmetic    | 0, 0, 1   | 0.5, 0.5, 0.5     |
         | arithmetic    | 1, 0, 1   | 0.25, 0.25, 0.25  |
-@wip
+
     Examples: Geometric mean blends the colors geometrically
         | blend mode    | point     | color                     |
         | geometric     | 0, 0, 0   | 1, 1, 1                   |

@@ -33,6 +33,11 @@ module GlisteningRuby
       def arithmetic(pigments)
         pigments.reduce(&:+) / pigments.count
       end
+
+      # Geometric mean of the blended pigments
+      def geometric(pigments)
+        pigments.reduce(&:*)**(1.0 / pigments.count)
+      end
     end
   end
 end
