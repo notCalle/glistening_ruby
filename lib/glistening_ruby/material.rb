@@ -10,12 +10,14 @@ module GlisteningRuby
       @ambient = 0.1
       @color = Color[1, 1, 1]
       @diffuse = 0.9
+      @reflective = 0.0
       @shininess = 200
       @specular = 0.9
       super
     end
 
-    attr_accessor :ambient, :diffuse, :pattern, :shininess, :specular
+    attr_accessor :ambient, :diffuse, :pattern, :reflective
+    attr_accessor :shininess, :specular
 
     attr_reader :color
     def color=(new_color)

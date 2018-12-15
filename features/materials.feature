@@ -84,7 +84,7 @@ Feature: Surface materials
           And c2 := m.lighting shape, light, p2, eyev, normalv
          Then c1 = white
           And c2 = black
-@wip
+
     Scenario: Reflectivity for the default material
 
         Then m.reflective = 0.0
