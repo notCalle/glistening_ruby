@@ -179,7 +179,7 @@ Feature: Color Patterns
         | 0.5, 0, 0 | black |
         | 1, 0, 0   | blue  |
         | 0.5, 0, 1 | pink  |
-@wip
+
     Scenario Outline: Blending patterns
 
         Given pattern1 := StripePattern[white, black]
