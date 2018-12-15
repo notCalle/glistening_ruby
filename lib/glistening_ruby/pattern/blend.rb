@@ -18,8 +18,8 @@ module GlisteningRuby
 
       def color_at(point)
         point = to_local(point)
-        pigments = @pigments[0..-2].map { |p| p.color_at(point) }
-        @method.call(pigments)
+        colors = @pigments[0..-2].map { |p| p.color_at(point) }
+        @method.call(colors)
       end
     end
 
@@ -29,14 +29,19 @@ module GlisteningRuby
         instance_method(method).bind(self)
       end
 
-      # Arithmetic mean of the blended pigments
-      def arithmetic(pigments)
-        pigments.reduce(&:+) / pigments.count
+      # Arithmetic mean of the blended colors
+      def arithmetic(colors)
+        colors.reduce(&:+) / colors.count
       end
 
-      # Geometric mean of the blended pigments
-      def geometric(pigments)
-        pigments.reduce(&:*)**(1.0 / pigments.count)
+      # Geometric mean of the blended colors
+      def geometric(colors)
+        colors.reduce(&:*)**(1.0 / colors.count)
+      end
+
+      # Quadratic mean of the blended colors
+      def quadratic(colors)
+        (colors.map { |p| p**2 }.reduce(&:+) / colors.count)**0.5
       end
     end
   end
