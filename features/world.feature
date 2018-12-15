@@ -78,8 +78,8 @@ Feature: A scene world
          When comps := i.prepare r
           And c := w.shade_hit comps
          Then c = Color[0.1, 0.1, 0.1]
-@wip
-    Scenario: THe reflected color for a non-reflective material
+
+    Scenario: The reflected color for a non-reflective material
 
         Given w is the default world
           And p := Point[0, 0, 0]

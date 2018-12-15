@@ -43,6 +43,10 @@ module GlisteningRuby
       @lights = [light]
     end
 
+    def reflected_color(comps)
+      return Color::BLACK if comps.object.material.reflective.zero?
+    end
+
     def shade_hit(comps)
       material = comps.object.material
       point = comps.point
