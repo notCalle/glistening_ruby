@@ -160,7 +160,7 @@ Feature: Color Patterns
         | 0, 0, 1       | 0, 0, 0                   |
         | 0.5, 0, 0     | 0.5, 0.5, 0.5             |
         | -0.5, 0, -0.5 | 0.29289, 0.29289, 0.29289 |
-@wip
+
     Scenario Outline: Nesting patterns within patterns
 
         Given pattern1 := StripePattern[white, black]

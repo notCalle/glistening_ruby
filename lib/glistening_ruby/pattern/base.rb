@@ -7,8 +7,13 @@ module GlisteningRuby
   module Pattern
     # An abstract base class for patterns
     class Base < Transformable
+      # :call-seq:
+      #   new(pigment, ...) => Pattern
+      #
+      # A pigment must respond to #color_at(point) => Color
+      #
       def initialize(*pigments)
-        @pigments = pigments.map { |p| p.is_a?(Tuple) ? p : Color[*p] }
+        @pigments = pigments.map { |p| p.is_a?(Array) ? Color.new(*p) : p }
         @pigments << @pigments[0]
         @a, @b = @pigments[0..1]
         super
@@ -25,8 +30,8 @@ module GlisteningRuby
         point = to_local(point)
         g = grade(point)
         c = @pigments.count - 1
-        p = g.floor % c
-        a, b = @pigments[p..p + 1]
+        n = g.floor % c
+        a, b = @pigments[n..n + 1].map { |p| p.color_at(point) }
         a.interpolate(b, g % 1)
       end
 
