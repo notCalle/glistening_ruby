@@ -18,6 +18,14 @@ module GlisteningRuby
 
     attr_accessor :lights, :objects
 
+    def <<(thing)
+      if thing.is_a?(PointLight)
+        @lights << thing
+      else
+        @objects << thing
+      end
+    end
+
     def color_at(ray)
       hit = intersect(ray).hit
       return shade_hit(hit.prepare(ray)) if hit
@@ -42,7 +50,8 @@ module GlisteningRuby
       normalv = comps.normalv
       @lights.reduce(Color::BLACK) do |color, light|
         shadow = shadowed?(point, light)
-        color + material.lighting(light, point, eyev, normalv, shadow)
+        color + material.lighting(comps.object, light, point,
+                                  eyev, normalv, shadow)
       end
     end
 

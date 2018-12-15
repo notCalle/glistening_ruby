@@ -4,15 +4,19 @@ require_relative 'tuple'
 
 module GlisteningRuby
   # Helper for creating and identifying RGB Colors as 4D Tuples
-  module Color
-    def self.[](red, green, blue)
-      Tuple[red, green, blue, 0.0]
+  class Color < Tuple
+    def new(_red, _green, _blue, _alpha = 0.0)
+      super
+    end
+
+    def color_at(_point)
+      self
     end
   end
 
-  Color::BLACK = Color[0, 0, 0]
-  Color::WHITE = Color[1, 1, 1]
-  Color::RED   = Color[1, 0, 0]
-  Color::GREEN = Color[0, 1, 0]
-  Color::BLUE  = Color[0, 0, 1]
+  Color::BLACK = Color.new(0, 0, 0)
+  Color::WHITE = Color.new(1, 1, 1)
+  Color::RED   = Color.new(1, 0, 0)
+  Color::GREEN = Color.new(0, 1, 0)
+  Color::BLUE  = Color.new(0, 0, 1)
 end

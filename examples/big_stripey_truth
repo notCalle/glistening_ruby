@@ -1,0 +1,95 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'glistening_ruby'
+
+# Draw sphere with lighting
+class Main < GlisteningRuby::Base
+  include GlisteningRuby
+
+  def initialize
+    @world = scene
+  end
+
+  def scene
+    World.new do |world|
+      setup_floor(world)
+      setup_spheres(world)
+      world.light = PointLight[Point[0, 10, -10]]
+    end
+  end
+
+  def setup_floor(world)
+    world.objects << Plane.new do |p|
+      p.material = wall_material
+    end
+  end
+
+  def wall_material
+    Material.new do |m|
+      m.pattern = StripePattern.new([1.0, 0.9, 0.9], [0.0, 0.1, 0.1])
+      m.specular = 0
+    end
+  end
+
+  def setup_spheres(world)
+    [
+      {
+        transform: identity.translate(-0.5, 1, 0.5),
+        material: Material.new do |m|
+          m.pattern = StripePattern.new([0.1, 1.0, 0.5], [0.9, 0.0, 0.5])
+          m.pattern.transform = identity.rotate_z('1/8'.to_r).scale(0.33)
+          m.diffuse = 0.7
+          m.specular = 0.3
+        end
+      },
+      {
+        transform: identity.scale(0.5).translate(1.5, 0.5, -0.5),
+        material: Material.new do |m|
+          m.pattern = StripePattern.new([0.5, 1.0, 0.1], [0.5, 0.0, 0.9])
+          m.pattern.transform = identity.rotate_z('1/4'.to_r)
+          m.diffuse = 0.7
+          m.specular = 0.3
+        end
+      },
+      {
+        transform: identity.scale(0.33).translate(-1.5, 0.33, -0.75),
+        material: Material.new do |m|
+          m.pattern = StripePattern.new([1.0, 0.8, 0.1], [0.0, 0.2, 0.9])
+          m.pattern.transform =
+            identity.rotate_z('1/8'.to_r).rotate_x('1/4'.to_r)
+          m.diffuse = 0.7
+          m.specular = 0.3
+        end
+      }
+    ].each.with_object(world.objects) do |cfg, objs|
+      objs << Sphere.new do |s|
+        s.transform = cfg[:transform]
+        s.material = cfg[:material]
+      end
+    end
+  end
+
+  def render(width = 256, height = width)
+    camera = Camera.new(width, height, '1/6'.to_r) do |c|
+      c.transform = ViewTransform[
+        Point[2, 1.5, -3.5],
+        Point[0, 1, 0],
+        Vector[0, 1, 0]
+      ]
+    end
+
+    @canvas = camera.render(@world)
+    self
+  end
+
+  def save(filename)
+    File.open(filename, 'w') do |file|
+      @canvas.to_ppm(file)
+    end
+  end
+end
+
+require 'pry'
+Pry.start Main.new

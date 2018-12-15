@@ -54,11 +54,11 @@ module GlisteningRuby
     end
 
     def +(other)
-      Tuple[@x + other.x, @y + other.y, @z + other.z, @w + other.w]
+      self.class.new(@x + other.x, @y + other.y, @z + other.z, @w + other.w)
     end
 
     def -(other)
-      Tuple[@x - other.x, @y - other.y, @z - other.z, @w - other.w]
+      self.class.new(@x - other.x, @y - other.y, @z - other.z, @w - other.w)
     end
 
     def *(other)
@@ -70,11 +70,15 @@ module GlisteningRuby
     end
 
     def /(other)
-      Tuple[@x / other, @y / other, @z / other, @w / other]
+      self.class.new(@x / other, @y / other, @z / other, @w / other)
+    end
+
+    def **(other)
+      self.class.new(@x**other, @y**other, @z**other, @w**other)
     end
 
     def -@
-      Tuple[-@x, -@y, -@z, -@w]
+      self.class.new(-@x, -@y, -@z, -@w)
     end
 
     def dot(other)
@@ -89,6 +93,10 @@ module GlisteningRuby
         @z * other.x - @x * other.z,
         @x * other.y - @y * other.x
       ]
+    end
+
+    def interpolate(other, fraction)
+      self + (other - self) * fraction
     end
 
     def magnitude
@@ -114,11 +122,11 @@ module GlisteningRuby
     end
 
     def hadamard_product(other)
-      Tuple[@x * other.x, @y * other.y, @z * other.z, @w * other.w]
+      self.class.new(@x * other.x, @y * other.y, @z * other.z, @w * other.w)
     end
 
     def scalar_product(other)
-      Tuple[@x * other, @y * other, @z * other, @w * other]
+      self.class.new(@x * other, @y * other, @z * other, @w * other)
     end
   end
 end

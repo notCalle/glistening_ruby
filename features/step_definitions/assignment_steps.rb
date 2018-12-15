@@ -68,6 +68,13 @@ end
 
 Given(
   '{variable} := {variable}.{method}'\
+  ' {variable}, {variable}'
+) do |a, b, method, *args|
+  seval(a, :'=', b, method, *args)
+end
+
+Given(
+  '{variable} := {variable}.{method}'\
   ' {variable}, {variable}, {variable}, {variable}'
 ) do |a, b, method, *args|
   seval(a, :'=', b, method, *args)
@@ -76,6 +83,13 @@ end
 Given(
   '{variable} := {variable}.{method}'\
   ' {variable}, {variable}, {variable}, {variable}, {variable}'
+) do |a, b, method, *args|
+  seval(a, :'=', b, method, *args)
+end
+
+Given(
+  '{variable} := {variable}.{method}'\
+  ' {variable}, {variable}, {variable}, {variable}, {variable}, {variable}'
 ) do |a, b, method, *args|
   seval(a, :'=', b, method, *args)
 end
@@ -102,6 +116,24 @@ When(
   '{variable}.{method} {variable}'
 ) do |a, method, b|
   seval(a, method, b)
+end
+
+When(
+  '{variable}.{method} {string}'
+) do |a, method, b|
+  seval(a, method, b)
+end
+
+Given(
+  '{variable}.{method} {class}[{variable}, {variable}]'
+) do |var, method, klass, *tuple|
+  seval(var, method, klass[*tuple.map { |v| seval(v) }])
+end
+
+Given(
+  '{variable}.{method} {class}[{scalar}]'
+) do |var, method, klass, *tuple|
+  seval(var, method, klass[*tuple])
 end
 
 Given(

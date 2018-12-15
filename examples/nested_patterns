@@ -1,0 +1,125 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'glistening_ruby'
+
+# Draw sphere with lighting
+class Main < GlisteningRuby::Base # rubocop:disable Metrics/ClassLength
+  include GlisteningRuby
+
+  def initialize
+    @world = scene
+  end
+
+  def scene
+    World.new do |world|
+      setup_floor(world)
+      setup_spheres(world)
+      world << PointLight[Point[0, 10, -10], Color.new(0.4, 0.5, 0.7)]
+      world << PointLight[Point[5, 5, -10], Color.new(0.7, 0.5, 0.4)]
+    end
+  end
+
+  def setup_floor(world)
+    world << Plane.new do |p|
+      p.material = floor_material
+    end
+  end
+
+  def stripe_pattern1
+    Pattern::Stripe.new do |p|
+      p << Color.new(0.3, 0.3, 0.3)
+      p << Color.new(0.7, 0.7, 0.7)
+      p.transform = identity.rotate_y('1/8'.to_r).scale('1/8'.to_r**0.5)
+    end
+  end
+
+  def stripe_pattern2
+    Pattern::Stripe.new do |p|
+      p << Color.new(0.7, 0.3, 0.2)
+      p << Color.new(0.2, 0.3, 0.7)
+      p.transform = identity.rotate_y('-1/8'.to_r).scale('1/8'.to_r**0.5)
+    end
+  end
+
+  def floor_material
+    Material.new do |m|
+      m.pattern = Pattern::Checkers.new do |p|
+        p << stripe_pattern1
+        p << stripe_pattern2
+        p.transform = identity.scale(2)
+      end
+      m.specular = 0
+    end
+  end
+
+  def setup_spheres(world)
+    [
+      {
+        transform: identity.translate(-0.5, 1, 0.5),
+        material: Material.new do |m|
+          p1 = Pattern::Checkers.new([0.1, 1.0, 0.5], [0.9, 0.0, 0.5]) do |p|
+            p.transform = identity.rotate_z('1/4'.to_r)
+          end
+          p2 = Pattern::Checkers.new([0.5, 0.1, 1.0], [0.5, 0.9, 0.0]) do |p|
+            p.transform = identity.rotate_z('1/4'.to_r)
+          end
+          m.pattern = Pattern::Gradient.new(p1, p2) do |p|
+            p.transform = identity.rotate_y('1/8'.to_r).scale(2)
+          end
+          m.diffuse = 0.7
+          m.specular = 0.3
+        end
+      },
+      {
+        transform: identity.scale(0.5).translate(1.5, 0.5, -0.5),
+        material: Material.new do |m|
+          m.pattern = Pattern::Gradient.new([0.8, 0.8, 0.2],
+                                            [0.8, 0.2, 0.8],
+                                            [0.2, 0.8, 0.2])
+          m.pattern.transform = identity.rotate_z('1/8'.to_r)
+          m.diffuse = 0.7
+          m.specular = 0.3
+        end
+      },
+      {
+        transform: identity.scale(0.33).translate(-1.5, 0.33, -0.75),
+        material: Material.new do |m|
+          m.pattern = Pattern::Stripe.new([1.0, 0.8, 0.1], [0.0, 0.2, 0.9])
+          m.pattern.transform =
+            identity.rotate_z('1/8'.to_r).rotate_x('1/4'.to_r).scale(0.33)
+          m.diffuse = 0.7
+          m.specular = 0.3
+        end
+      }
+    ].each do |cfg|
+      world << Sphere.new do |s|
+        s.transform = cfg[:transform]
+        s.material = cfg[:material]
+      end
+    end
+  end
+
+  def render(width = 320, height = 256)
+    camera = Camera.new(width, height, '1/8'.to_r) do |c|
+      c.transform = ViewTransform[
+        Point[3, 2, -5],
+        Point[0, 1, 0],
+        Vector[0, 1, 0]
+      ]
+    end
+
+    @canvas = camera.render(@world)
+    self
+  end
+
+  def save(filename)
+    File.open(filename, 'w') do |file|
+      @canvas.to_ppm(file)
+    end
+  end
+end
+
+require 'pry'
+Pry.start Main.new
