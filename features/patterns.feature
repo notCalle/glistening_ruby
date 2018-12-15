@@ -3,6 +3,9 @@ Feature: Color Patterns
     Background: We have two colors
 
         Given black := Color[0, 0, 0]
+          And blue := Color[0.2, 0.5, 0.8]
+          And gray := Color[0.5, 0.5, 0.5]
+          And pink := Color[0.8, 0.3, 0.4]
           And white := Color[1, 1, 1]
 
     Scenario: Creating a stripe pattern
@@ -132,7 +135,6 @@ Feature: Color Patterns
 
     Scenario Outline: A tri-color pattern
 
-        Given gray := Color[0.5, 0.5, 0.5]
           And pattern := StripePattern[white, gray, black]
           And point := Point[<point>]
          When color := pattern.color_at point
@@ -158,3 +160,22 @@ Feature: Color Patterns
         | 0, 0, 1       | 0, 0, 0                   |
         | 0.5, 0, 0     | 0.5, 0.5, 0.5             |
         | -0.5, 0, -0.5 | 0.29289, 0.29289, 0.29289 |
+@wip
+    Scenario Outline: Nesting patterns within patterns
+
+        Given pattern1 := StripePattern[white, black]
+          And pattern1.transform= Scaling[1/2, 1/2, 1/2]
+          And pattern2 := StripePattern[blue, pink]
+          And pattern2.transform= Scaling[1/2, 1/2, 1/2]
+          And composite := CheckersPattern[pattern1, pattern2]
+          And shape := Sphere[]
+          And point := Point[<point>]
+         When color := composite.color_at_object shape, point
+         Then color = <color>
+
+    Examples:
+        | point     | color |
+        | 0, 0, 0   | white |
+        | 0.5, 0, 0 | black |
+        | 1, 0, 0   | blue  |
+        | 0.5, 0, 1 | pink  |
