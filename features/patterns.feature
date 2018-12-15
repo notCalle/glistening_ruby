@@ -143,3 +143,18 @@ Feature: Color Patterns
         | 0.5, 0, 0 | white |
         | 1.5, 0, 0 | gray  |
         | 2.5, 0, 0 | black |
+@wip
+    Scenario Outline: A radial gradient pattern
+
+        Given pattern := RadialPattern[white, black]
+          And point := Point[<point>]
+         When color := pattern.color_at point
+         Then color = Color[<color>]
+
+    Examples:
+        | point         | color                     |
+        | 0, 0, 0       | 1, 1, 1                   |
+        | 1, 0, 0       | 0, 0, 0                   |
+        | 0, 0, 1       | 0, 0, 0                   |
+        | 0.5, 0, 0     | 0.5, 0.5, 0.5             |
+        | -0.5, 0, -0.5 | 0.29289, 0.29289, 0.29289 |
