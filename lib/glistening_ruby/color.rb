@@ -8,6 +8,9 @@ module GlisteningRuby
     def new(_red, _green, _blue, _alpha = 0.0)
       super
     end
+
+    def color_at(_point)
+      self
     end
   end
 
