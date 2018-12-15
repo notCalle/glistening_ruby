@@ -6,6 +6,6 @@ require 'glistening_ruby/pattern/base'
 # Test subclass of pattern
 class TestPattern < GlisteningRuby::Pattern::Base
   def color_at(point)
-    Color[*point.xyz]
+    Color.new(*to_local(point).xyz)
   end
 end

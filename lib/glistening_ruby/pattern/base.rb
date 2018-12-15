@@ -16,7 +16,13 @@ module GlisteningRuby
 
       attr_reader :a, :b
 
+      # Transform outside space to pattern space and find color
+      #
+      # :call-seq:
+      #   color_at(object_point) => Color
+      #
       def color_at(point)
+        point = to_local(point)
         g = grade(point)
         c = @pigments.count - 1
         p = g.floor % c
@@ -24,10 +30,13 @@ module GlisteningRuby
         a.interpolate(b, g % 1)
       end
 
+      # Tranform world reference to object reference and find color
+      #
+      # :call-seq:
+      #   color_at_object(Shape, world_point) => Color
+      #
       def color_at_object(object, point)
-        object_point = object.inverse * point
-        pattern_point = @inverse * object_point
-        color_at(pattern_point)
+        color_at(object.to_local(point))
       end
 
       private
