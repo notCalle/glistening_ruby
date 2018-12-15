@@ -110,7 +110,7 @@ Feature: Ray / object intersections
          When comps := i.prepare r
           And point := comps.point
          Then point.z is less than -EPSILON÷2
-@wip
+
     Scenario: Precomputing the reflection vector
 
         Given shape := Plane[]
