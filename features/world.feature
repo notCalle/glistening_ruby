@@ -78,3 +78,18 @@ Feature: A scene world
          When comps := i.prepare r
           And c := w.shade_hit comps
          Then c = Color[0.1, 0.1, 0.1]
+@wip
+    Scenario: THe reflected color for a non-reflective material
+
+        Given w is the default world
+          And p := Point[0, 0, 0]
+          And v := Vector[0, 0, 1]
+          And r := Ray[p, v]
+          And shape := w.objects[1]
+          And m := shape.material
+          And m.ambient= 1
+          And i := Intersection[1, shape]
+         When comps := i.prepare r
+          And color := w.reflected_color comps
+         Then color = Color[0, 0, 0]
+
