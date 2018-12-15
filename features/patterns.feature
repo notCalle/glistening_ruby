@@ -143,7 +143,7 @@ Feature: Color Patterns
         | 0.5, 0, 0 | white |
         | 1.5, 0, 0 | gray  |
         | 2.5, 0, 0 | black |
-@wip
+
     Scenario Outline: A radial gradient pattern
 
         Given pattern := RadialPattern[white, black]
