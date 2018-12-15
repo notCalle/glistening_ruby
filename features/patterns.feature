@@ -184,7 +184,7 @@ Feature: Color Patterns
 
         Given pattern1 := StripePattern[white, black]
           And pattern1.transform= RotationY[1/4]
-          And pattern2 := StripePattern[white, black]
+          And pattern2 := StripePattern[white, gray]
           And blend := BlendPattern[pattern1, pattern2]
           And blend.mode= "<blend mode>"
           And point := Point[<point>]
@@ -192,8 +192,15 @@ Feature: Color Patterns
          Then color = Color[<color>]
 
     Examples: Arithmetic mean blends the colors linearly
-        | blend mode    | point     | color         |
-        | arithmetic    | 0, 0, 0   | 1, 1, 1       |
-        | arithmetic    | 1, 0, 0   | 0.5, 0.5, 0.5 |
-        | arithmetic    | 0, 0, 1   | 0.5, 0.5, 0.5 |
-        | arithmetic    | 1, 0, 1   | 0, 0, 0       |
+        | blend mode    | point     | color             |
+        | arithmetic    | 0, 0, 0   | 1, 1, 1           |
+        | arithmetic    | 1, 0, 0   | 0.75, 0.75, 0.75  |
+        | arithmetic    | 0, 0, 1   | 0.5, 0.5, 0.5     |
+        | arithmetic    | 1, 0, 1   | 0.25, 0.25, 0.25  |
+@wip
+    Examples: Geometric mean blends the colors geometrically
+        | blend mode    | point     | color                     |
+        | geometric     | 0, 0, 0   | 1, 1, 1                   |
+        | geometric     | 1, 0, 0   | 0.70711, 0.70711, 0.70711 |
+        | geometric     | 0, 0, 1   | 0, 0, 0                   |
+        | geometric     | 1, 0, 1   | 0, 0, 0                   |
