@@ -13,13 +13,20 @@ module GlisteningRuby
       # A pigment must respond to #color_at(point) => Color
       #
       def initialize(*pigments)
-        @pigments = pigments.map { |p| p.is_a?(Array) ? Color.new(*p) : p }
+        @pigments = []
+        pigments.each { |p| self << p }
+        super
         @pigments << @pigments[0]
         @a, @b = @pigments[0..1]
-        super
+        @pigments.freeze
       end
 
       attr_reader :a, :b
+
+      def <<(pigment)
+        pigment = Color.new(*pigment) if pigment.is_a?(Array)
+        @pigments << pigment
+      end
 
       # Transform outside space to pattern space and find color
       #

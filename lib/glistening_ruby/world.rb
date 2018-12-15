@@ -18,6 +18,14 @@ module GlisteningRuby
 
     attr_accessor :lights, :objects
 
+    def <<(thing)
+      if thing.is_a?(PointLight)
+        @lights << thing
+      else
+        @objects << thing
+      end
+    end
+
     def color_at(ray)
       hit = intersect(ray).hit
       return shade_hit(hit.prepare(ray)) if hit
