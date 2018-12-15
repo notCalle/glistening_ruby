@@ -3,6 +3,7 @@
 require 'glistening_ruby'
 include GlisteningRuby
 
+BlendPattern = Pattern::Blend
 CheckersPattern = Pattern::Checkers
 GradientPattern = Pattern::Gradient
 RadialPattern = Pattern::Radial

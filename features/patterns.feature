@@ -179,3 +179,21 @@ Feature: Color Patterns
         | 0.5, 0, 0 | black |
         | 1, 0, 0   | blue  |
         | 0.5, 0, 1 | pink  |
+@wip
+    Scenario Outline: Blending patterns
+
+        Given pattern1 := StripePattern[white, black]
+          And pattern1.transform= RotationY[1/4]
+          And pattern2 := StripePattern[white, black]
+          And blend := BlendPattern[pattern1, pattern2]
+          And blend.mode= "<blend mode>"
+          And point := Point[<point>]
+         When color := blend.color_at point
+         Then color = Color[<color>]
+
+    Examples: Arithmetic mean blends the colors linearly
+        | blend mode    | point     | color         |
+        | arithmetic    | 0, 0, 0   | 1, 1, 1       |
+        | arithmetic    | 1, 0, 0   | 0.5, 0.5, 0.5 |
+        | arithmetic    | 0, 0, 1   | 0.5, 0.5, 0.5 |
+        | arithmetic    | 1, 0, 1   | 0, 0, 0       |
