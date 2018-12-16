@@ -26,6 +26,7 @@ module GlisteningRuby
       else
         @objects << thing
       end
+      self
     end
 
     def color_at(ray, ttl = REFLECTION_LIMIT)
