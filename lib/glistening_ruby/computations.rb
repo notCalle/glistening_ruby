@@ -7,11 +7,9 @@ module GlisteningRuby
       initialize_intersection(intersection)
       initialize_ray(ray)
 
-      @inside = false
-      return unless @normalv.dot(@eyev).negative?
-
-      @inside = true
-      @normalv = -@normalv
+      @inside = @normalv.dot(@eyev).negative?
+      @normalv = -@normalv if @inside
+      @point += @normalv * EPSILON
     end
 
     def inside?
@@ -28,11 +26,10 @@ module GlisteningRuby
     end
 
     def initialize_ray(ray)
-      point = ray.position(@t)
+      @point = ray.position(@t)
       @eyev = -ray.direction
-      @normalv = @object.normal_at(point)
+      @normalv = @object.normal_at(@point)
       @reflectv = ray.direction.reflect(@normalv)
-      @point = point + @normalv * EPSILON
     end
   end
 end
