@@ -92,6 +92,12 @@ Then(
 end
 
 Then(
+  '{variable}.{method} {variable} should terminate successfully'
+) do |name, method, *args|
+  expect { seval(name, method, *args) }.not_to raise_error
+end
+
+Then(
   '{variable} is {predicate} in {variable}'
 ) do |subj, method, obj|
   expect(seval(obj, method, subj)).to be_truthy

@@ -108,3 +108,23 @@ Feature: A scene world
          When comps := i.prepare r
           And color := w.shade_hit comps
          Then color = Color[0.87676, 0.92434, 0.82917]
+@wip
+    Scenario: Finding color at point with mutually reflective surfaces
+
+        Given w := World[]
+          And p := Point[0, 0, 0]
+          And c := Color[1, 1, 1]
+          And w.light= PointLight[p, c]
+          And lower := Plane[]
+          And m := lower.material
+          And m.reflective= 1
+          And lower.transform= Translation[0, -1, 0]
+          And lower is added to w
+          And upper := Plane[]
+          And m := upper.material
+          And m.reflective= 1
+          And upper.transform= Translation[0, 1, 0]
+          And upper is added to w
+          And v := Vector[0, 1, 0]
+          And r := Ray[p, v]
+         Then w.color_at r should terminate successfully
