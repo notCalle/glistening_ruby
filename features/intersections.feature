@@ -120,3 +120,37 @@ Feature: Ray / object intersections
           And i := Intersection[√2, shape]
          When comps := i.prepare r
          Then comps.reflectv = Vector[0, √2/2, √2/2]
+@wip
+    Scenario Outline: Finding n1 and n2 at various intersections
+
+        Given a := GlassSphere[]
+          And a.transform= Scaling[2, 2, 2]
+          And a.material.refractive_index= 1.5
+          And b := GlassSphere[]
+          And b.transform= Translation[0, 0, -0.25]
+          And b.material.refractive_index= 2.0
+          And c := GlassSphere[]
+          And c.transform= Translation[0, 0, 0.25]
+          And c.material.refractive_index= 2.5
+          And p := Point[0, 0, -4]
+          And v := Vector[0, 0, 1]
+          And r := Ray[p, v]
+          And i0 := Intersection[2, a]
+          And i1 := Intersection[2.75, b]
+          And i2 := Intersection[3.25, c]
+          And i3 := Intersection[4.75, b]
+          And i4 := Intersection[5.25, c]
+          And i5 := Intersection[6, a]
+          And xs := Intersections[i0, i1, i2, i3, i4, i5]
+         When comps := i<index>.prepare r, xs
+         Then comps.n1 = <n1>
+          And comps.n2 = <n2>
+
+    Examples:
+        | index | n1    | n2    |
+        | 0     | 1.0   | 1.5   |
+        | 1     | 1.5   | 2.0   |
+        | 2     | 2.0   | 2.5   |
+        | 3     | 2.5   | 2.5   |
+        | 4     | 2.5   | 1.5   |
+        | 5     | 1.5   | 1.0   |

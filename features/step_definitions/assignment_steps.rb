@@ -119,6 +119,12 @@ When(
 end
 
 When(
+  '{variable}.{method}.{method} {scalar}'
+) do |a, m1, m2, b|
+  seval(seval(a, m1), m2, b)
+end
+
+When(
   '{variable}.{method} {string}'
 ) do |a, method, b|
   seval(a, method, b)
@@ -162,6 +168,14 @@ end
 
 When(
   '{variable} := {class}[{variable}, {variable}]'
+) do |var, klass, *args|
+  seval(var, :'=', klass[*args.map { |arg| seval(arg) }])
+end
+
+When(
+  '{variable} :='\
+  ' {class}[{variable}, {variable}, {variable},'\
+  ' {variable}, {variable}, {variable}]'
 ) do |var, klass, *args|
   seval(var, :'=', klass[*args.map { |arg| seval(arg) }])
 end

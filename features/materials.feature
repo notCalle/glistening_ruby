@@ -88,3 +88,9 @@ Feature: Surface materials
     Scenario: Reflectivity for the default material
 
         Then m.reflective = 0.0
+@wip
+    Scenario: Transparency and Refractive Index for the default material
+
+        Given m := Material[]
+         Then m.transparency = 0.0
+          And m.refractive_index = 1.0
