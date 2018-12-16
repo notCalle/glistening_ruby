@@ -128,3 +128,20 @@ Feature: A scene world
           And v := Vector[0, 1, 0]
           And r := Ray[p, v]
          Then w.color_at r should terminate successfully
+@wip
+    Scenario: The reflected color at the maximum recursive depth
+
+        Given w is the default world
+          And shape := Plane[]
+          And shape.transform= Translation[0, -1, 0]
+          And m := shape.material
+          And m.reflective= 0.5
+          And shape is added to w
+          And p := Point[0, 0, -3]
+          And v := Vector[0, -√2/2, √2/2]
+          And r := Ray[p, v]
+          And i := Intersection[√2, shape]
+         When comps := i.prepare r
+          And limit := 0
+          And color := w.reflected_color comps, limit
+         Then color = Color[0, 0, 0]
