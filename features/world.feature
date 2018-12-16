@@ -92,8 +92,8 @@ Feature: A scene world
          When comps := i.prepare r
           And color := w.reflected_color comps
          Then color = Color[0, 0, 0]
-
-    Scenario: The reflected color for a reflective material
+@wip
+    Scenario: Shading a hit with a reflective material
 
         Given w is the default world
           And shape := Plane[]
@@ -106,5 +106,5 @@ Feature: A scene world
           And r := Ray[p, v]
           And i := Intersection[√2, shape]
          When comps := i.prepare r
-          And color := w.reflected_color comps
-         Then color = Color[0.19033, 0.23792, 0.14274]
+          And color := w.shade_hit comps
+         Then color = Color[0.87676, 0.92434, 0.82917]
