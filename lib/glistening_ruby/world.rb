@@ -45,6 +45,9 @@ module GlisteningRuby
 
     def reflected_color(comps)
       return Color::BLACK if comps.object.material.reflective.zero?
+
+      reflect_ray = Ray.new(comps.point, comps.reflectv)
+      color_at(reflect_ray) * comps.object.material.reflective
     end
 
     def shade_hit(comps)

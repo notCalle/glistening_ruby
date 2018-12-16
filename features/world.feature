@@ -92,7 +92,7 @@ Feature: A scene world
          When comps := i.prepare r
           And color := w.reflected_color comps
          Then color = Color[0, 0, 0]
-@wip
+
     Scenario: The reflected color for a reflective material
 
         Given w is the default world
