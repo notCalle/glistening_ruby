@@ -10,6 +10,8 @@ require_relative 'sphere'
 module GlisteningRuby
   # The whole world
   class World < Base
+    REFLECTION_LIMIT = 5
+
     def initialize
       @objects = []
       @lights = []
@@ -26,9 +28,9 @@ module GlisteningRuby
       end
     end
 
-    def color_at(ray)
+    def color_at(ray, ttl = REFLECTION_LIMIT)
       hit = intersect(ray).hit
-      return shade_hit(hit.prepare(ray)) if hit
+      return shade_hit(hit.prepare(ray), ttl) if hit
 
       Color::BLACK
     end
@@ -43,20 +45,21 @@ module GlisteningRuby
       @lights = [light]
     end
 
-    def reflected_color(comps)
-      return Color::BLACK if comps.object.material.reflective.zero?
+    def reflected_color(comps, ttl = REFLECTION_LIMIT)
+      reflective = comps.object.material.reflective
+      return Color::BLACK if ttl.zero? || reflective.zero?
 
       reflect_ray = Ray.new(comps.point, comps.reflectv)
-      color_at(reflect_ray) * comps.object.material.reflective
+      color_at(reflect_ray, ttl - 1) * comps.object.material.reflective
     end
 
-    def shade_hit(comps)
+    def shade_hit(comps, ttl = REFLECTION_LIMIT)
       eyev = comps.eyev
       point = comps.point
       object = comps.object
       material = object.material
       normalv = comps.normalv
-      @lights.reduce(reflected_color(comps)) do |color, light|
+      @lights.reduce(reflected_color(comps, ttl)) do |color, light|
         shadow = shadowed?(point, light)
         color + material.lighting(object, light, point, eyev, normalv, shadow)
       end
