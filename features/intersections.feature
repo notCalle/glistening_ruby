@@ -154,7 +154,7 @@ Feature: Ray / object intersections
         | 3     | 2.5   | 2.5   |
         | 4     | 2.5   | 1.5   |
         | 5     | 1.5   | 1.0   |
-@wip
+
     Scenario: The under point is offset below the surface
 
         Given p := Point[0, 0, -5]

@@ -10,6 +10,7 @@ module GlisteningRuby
 
       @inside = @normalv.dot(@eyev).negative?
       @normalv = -@normalv if @inside
+      @under_point = @point - @normalv * EPSILON
       @point += @normalv * EPSILON
     end
 
@@ -18,6 +19,7 @@ module GlisteningRuby
     end
 
     attr_reader :eyev, :n1, :n2, :normalv, :object, :point, :reflectv, :t
+    attr_reader :under_point
 
     private
 
