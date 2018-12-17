@@ -177,3 +177,20 @@ Feature: A scene world
           And limit := 0
           And c := w.refracted_color comps, limit
          Then c = Color[0, 0, 0]
+@wip
+    Scenario: The refracted color under total internal reflection
+
+        Given w is the default world
+          And shape := w.objects[0]
+          And m := shape.material
+          And m.transparency= 1.0
+          And m.refractive_index= 1.5
+          And p := Point[0, 0, √2/2]
+          And v := Vector[0, 1, 0]
+          And r := Ray[p, v]
+          And i0 := Intersection[-√2/2, shape]
+          And i1 := Intersection[√2/2, shape]
+          And xs := Intersections[i0, i1]
+         When comps := i1.prepare r, xs
+          And c := w.refracted_color comps
+         Then c = Color[0, 0, 0]
