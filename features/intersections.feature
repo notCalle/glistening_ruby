@@ -120,7 +120,7 @@ Feature: Ray / object intersections
           And i := Intersection[√2, shape]
          When comps := i.prepare r
          Then comps.reflectv = Vector[0, √2/2, √2/2]
-@wip
+
     Scenario Outline: Finding n1 and n2 at various intersections
 
         Given a := GlassSphere[]

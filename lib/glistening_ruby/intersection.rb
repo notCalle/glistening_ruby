@@ -21,8 +21,8 @@ module GlisteningRuby
       @t.<=>other.t
     end
 
-    def prepare(ray)
-      Computations.new(self, ray)
+    def prepare(ray, intersections = [self])
+      Computations.new(self, ray, intersections)
     end
 
     def_delegators :@t, :positive?, :negative?, :zero?
