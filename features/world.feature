@@ -145,7 +145,7 @@ Feature: A scene world
           And limit := 0
           And color := w.reflected_color comps, limit
          Then color = Color[0, 0, 0]
-@wip
+
     Scenario: The refracted color with an opaque surface
 
         Given w is the default world
