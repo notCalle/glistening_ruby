@@ -159,3 +159,21 @@ Feature: A scene world
          When comps := i0.prepare r, xs
           And c := w.refracted_color comps
          Then c = Color[0, 0, 0]
+
+    Scenario: The refracted color at the maximum recursive depth
+
+        Given w is the default world
+          And shape := w.objects[0]
+          And m := shape.material
+          And m.transparency= 1.0
+          And m.refractive_index= 1.5
+          And p := Point[0, 0, -5]
+          And v := Vector[0, 0, 1]
+          And r := Ray[p, v]
+          And i0 := Intersection[4, shape]
+          And i1 := Intersection[6, shape]
+          And xs := Intersections[i0, i1]
+         When comps := i0.prepare r, xs
+          And limit := 0
+          And c := w.refracted_color comps, limit
+         Then c = Color[0, 0, 0]
