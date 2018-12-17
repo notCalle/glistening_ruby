@@ -154,3 +154,16 @@ Feature: Ray / object intersections
         | 3     | 2.5   | 2.5   |
         | 4     | 2.5   | 1.5   |
         | 5     | 1.5   | 1.0   |
+@wip
+    Scenario: The under point is offset below the surface
+
+        Given p := Point[0, 0, -5]
+          And v := Vector[0, 0, 1]
+          And r := Ray[p, v]
+          And shape := GlassSphere[]
+          And shape.transform= Translation[0, 0, 1]
+          And i := Intersection[5, shape]
+          And xs := Intersections[i]
+         When comps := i.prepare r, xs
+          And up := comps.under_point
+         Then up.z is greater than EPSILON÷2

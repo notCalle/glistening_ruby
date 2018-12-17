@@ -92,6 +92,12 @@ Then(
 end
 
 Then(
+  '{variable}.{method} is greater than EPSILON÷2'
+) do |name, method|
+  expect(seval(name, method)).to be > EPSILON / 2
+end
+
+Then(
   '{variable}.{method} {variable} should terminate successfully'
 ) do |name, method, *args|
   expect { seval(name, method, *args) }.not_to raise_error
