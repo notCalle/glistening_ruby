@@ -158,7 +158,7 @@ Feature: Spheres
         Given p := Point[√3/3, √3/3, √3/3]
          When n := s.normal_at p
          Then n = n.normalize
-@wip
+
     Scenario: A helper for producing a sphere with a glassy material
 
         Given s := GlassSphere[]
