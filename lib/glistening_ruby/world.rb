@@ -57,6 +57,7 @@ module GlisteningRuby
     def refracted_color(comps, ttl = RECURSION_LIMIT)
       transparency = comps.object.material.transparency
       return Color::BLACK if ttl.zero? || transparency.zero?
+      return Color::BLACK if comps.total_internal_reflection?
     end
 
     def shade_hit(comps, ttl = RECURSION_LIMIT)

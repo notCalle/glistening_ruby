@@ -18,6 +18,16 @@ module GlisteningRuby
       @inside
     end
 
+    # sin(theta_i)   n_2
+    # ------------ = ---
+    # sin(theta_t)   n_1
+    def total_internal_reflection?
+      n_ratio = @n1 / @n2
+      cos_i = @eyev.dot @normalv
+      sin2_t = n_ratio**2 * (1 - cos_i**2)
+      sin2_t > 1
+    end
+
     attr_reader :eyev, :n1, :n2, :normalv, :object, :point, :reflectv, :t
     attr_reader :under_point
 

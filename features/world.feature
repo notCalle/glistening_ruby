@@ -177,7 +177,7 @@ Feature: A scene world
           And limit := 0
           And c := w.refracted_color comps, limit
          Then c = Color[0, 0, 0]
-@wip
+
     Scenario: The refracted color under total internal reflection
 
         Given w is the default world
