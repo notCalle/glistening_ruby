@@ -194,3 +194,27 @@ Feature: A scene world
          When comps := i1.prepare r, xs
           And c := w.refracted_color comps
          Then c = Color[0, 0, 0]
+@wip
+    Scenario: The refracted color with a refracted ray
+
+        Given w is the default world
+          And a := w.objects[0]
+          And ma := a.material
+          And ma.ambient= 1.0
+          And pt := TestPattern[]
+          And ma.pattern= pt
+          And b := w.objects[1]
+          And mb := b.material
+          And mb.transparency= 1.0
+          And mb.refractive_index= 1.5
+          And p := Point[0, 0, 0.1]
+          And v := Vector[0, 1, 0]
+          And r := Ray[p, v]
+          And i0 := Intersection[-0.9899, a]
+          And i1 := Intersection[-0.4899, b]
+          And i2 := Intersection[0.4899, b]
+          And i3 := Intersection[0.9899, a]
+          And xs := Intersections[i0, i1, i2, i3]
+         When comps := i2.prepare r, xs
+          And c := w.refracted_color comps
+         Then c = Color[0, 0.99887, 0.04722]
