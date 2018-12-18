@@ -18,14 +18,23 @@ module GlisteningRuby
       @inside
     end
 
+    def total_internal_reflection?
+      refractv.nil?
+    end
+
     # sin(theta_i)   n_2
     # ------------ = ---
     # sin(theta_t)   n_1
-    def total_internal_reflection?
+    def refractv # rubocop:disable Metrics/AbcSize
+      return @refractv unless @refractv.nil?
+
       n_ratio = @n1 / @n2
       cos_i = @eyev.dot @normalv
       sin2_t = n_ratio**2 * (1 - cos_i**2)
-      sin2_t > 1
+      return if sin2_t > 1
+
+      cos_t = Math.sqrt(1.0 - sin2_t)
+      @refractv = @normalv * (n_ratio * cos_i - cos_t) - @eyev * n_ratio
     end
 
     attr_reader :eyev, :n1, :n2, :normalv, :object, :point, :reflectv, :t
