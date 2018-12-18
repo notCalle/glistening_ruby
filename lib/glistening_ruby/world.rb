@@ -58,6 +58,9 @@ module GlisteningRuby
       transparency = comps.object.material.transparency
       return Color::BLACK if ttl.zero? || transparency.zero?
       return Color::BLACK if comps.total_internal_reflection?
+
+      refract_ray = Ray.new(comps.under_point, comps.refractv)
+      color_at(refract_ray, ttl - 1) * transparency
     end
 
     def shade_hit(comps, ttl = RECURSION_LIMIT)

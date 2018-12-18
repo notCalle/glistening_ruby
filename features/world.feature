@@ -194,7 +194,7 @@ Feature: A scene world
          When comps := i1.prepare r, xs
           And c := w.refracted_color comps
          Then c = Color[0, 0, 0]
-@wip
+
     Scenario: The refracted color with a refracted ray
 
         Given w is the default world
