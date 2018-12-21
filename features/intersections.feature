@@ -167,3 +167,16 @@ Feature: Ray / object intersections
          When comps := i.prepare r, xs
           And up := comps.under_point
          Then up.z is greater than EPSILON÷2
+@wip
+    Scenario: The Schlick approximation under total internal reflection
+
+        Given shape := GlassSphere[]
+          And p := Point[0, 0, √2/2]
+          And v := Vector[0, 1, 0]
+          And r := Ray[p, v]
+          And i0 := Intersection[-√2/2, shape]
+          And i1 := Intersection[√2/2, shape]
+          And xs := Intersections[i0, i1]
+         When comps := i1.prepare r, xs
+          And reflectance := comps.schlick
+         Then reflectance = 1.0

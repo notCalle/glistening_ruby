@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 Then(
+  '{variable} = {scalar}'
+) do |var, value|
+  expect(seval(var)).to be_within(EPSILON).of(value)
+end
+
+Then(
   '{variable} = {variable}'
 ) do |a, b|
   expect(seval(a)).to eq seval(b)
