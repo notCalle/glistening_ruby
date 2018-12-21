@@ -37,13 +37,18 @@ module GlisteningRuby
       @refractv = @normalv * (n_ratio * cos_i - cos_t) - @eyev * n_ratio
     end
 
-    def schlick
+    # https://graphics.stanford.edu/courses/cs148-10-summer/docs/2006--degreve--reflection_refraction.pdf
+    def schlick # rubocop:disable Metrics/AbcSize
       cos = @eyev.dot @normalv
-      return unless n1 > n2
+      if n1 > n2
+        n_ratio = @n1 / @n2
+        sin2_t = n_ratio**2 * (1 - cos**2)
+        return 1.0 if sin2_t > 1
 
-      n_ratio = @n1 / @n2
-      sin2_t = n_ratio**2 * (1 - cos**2)
-      return 1.0 if sin2_t > 1
+        cos = Math.sqrt(1.0 - sin2_t)
+      end
+      r0 = ((@n1 - @n2) / (@n1 + @n2))**2
+      r0 + (1 - r0) * (1 - cos)**5
     end
 
     attr_reader :eyev, :n1, :n2, :normalv, :object, :point, :reflectv, :t
