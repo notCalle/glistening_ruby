@@ -18,6 +18,11 @@ module GlisteningRuby
       @inside
     end
 
+    def fresnel?
+      m = @object.material
+      m.reflective.positive? && m.transparency.positive?
+    end
+
     def total_internal_reflection?
       refractv.nil?
     end

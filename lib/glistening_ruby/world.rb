@@ -76,9 +76,14 @@ module GlisteningRuby
     end
 
     def shade_hit(comps, ttl = RECURSION_LIMIT)
-      phong_shaded_color(comps) +
-        reflected_color(comps, ttl) +
-        refracted_color(comps, ttl)
+      surface = phong_shaded_color(comps)
+      reflected = reflected_color(comps, ttl)
+      refracted = refracted_color(comps, ttl)
+      return surface + reflected + refracted unless comps.fresnel?
+
+      reflectance = comps.schlick
+      transmittance = 1 - reflectance
+      surface + reflected * reflectance + refracted * transmittance
     end
 
     def shadowed?(point, light = @lights[0])

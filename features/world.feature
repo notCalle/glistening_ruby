@@ -242,7 +242,7 @@ Feature: A scene world
          When comps := i0.prepare r, xs
           And color := w.shade_hit comps
          Then color = Color[0.93642, 0.68642, 0.68642]
-@wip
+
     Scenario: Shading a hit with a reflective transparent material
 
         Given w is the default world
