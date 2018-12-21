@@ -218,7 +218,7 @@ Feature: A scene world
          When comps := i2.prepare r, xs
           And c := w.refracted_color comps
          Then c = Color[0, 0.99887, 0.04722]
-@wip
+
     Scenario: Shading a hit with a transparent material
 
         Given w is the default world
