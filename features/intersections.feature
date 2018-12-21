@@ -167,7 +167,7 @@ Feature: Ray / object intersections
          When comps := i.prepare r, xs
           And up := comps.under_point
          Then up.z is greater than EPSILON÷2
-@wip
+
     Scenario: The Schlick approximation under total internal reflection
 
         Given shape := GlassSphere[]

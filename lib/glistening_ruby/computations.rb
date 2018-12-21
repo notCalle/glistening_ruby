@@ -37,6 +37,15 @@ module GlisteningRuby
       @refractv = @normalv * (n_ratio * cos_i - cos_t) - @eyev * n_ratio
     end
 
+    def schlick
+      cos = @eyev.dot @normalv
+      return unless n1 > n2
+
+      n_ratio = @n1 / @n2
+      sin2_t = n_ratio**2 * (1 - cos**2)
+      return 1.0 if sin2_t > 1
+    end
+
     attr_reader :eyev, :n1, :n2, :normalv, :object, :point, :reflectv, :t
     attr_reader :under_point
 
