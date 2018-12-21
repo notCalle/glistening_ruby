@@ -242,3 +242,28 @@ Feature: A scene world
          When comps := i0.prepare r, xs
           And color := w.shade_hit comps
          Then color = Color[0.93642, 0.68642, 0.68642]
+@wip
+    Scenario: Shading a hit with a reflective transparent material
+
+        Given w is the default world
+          And floor := Plane[]
+          And floor.transform= Translation[0, -1, 0]
+          And floor_material := floor.material
+          And floor_material.reflective= 0.5
+          And floor_material.transparency= 0.5
+          And floor_material.refractive_index= 1.5
+          And floor is added to w
+          And ball := Sphere[]
+          And ball_material := ball.material
+          And ball_material.color= Color[1, 0, 0]
+          And ball_material.ambient= 0.5
+          And ball.transform= Translation[0, -3.5, -0.5]
+          And ball is added to w
+          And p := Point[0, 0, -3]
+          And v := Vector[0, -√2/2, √2/2]
+          And r := Ray[p, v]
+          And i0 := Intersection[√2, floor]
+          And xs := Intersections[i0]
+         When comps := i0.prepare r, xs
+          And color := w.shade_hit comps
+         Then color = Color[0.93391, 0.69643, 0.69243]
