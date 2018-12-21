@@ -180,3 +180,28 @@ Feature: Ray / object intersections
          When comps := i1.prepare r, xs
           And reflectance := comps.schlick
          Then reflectance = 1.0
+@wip
+    Scenario: The Schlick approximation with a perpendicular viewing angle
+
+        Given shape := GlassSphere[]
+          And p := Point[0, 0, 0]
+          And v := Vector[0, 1, 0]
+          And r := Ray[p, v]
+          And i0 := Intersection[-1, shape]
+          And i1 := Intersection[1, shape]
+          And xs := Intersections[i0, i1]
+         When comps := i1.prepare r, xs
+          And reflectance := comps.schlick
+         Then reflectance = 0.04
+@wip
+    Scenario: The Schlick approximation with small angle and n2 > n1
+
+        Given shape := GlassSphere[]
+          And p := Point[0, 0.99, -2]
+          And v := Vector[0, 0, 1]
+          And r := Ray[p, v]
+          And i0 := Intersection[1.8589, shape]
+          And xs := Intersections[i0]
+         When comps := i0.prepare r, xs
+          And reflectance := comps.schlick
+         Then reflectance = 0.48873
