@@ -267,3 +267,25 @@ Feature: A scene world
          When comps := i0.prepare r, xs
           And color := w.shade_hit comps
          Then color = Color[0.93391, 0.69643, 0.69243]
+@wip
+    Scenario: Shading a hit behind a non-shadow casting object
+
+        Given w := World[]
+          And ceiling := Plane[]
+          And ceiling.transform= Translation[0, 2, 0]
+          And shadowing := false
+          And ceiling.cast_shadows= shadowing
+          And ceiling is added to w
+          And floor := Plane[]
+          And floor is added to w
+          And p_light := Point[0, 5, 0]
+          And light := PointLight[p_light]
+          And w.light= light
+          And p := Point[0, 1, 0]
+          And v := Vector[0, -1, 0]
+          And r := Ray[p, v]
+          And i0 := Intersection[1, floor]
+          And xs := Intersections[i0]
+         When comps := i0.prepare r, xs
+          And color := w.shade_hit comps
+         Then color = Color[1.9, 1.9, 1.9]
