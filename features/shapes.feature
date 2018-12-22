@@ -66,11 +66,11 @@ Feature: Abstract shapes
           And s.transform= M
           And n := s.normal_at p
          When n = Vector[0, 0.97014, -0.24254]
-@wip
+
     Scenario: By default, a shape casts shadows
 
          Then s does cast_shadows
-@wip
+
     Scenario: A shape can have shadow casting disabled
 
         Given bool := false
