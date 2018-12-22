@@ -36,8 +36,10 @@ module GlisteningRuby
       Color::BLACK
     end
 
-    def intersect(ray)
-      @objects.each.with_object(Intersections.new) do |object, intersections|
+    def intersect(ray, shadow: false)
+      objects = shadow ? @objects.select(&:cast_shadows?) : @objects
+
+      objects.each.with_object(Intersections.new) do |object, intersections|
         intersections << object.intersect(ray)
       end
     end
@@ -91,7 +93,7 @@ module GlisteningRuby
       distance = lightv.magnitude
       direction = lightv.normalize
 
-      intersect(Ray[point, direction]).hit&.t&.< distance
+      intersect(Ray[point, direction], shadow: true).hit&.t&.< distance
     end
 
     def self.default # rubocop:disable Metrics/AbcSize

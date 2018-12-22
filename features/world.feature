@@ -267,7 +267,7 @@ Feature: A scene world
          When comps := i0.prepare r, xs
           And color := w.shade_hit comps
          Then color = Color[0.93391, 0.69643, 0.69243]
-@wip
+
     Scenario: Shading a hit behind a non-shadow casting object
 
         Given w := World[]
