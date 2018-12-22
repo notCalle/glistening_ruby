@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 Then(
+  '{variable} = {scalar}'
+) do |var, value|
+  expect(seval(var)).to be_within(EPSILON).of(value)
+end
+
+Then(
   '{variable} = {variable}'
 ) do |a, b|
   expect(seval(a)).to eq seval(b)
@@ -89,6 +95,30 @@ Then(
   '{variable}.{method} is less than -EPSILON÷2'
 ) do |name, method|
   expect(seval(name, method)).to be < -EPSILON / 2
+end
+
+Then(
+  '{variable}.{method} is greater than EPSILON÷2'
+) do |name, method|
+  expect(seval(name, method)).to be > EPSILON / 2
+end
+
+Then(
+  '{variable}.{method} {variable} should terminate successfully'
+) do |name, method, *args|
+  expect { seval(name, method, *args) }.not_to raise_error
+end
+
+Then(
+  '{variable} does {predicate}'
+) do |subj, method|
+  expect(seval(subj, method)).to be_truthy
+end
+
+Then(
+  '{variable} does not {predicate}'
+) do |subj, method|
+  expect(seval(subj, method)).to be_falsey
 end
 
 Then(

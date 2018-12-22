@@ -12,10 +12,15 @@ module GlisteningRuby
   class Shape < Transformable
     def initialize
       @material = Material[]
+      @cast_shadows = true
       super
     end
 
-    attr_accessor :material
+    attr_accessor :cast_shadows, :material
+
+    def cast_shadows?
+      @cast_shadows
+    end
 
     def intersect(ray)
       Intersections.new(*intersections(ray.transform(@inverse)))

@@ -84,3 +84,13 @@ Feature: Surface materials
           And c2 := m.lighting shape, light, p2, eyev, normalv
          Then c1 = white
           And c2 = black
+
+    Scenario: Reflectivity for the default material
+
+        Then m.reflective = 0.0
+
+    Scenario: Transparency and Refractive Index for the default material
+
+        Given m := Material[]
+         Then m.transparency = 0.0
+          And m.refractive_index = 1.0

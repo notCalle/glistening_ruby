@@ -10,6 +10,8 @@ require_relative 'sphere'
 module GlisteningRuby
   # The whole world
   class World < Base
+    RECURSION_LIMIT = 5
+
     def initialize
       @objects = []
       @lights = []
@@ -24,17 +26,20 @@ module GlisteningRuby
       else
         @objects << thing
       end
+      self
     end
 
-    def color_at(ray)
+    def color_at(ray, ttl = RECURSION_LIMIT)
       hit = intersect(ray).hit
-      return shade_hit(hit.prepare(ray)) if hit
+      return shade_hit(hit.prepare(ray), ttl) if hit
 
       Color::BLACK
     end
 
-    def intersect(ray)
-      @objects.each.with_object(Intersections.new) do |object, intersections|
+    def intersect(ray, shadow: false)
+      objects = shadow ? @objects.select(&:cast_shadows?) : @objects
+
+      objects.each.with_object(Intersections.new) do |object, intersections|
         intersections << object.intersect(ray)
       end
     end
@@ -43,16 +48,44 @@ module GlisteningRuby
       @lights = [light]
     end
 
-    def shade_hit(comps)
-      material = comps.object.material
-      point = comps.point
+    def reflected_color(comps, ttl = RECURSION_LIMIT)
+      reflective = comps.object.material.reflective
+      return Color::BLACK if ttl.zero? || reflective.zero?
+
+      reflect_ray = Ray.new(comps.point, comps.reflectv)
+      color_at(reflect_ray, ttl - 1) * reflective
+    end
+
+    def refracted_color(comps, ttl = RECURSION_LIMIT)
+      transparency = comps.object.material.transparency
+      return Color::BLACK if ttl.zero? || transparency.zero?
+      return Color::BLACK if comps.total_internal_reflection?
+
+      refract_ray = Ray.new(comps.under_point, comps.refractv)
+      color_at(refract_ray, ttl - 1) * transparency
+    end
+
+    def phong_shaded_color(comps)
       eyev = comps.eyev
+      point = comps.point
+      object = comps.object
+      material = object.material
       normalv = comps.normalv
       @lights.reduce(Color::BLACK) do |color, light|
         shadow = shadowed?(point, light)
-        color + material.lighting(comps.object, light, point,
-                                  eyev, normalv, shadow)
+        color + material.lighting(object, light, point, eyev, normalv, shadow)
       end
+    end
+
+    def shade_hit(comps, ttl = RECURSION_LIMIT)
+      surface = phong_shaded_color(comps)
+      reflected = reflected_color(comps, ttl)
+      refracted = refracted_color(comps, ttl)
+      return surface + reflected + refracted unless comps.fresnel?
+
+      reflectance = comps.schlick
+      transmittance = 1 - reflectance
+      surface + reflected * reflectance + refracted * transmittance
     end
 
     def shadowed?(point, light = @lights[0])
@@ -60,7 +93,7 @@ module GlisteningRuby
       distance = lightv.magnitude
       direction = lightv.normalize
 
-      intersect(Ray[point, direction]).hit&.t&.< distance
+      intersect(Ray[point, direction], shadow: true).hit&.t&.< distance
     end
 
     def self.default # rubocop:disable Metrics/AbcSize

@@ -26,6 +26,7 @@ module GlisteningRuby
       def <<(pigment)
         pigment = Color.new(*pigment) if pigment.is_a?(Array)
         @pigments << pigment
+        self
       end
 
       # Transform outside space to pattern space and find color
