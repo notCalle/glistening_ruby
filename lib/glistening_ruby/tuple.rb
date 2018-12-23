@@ -5,6 +5,8 @@ require_relative 'base'
 module GlisteningRuby
   # This is a 4D tuple, used for representing points and vectors
   class Tuple < Base
+    include Enumerable
+
     def initialize(x_axis = 0, y_axis = 0, z_axis = 0, w_axis = 0)
       @x = x_axis
       @y = y_axis
@@ -13,8 +15,8 @@ module GlisteningRuby
       super
     end
 
-    def to_a
-      [@x, @y, @z, @w]
+    def each
+      [@x, @y, @z, @w].each { |c| yield c }
     end
 
     def to_s
