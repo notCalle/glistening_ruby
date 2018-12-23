@@ -20,7 +20,7 @@ Feature: Cubes - Axis Aligned Bounding Boxes
         | +z        | 0.5, 0, 5     | 0, 0, -1  | 4     | 6     |
         | -z        | 0.5, 0, -5    | 0, 0, 1   | 4     | 6     |
         | inside    | 0, 0.5, 0     | 0, 0, 1   | -1    | 1     |
-@wip
+
     Scenario Outline: A ray misses a cube
 
         Given c := Cube[]
