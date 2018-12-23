@@ -1,5 +1,5 @@
 Feature: Cubes - Axis Aligned Bounding Boxes
-@wip
+
     Scenario Outline: A ray intersects a cube
 
         Given c := Cube[]
