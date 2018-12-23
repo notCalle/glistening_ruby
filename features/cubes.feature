@@ -38,7 +38,7 @@ Feature: Cubes - Axis Aligned Bounding Boxes
         | 2, 0, 2   | 0, 0, -1                  |
         | 0, 2, 2   | 0, -1, 0                  |
         | 2, 2, 0   | -1, 0, 0                  |
-@wip
+
     Scenario Outline: The normal on the surface of a cube
 
         Given c := Cube[]

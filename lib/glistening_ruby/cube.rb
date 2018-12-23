@@ -12,11 +12,11 @@ module GlisteningRuby
   class Cube < Shape
     private
 
-    def intersections(ray) # rubocop:disable Metrics/AbcSize
+    def intersections(ray)
       t_min = -Float::INFINITY
       t_max = Float::INFINITY
 
-      ray.origin.to_a.zip(ray.direction.to_a).each do |origin, direction|
+      ray.origin.zip(ray.direction).each do |origin, direction|
         min, max = axis_intersections(origin, direction)
         t_min = min if min > t_min
         t_max = max if max < t_max
@@ -35,6 +35,13 @@ module GlisteningRuby
       return numerator / denominator unless numerator.zero? && denominator.zero?
 
       Float::INFINITY
+    end
+
+    def object_normal(point) # rubocop:disable Metrics/AbcSize
+      max = point.map(&:abs).max
+      return Vector[point.x, 0, 0] if close?(point.x.abs, max)
+      return Vector[0, point.y, 0] if close?(point.y.abs, max)
+      return Vector[0, 0, point.z] if close?(point.z.abs, max)
     end
   end
 end
