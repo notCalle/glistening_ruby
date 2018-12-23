@@ -38,4 +38,21 @@ Feature: Cubes - Axis Aligned Bounding Boxes
         | 2, 0, 2   | 0, 0, -1                  |
         | 0, 2, 2   | 0, -1, 0                  |
         | 2, 2, 0   | -1, 0, 0                  |
+@wip
+    Scenario Outline: The normal on the surface of a cube
 
+        Given c := Cube[]
+          And p := Point[<point>]
+         When normal := c.normal_at p
+         Then normal = Vector[<normal>]
+
+    Examples:
+        | point         | normal    |
+        | 1, 0.5, -0.8  | 1, 0, 0   |
+        | -1, -0.2, 0.9 | -1, 0, 0  |
+        | -0.4, 1, -0.1 | 0, 1, 0   |
+        | 0.3, -1, -0.7 | 0, -1, 0  |
+        | -0.6, 0.3, 1  | 0, 0, 1   |
+        | 0.4, 0.4, -1  | 0, 0, -1  |
+        | 1, 1, 1       | 1, 0, 0   |
+        | -1, -1, -1    | -1, 0, 0  |
