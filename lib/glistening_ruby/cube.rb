@@ -20,8 +20,8 @@ module GlisteningRuby
         min, max = axis_intersections(origin, direction)
         t_min = min if min > t_min
         t_max = max if max < t_max
+        return [] if t_min > t_max
       end
-      return [] if t_min > t_max
 
       [t_min, t_max].map { |t| Intersection.new(t, self) }
     end
