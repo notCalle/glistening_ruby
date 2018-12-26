@@ -1,5 +1,5 @@
 Feature: Cylinders
-@wip
+
     Scenario Outline: A ray misses a cylinder
 
         Given cyl := Cylinder[]
