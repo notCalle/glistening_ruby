@@ -8,6 +8,14 @@ module GlisteningRuby
   class Cylinder < Shape
     include Quadratic
 
+    def initialize(*)
+      @minimum = -Float::INFINITY
+      @maximum = Float::INFINITY
+      super
+    end
+
+    attr_accessor :maximum, :minimum
+
     private
 
     def intersections(ray) # rubocop:disable Metrics/AbcSize
