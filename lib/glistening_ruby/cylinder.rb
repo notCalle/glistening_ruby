@@ -20,5 +20,9 @@ module GlisteningRuby
       c = o.x**2 + o.z**2 - 1
       quadratic(a, b, c)
     end
+
+    def object_normal(point)
+      Vector[point.x, 0, point.z]
+    end
   end
 end
