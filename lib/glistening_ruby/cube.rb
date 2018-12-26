@@ -23,7 +23,7 @@ module GlisteningRuby
         return [] if t_min > t_max
       end
 
-      [t_min, t_max].map { |t| Intersection.new(t, self) }
+      [t_min, t_max]
     end
 
     def axis_intersections(origin, direction)

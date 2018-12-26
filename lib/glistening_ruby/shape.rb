@@ -23,7 +23,7 @@ module GlisteningRuby
     end
 
     def intersect(ray)
-      Intersections.new(*intersections(ray.transform(@inverse)))
+      Intersections.for_object(self, *intersections(ray.transform(@inverse)))
     end
 
     def normal_at(world_point)

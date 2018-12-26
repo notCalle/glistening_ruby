@@ -29,7 +29,7 @@ module GlisteningRuby
       b = 2 * d.dot(l)
       c = l.dot(l) - 1
 
-      quadratic(a, b, c).map { |t| Intersection.new(t, self) }
+      quadratic(a, b, c)
     end
 
     def object_normal(point)
