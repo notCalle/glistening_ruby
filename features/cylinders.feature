@@ -53,3 +53,24 @@ Feature: Cylinders
         Given cyl := Cylinder[]
           Then cyl.minimum = -1.0/0
            And cyl.maximum = 1.0/0
+@wip
+    Scenario Outline: Intersecting a constrained cylinder
+
+        Given cyl := Cylinder[]
+          And cyl.minimum= 1
+          And cyl.maximum= 2
+          And p := Point[<point>]
+          And v := Vector[<direction>]
+          And v := v.normalize
+          And r := Ray[p, v]
+         When xs := cyl.intersect r
+         Then xs.count = <count>
+
+    Examples:
+        |   | point         | direction | count |
+        | 1 | 0, 1.5, 0     | 0.1, 1, 0 | 0     |
+        | 2 | 0, 3, -5      | 0, 0, 1   | 0     |
+        | 3 | 0, 0, -5      | 0, 0, 1   | 0     |
+        | 4 | 0, 2, -5      | 0, 0, 1   | 0     |
+        | 5 | 0, 1, -5      | 0, 0, 1   | 0     |
+        | 6 | 0, 1.5, -2    | 0, 0, 1   | 2     |
