@@ -33,3 +33,17 @@ Feature: Cylinders
         | 1, 0, -5      | 0, 0, 1   | 5         | 5         |
         | 0, 0, -5      | 0, 0, 1   | 4         | 6         |
         | 0.5, 0, -5    | 0.1, 1, 1 | 6.80798   | 7.08872   |
+@wip
+    Scenario Outline: Normal vectors on a cylinder
+
+        Given cyl := Cylinder[]
+          And p := Point[<point>]
+         When n := cyl.normal_at p
+         Then n = Vector[<normal>]
+
+    Examples:
+        | point     | normal    |
+        | 1, 0, 0   | 1, 0, 0   |
+        | 0, 5, -1  | 0, 0, -1  |
+        | 0, -2, 1  | 0, 0, 1   |
+        | -1, 1, 0  | -1, 0, 0  |
