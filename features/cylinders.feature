@@ -47,3 +47,9 @@ Feature: Cylinders
         | 0, 5, -1  | 0, 0, -1  |
         | 0, -2, 1  | 0, 0, 1   |
         | -1, 1, 0  | -1, 0, 0  |
+@wip
+    Scenario: The default minimum and maximum for a cylinder
+
+        Given cyl := Cylinder[]
+          Then cyl.minimum = -1.0/0
+           And cyl.maximum = 1.0/0
