@@ -79,3 +79,25 @@ Feature: Cylinders
 
         Given cyl := Cylinder[]
          Then cyl is not closed
+@wip
+    Scenario Outline: Intersecting the caps of a closed cylinder
+
+        Given cyl := Cylinder[]
+          And cyl.minimum= 1
+          And cyl.maximum= 2
+          And capped := true
+          And cyl.closed= capped
+          And p := Point[<point>]
+          And v := Vector[<direction>]
+          And v := v.normalize
+          And r := Ray[p, v]
+         When xs := cyl.intersect r
+         Then xs.count = <count>
+
+    Examples:
+        |   | point     | direction | count |
+        | 1 | 0, 3, 0   | 0, -1, 0  | 2     |
+        | 2 | 0, 3, -2  | 0, -1, 2  | 2     |
+        | 3 | 0, 4, -2  | 0, -1, 1  | 2     |
+        | 4 | 0, 0, -2  | 0, 1, 2   | 2     |
+        | 5 | 0, -1, -2 | 0, 1, 1   | 2     |
