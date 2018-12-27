@@ -53,7 +53,7 @@ Feature: Cylinders
         Given cyl := Cylinder[]
           Then cyl.minimum = -1.0/0
            And cyl.maximum = 1.0/0
-@wip
+
     Scenario Outline: Intersecting a constrained cylinder
 
         Given cyl := Cylinder[]

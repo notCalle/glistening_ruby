@@ -26,7 +26,10 @@ module GlisteningRuby
 
       b = 2 * (o.x * d.x + o.z * d.z)
       c = o.x**2 + o.z**2 - 1
-      quadratic(a, b, c)
+      quadratic(a, b, c).select do |t|
+        y = o.y + t * d.y
+        y > @minimum && y < @maximum
+      end
     end
 
     def object_normal(point)
