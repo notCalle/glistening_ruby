@@ -3,7 +3,11 @@
 Then(
   '{variable}.{method} = {scalar}'
 ) do |a, op, value|
-  expect(seval(a, op)).to be_within(EPSILON).of value
+  if value.infinite?
+    expect(seval(a, op)).to eq value
+  else
+    expect(seval(a, op)).to be_within(EPSILON).of value
+  end
 end
 
 Then(

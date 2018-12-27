@@ -31,30 +31,6 @@ Then(
 end
 
 Then(
-  '{variable} is nothing'
-) do |var|
-  expect(seval(var)).to be_nil
-end
-
-Then(
-  '{variable} is empty'
-) do |var|
-  expect(seval(var)).to be_empty
-end
-
-Then(
-  '{variable} is inside'
-) do |var|
-  expect(seval(var)).to be_inside
-end
-
-Then(
-  '{variable} is not inside'
-) do |var|
-  expect(seval(var)).not_to be_inside
-end
-
-Then(
   '{variable}.{method} {scalar} = {class}[{scalar}, {scalar}, {scalar}]'
 ) do |var, method, method_arg, klass, *args|
   expected = klass[*args]
@@ -110,13 +86,13 @@ Then(
 end
 
 Then(
-  '{variable} does {predicate}'
+  '{variable} does/is {predicate}'
 ) do |subj, method|
   expect(seval(subj, method)).to be_truthy
 end
 
 Then(
-  '{variable} does not {predicate}'
+  '{variable} does/is not {predicate}'
 ) do |subj, method|
   expect(seval(subj, method)).to be_falsey
 end

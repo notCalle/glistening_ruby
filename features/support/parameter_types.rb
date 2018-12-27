@@ -49,7 +49,7 @@ ParameterType(
   name: 'predicate',
   regexp: /[a-z_]+/,
   use_for_snippets: false,
-  transformer: ->(name) { "#{name}?".to_sym }
+  transformer: ->(name) { "#{name == 'nothing' ? 'nil' : name}?".to_sym }
 )
 
 ParameterType(

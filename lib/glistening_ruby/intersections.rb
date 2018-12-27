@@ -10,6 +10,10 @@ module GlisteningRuby
     extend Forwardable
     include Enumerable
 
+    def self.for_object(object, *intersections)
+      new(*intersections.map { |i| Intersection.new(i, object) })
+    end
+
     def initialize(*intersections)
       @intersections = []
       @hit = nil

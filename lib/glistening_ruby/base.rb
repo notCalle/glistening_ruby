@@ -13,7 +13,7 @@ module GlisteningRuby
     end
 
     def close?(this, that)
-      (this - that).abs < EPSILON
+      this == that || (this - that).abs < EPSILON
     end
 
     def identity
