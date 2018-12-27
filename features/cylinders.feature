@@ -79,7 +79,7 @@ Feature: Cylinders
 
         Given cyl := Cylinder[]
          Then cyl is not closed
-@wip
+
     Scenario Outline: Intersecting the caps of a closed cylinder
 
         Given cyl := Cylinder[]

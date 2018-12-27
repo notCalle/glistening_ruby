@@ -24,7 +24,11 @@ module GlisteningRuby
 
     private
 
-    def intersections(ray) # rubocop:disable Metrics/AbcSize
+    def intersections(ray)
+      cylinder_intersections(ray).concat endcap_intersections(ray)
+    end
+
+    def cylinder_intersections(ray) # rubocop:disable Metrics/AbcSize
       o = ray.origin
       d = ray.direction
       a = d.x**2 + d.z**2
@@ -36,6 +40,15 @@ module GlisteningRuby
         y = o.y + t * d.y
         y > @minimum && y < @maximum
       end
+    end
+
+    def endcap_intersections(ray) # rubocop:disable Metrics/AbcSize
+      o = ray.origin
+      d = ray.direction
+      return [] if !closed? || close?(d.y, 0)
+
+      xs = [@minimum, @maximum].map { |y| (y - o.y) / d.y }
+      xs.select { |t| (o.x + t * d.x)**2 + (o.z + t * d.z)**2 <= 1 }
     end
 
     def object_normal(point)
