@@ -101,3 +101,23 @@ Feature: Cylinders
         | 3 | 0, 4, -2  | 0, -1, 1  | 2     |
         | 4 | 0, 0, -2  | 0, 1, 2   | 2     |
         | 5 | 0, -1, -2 | 0, 1, 1   | 2     |
+@wip
+    Scenario Outline: The normal vector on a cylinder's end caps
+
+        Given cyl := Cylinder[]
+          And cyl.minimum= 1
+          And cyl.maximum= 2
+          And capped := true
+          And cyl.closed= capped
+          And p := Point[<point>]
+         When n := cyl.normal_at p
+         Then n = Vector[<normal>]
+
+    Examples:
+        | point     | normal    |
+        | 0, 1, 0   | 0, -1, 0  |
+        | 0.5, 1, 0 | 0, -1, 0  |
+        | 0, 1, 0.5 | 0, -1, 0  |
+        | 0, 2, 0   | 0, 1, 0   |
+        | 0.5, 2, 0 | 0, 1, 0   |
+        | 0, 2, 0.5 | 0, 1, 0   |
