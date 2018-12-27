@@ -74,7 +74,7 @@ Feature: Cylinders
         | 4 | 0, 2, -5      | 0, 0, 1   | 0     |
         | 5 | 0, 1, -5      | 0, 0, 1   | 0     |
         | 6 | 0, 1.5, -2    | 0, 0, 1   | 2     |
-@wip
+
     Scenario: The default closedness of a cylinder
 
         Given cyl := Cylinder[]

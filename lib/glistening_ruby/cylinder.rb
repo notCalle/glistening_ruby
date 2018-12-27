@@ -11,10 +11,16 @@ module GlisteningRuby
     def initialize(*)
       @minimum = -Float::INFINITY
       @maximum = Float::INFINITY
+      @closed = false
       super
     end
 
     attr_accessor :maximum, :minimum
+    attr_writer :closed
+
+    def closed?
+      @closed
+    end
 
     private
 
