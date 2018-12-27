@@ -101,7 +101,7 @@ Feature: Cylinders
         | 3 | 0, 4, -2  | 0, -1, 1  | 2     |
         | 4 | 0, 0, -2  | 0, 1, 2   | 2     |
         | 5 | 0, -1, -2 | 0, 1, 1   | 2     |
-@wip
+
     Scenario Outline: The normal vector on a cylinder's end caps
 
         Given cyl := Cylinder[]

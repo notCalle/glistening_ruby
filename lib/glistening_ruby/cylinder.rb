@@ -36,10 +36,7 @@ module GlisteningRuby
 
       b = 2 * (o.x * d.x + o.z * d.z)
       c = o.x**2 + o.z**2 - 1
-      quadratic(a, b, c).select do |t|
-        y = o.y + t * d.y
-        y > @minimum && y < @maximum
-      end
+      quadratic(a, b, c).select { |t| inside?(o.y + t * d.y) }
     end
 
     def endcap_intersections(ray) # rubocop:disable Metrics/AbcSize
@@ -52,7 +49,14 @@ module GlisteningRuby
     end
 
     def object_normal(point)
+      return Vector[0, 1, 0] if point.y >= @maximum - EPSILON
+      return Vector[0, -1, 0] if point.y <= @minimum + EPSILON
+
       Vector[point.x, 0, point.z]
+    end
+
+    def inside?(y_c)
+      y_c > @minimum && y_c < @maximum
     end
   end
 end
