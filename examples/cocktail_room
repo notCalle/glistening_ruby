@@ -1,0 +1,166 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'pry'
+require 'glistening_ruby'
+
+# Render some reflections
+class Main < GlisteningRuby::Base # rubocop:disable Metrics/ClassLength
+  include GlisteningRuby
+
+  def initialize
+    @world = World.new do |world|
+      setup_ceil_floor(world)
+      setup_walls(world)
+      setup_table(world)
+      setup_cocktail(world)
+      world << PointLight[Point[-2, 2.5, -2], Color.new(1.0, 1.0, 1.0)]
+    end
+  end
+
+  def setup_ceil_floor(world)
+    world << Cube.new do |s|
+      s.transform = identity.scale(10, 1.5, 10)
+                            .translate(0, 1.5, 0)
+      s.material = Material.new do |m|
+        m.pattern = Pattern::Stripe.new do |p|
+          p << Color[0.9, 0.9, 0.9]
+          p.transform = identity.scale(2).rotate_z('1/4'.to_r)
+          p << Pattern::Checkers.new do |c|
+            c << Color.new(0.2, 0.2, 0.2)
+            c << Color.new(0.8, 0.8, 0.8)
+            c.transform = identity.scale('1/32'.to_r).rotate_x('1/8'.to_r)
+          end
+        end
+        m.diffuse = 0.7
+        m.specular = 0.7
+        m.ambient = 0.3
+        m.reflective = 0.1
+      end
+    end
+  end
+
+  def setup_walls(world)
+    world << Cube.new do |s|
+      s.transform = identity.scale(5, 10, 5)
+      s.material = Material.new do |m|
+        m.pattern = Pattern::Stripe.new do |p|
+          p << Color[0.7, 0.5, 0.3]
+          p << Color[0.3, 0.5, 0.7]
+          p.transform = identity.scale('1/16'.to_r).rotate_y('1/8'.to_r)
+        end
+        m.specular = 0
+      end
+    end
+  end
+
+  def setup_table(world)
+    table_material = Material.new do |m|
+      m.pattern = Pattern::Perturb.new do |p|
+        p << Pattern::Stripe.new([0.5, 0.35, 0.15], [0.45, 0.3, 0.1]) do |s|
+          s.transform = identity.scale('1/32'.to_r)
+        end
+        p.magnitude = 0.2
+        p.octaves = 2
+      end
+      m.specular = 0.3
+      m.reflective = 0.05
+    end
+    world << Cube.new do |s|
+      s.transform = identity.scale(1.25, 0.05, 0.5)
+                            .translate(0, 0.8, 1)
+      s.material = table_material
+    end
+    [[-1.2, 0, -0.45],
+     [-1.2, 0, 0.45],
+     [1.2, 0, 0.45],
+     [1.2, 0, -0.45]].each do |point|
+       world << Cube.new do |s|
+         s.transform = identity.scale(0.05, 0.4, 0.05)
+                               .translate(*point)
+                               .translate(0, 0.4, 1)
+         s.material = table_material
+       end
+     end
+  end
+
+  def setup_cocktail(world)
+    drink = Material.new do |m|
+      m.color = Color[0.15, 0.1, 0.05]
+      m.ambient = 0.3
+      m.diffuse = 0.3
+      m.specular = 0.7
+      m.reflective = 0.7
+      m.transparency = 0.7
+      m.refractive_index = 1.3
+    end
+
+    glass = Material.new do |m|
+      m.color = Color[0, 0, 0]
+      m.ambient = 0.2
+      m.diffuse = 0.2
+      m.specular = 0.9
+      m.reflective = 0.9
+      m.transparency = 0.8
+      m.refractive_index = 1.5
+    end
+
+    world << Cone.new do |s|
+      s.minimum = 0
+      s.maximum = 0.9
+      s.closed = true
+      s.transform = identity.scale(0.09)
+                            .translate(0, 1.01, 1)
+      s.material = drink
+    end
+
+    world << Cone.new do |s|
+      s.minimum = 0
+      s.maximum = 1
+      s.transform = identity.scale(0.1)
+                            .translate(0, 1.0, 1)
+      s.material = glass
+    end
+
+    world << Cone.new do |s|
+      s.minimum = -1
+      s.maximum = 0
+      s.closed = true
+      s.transform = identity.scale(0.1, 0.01, 0.1)
+                            .translate(0, 0.9, 1)
+      s.material = glass
+    end
+
+    world << Cylinder.new do |s|
+      s.minimum = 0
+      s.maximum = 1
+      s.closed = true
+      s.transform = identity.scale(0.01, 0.11, 0.01)
+                            .translate(0, 0.9, 1)
+      s.material = glass
+    end
+  end
+
+  def render(width = 320, height = 256)
+    t0 = Time.now
+    camera = Camera.new(width, height, '1/8'.to_r) do |c|
+      c.transform = ViewTransform[
+        Point[0.1, 1.2, 0.5],
+        Point[0, 0.9, 1.2],
+        Vector[0, 1, 0]
+      ]
+    end
+
+    @canvas = camera.render(@world)
+    puts "Rendering time: #{Time.now - t0} s"
+    self
+  end
+
+  def save(filename)
+    File.open(filename, 'w') do |file|
+      @canvas.to_ppm(file)
+    end
+  end
+end
+Pry.start Main
