@@ -27,3 +27,23 @@ Feature: Cones
          When xs := shape.intersect r
          Then xs.count = 1
           And xs[0].t = 0.35355
+@wip
+    Scenario Outline: Intersecting a cone's end caps
+
+        Given shape := Cone[]
+          And shape.minimum= -0.5
+          And shape.maximum= 0.5
+          And capped := true
+          And shape.closed= capped
+          And p := Point[<origin>]
+          And v := Vector[<direction>]
+          And v := v.normalize
+          And r := Ray[p, v]
+         When xs := shape.intersect r
+         Then xs.count = <count>
+
+    Examples:
+        | origin        | direction | count |
+        | 0, 0, -5      | 0, 1, 0   | 0     |
+        | 0, 0, -0.25   | 0, 1, 1   | 2     |
+        | 0, 0, -0.25   | 0, 1, 0   | 4     |
