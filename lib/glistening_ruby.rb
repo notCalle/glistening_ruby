@@ -3,6 +3,7 @@
 require 'glistening_ruby/camera'
 require 'glistening_ruby/canvas'
 require 'glistening_ruby/color'
+require 'glistening_ruby/cone'
 require 'glistening_ruby/cube'
 require 'glistening_ruby/cylinder'
 require 'glistening_ruby/intersection'
