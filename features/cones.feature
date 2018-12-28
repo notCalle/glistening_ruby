@@ -47,7 +47,7 @@ Feature: Cones
         | 0, 0, -5      | 0, 1, 0   | 0     |
         | 0, 0, -0.25   | 0, 1, 1   | 2     |
         | 0, 0, -0.25   | 0, 1, 0   | 4     |
-@wip
+
     Scenario Outline: Computing the normal on a cone
 
         Given shape := Cone[]

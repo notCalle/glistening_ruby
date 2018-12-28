@@ -22,6 +22,14 @@ module GlisteningRuby
       @closed
     end
 
+    def object_normal(point) # rubocop:disable Metrics/AbcSize
+      return Vector[0, 1, 0] if point.y >= @maximum - EPSILON
+      return Vector[0, -1, 0] if point.y <= @minimum + EPSILON
+
+      y = Math.sqrt(point.x**2 + point.z**2)
+      Vector[point.x, point.y.positive? ? -y : y, point.z]
+    end
+
     private
 
     def intersections(ray)
@@ -49,13 +57,6 @@ module GlisteningRuby
       xs = [@minimum, @maximum].map { |y| [y, (y - o.y) / d.y] }
       xs = xs.select { |y, t| (o.x + t * d.x)**2 + (o.z + t * d.z)**2 <= y**2 }
       xs.map { |_, t| t }
-    end
-
-    def object_normal(point)
-      return Vector[0, 1, 0] if point.y >= @maximum - EPSILON
-      return Vector[0, -1, 0] if point.y <= @minimum + EPSILON
-
-      Vector[point.x, 0, point.z]
     end
 
     def inside?(y_c)
