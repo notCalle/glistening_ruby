@@ -46,8 +46,9 @@ module GlisteningRuby
       d = ray.direction
       return [] if !closed? || close?(d.y, 0)
 
-      xs = [@minimum, @maximum].map { |y| (y - o.y) / d.y }
-      xs.select { |t| (o.x + t * d.x)**2 + (o.z + t * d.z)**2 <= 1 }
+      xs = [@minimum, @maximum].map { |y| [y, (y - o.y) / d.y] }
+      xs = xs.select { |y, t| (o.x + t * d.x)**2 + (o.z + t * d.z)**2 <= y**2 }
+      xs.map { |_, t| t }
     end
 
     def object_normal(point)

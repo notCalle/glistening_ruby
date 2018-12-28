@@ -27,7 +27,7 @@ Feature: Cones
          When xs := shape.intersect r
          Then xs.count = 1
           And xs[0].t = 0.35355
-@wip
+
     Scenario Outline: Intersecting a cone's end caps
 
         Given shape := Cone[]
