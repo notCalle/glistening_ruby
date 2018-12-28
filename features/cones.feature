@@ -1,5 +1,5 @@
 Feature: Cones
-@wip
+
     Scenario Outline: Intersecting a cone with a ray
 
         Given shape := Cone[]
@@ -17,7 +17,7 @@ Feature: Cones
         | 0, 0, -5  | 0, 0, 1       | 5         | 5         |
         | 0, 0, -5  | 1, 1, 1       | 8.66025   | 8.66025   |
         | 1, 1, -5  | -0.5, -1, 1   | 4.55006   | 49.44994  |
-@wip
+
     Scenario: Intersecting a cone with a ray parallel to one of its halves
 
         Given shape := Cone[]
