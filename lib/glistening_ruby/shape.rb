@@ -33,6 +33,11 @@ module GlisteningRuby
       (@inverse_transpose * object_normal(object_point)).normalize
     end
 
+    def world_to_object(world_point)
+      world_point = parent.world_to_object(world_point) unless parent.nil?
+      @inverse * world_point
+    end
+
     protected
 
     attr_writer :parent

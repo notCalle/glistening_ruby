@@ -81,7 +81,7 @@ Feature: Abstract shapes
 
         Given s := TestShape[]
          Then s.parent is nothing
-@wip
+
     Scenario: Converting a point from world to object space
 
         Given g1 := Group[]
