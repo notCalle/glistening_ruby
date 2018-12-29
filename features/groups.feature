@@ -44,3 +44,16 @@ Feature: Groups of shapes
           And xs[1].object = s2
           And xs[2].object = s1
           And xs[3].object = s1
+
+    Scenario: Intersecting a transformed group
+
+        Given g := Group[]
+          And g.transform= Scaling[2, 2, 2]
+          And s := Sphere[]
+          And s.transform= Translation[5, 0, 0]
+          And s is added to g
+         When p := Point[10, 0, -10]
+          And v := Vector[0, 0, 1]
+          And r := Ray[p, v]
+          And xs := g.intersect r
+         Then xs.count = 2
