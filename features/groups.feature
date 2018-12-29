@@ -14,7 +14,7 @@ Feature: Groups of shapes
          Then g is not empty
           And g includes s
           And s.parent = g
-@wip
+
     Scenario: Intersecting a ray with an empty group
 
         Given g := Group[]
@@ -23,7 +23,7 @@ Feature: Groups of shapes
           And r := Ray[p, v]
          When xs := g.intersect r
          Then xs is empty
-@wip
+
     Scenario: Intersecting a ray with a non-empty group
 
         Given g := Group[]

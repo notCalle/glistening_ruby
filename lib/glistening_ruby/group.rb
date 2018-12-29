@@ -21,5 +21,12 @@ module GlisteningRuby
     end
 
     def_delegators :@shapes, :empty?, :include?
+
+    def intersect(ray)
+      ray = ray.transform(@inverse)
+      @shapes.each.with_object(Intersections.new) do |shape, xs|
+        xs << shape.intersect(ray)
+      end
+    end
   end
 end
