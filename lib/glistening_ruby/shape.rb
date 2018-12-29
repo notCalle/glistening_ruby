@@ -9,14 +9,19 @@ module GlisteningRuby
   # Abstract base shape
   class Shape < Transformable
     def initialize(*)
-      @material = Material[]
+      @material = nil
       @cast_shadows = true
       @parent = nil
       super
     end
 
-    attr_accessor :cast_shadows, :material
+    attr_accessor :cast_shadows
     attr_reader :parent
+
+    attr_writer :material
+    def material
+      @material ||= @parent&.material || Material[]
+    end
 
     def bounds
       raise NotImplementedError
