@@ -109,7 +109,7 @@ Feature: Abstract shapes
          When on := Vector[√3/3, √3/3, √3/3]
           And n := s.normal_to_world on
          Then n = Vector[0.28571, 0.42857, -0.85714]
-@wip
+
     Scenario: Finding the normal on a child object
 
         Given g1 := Group[]

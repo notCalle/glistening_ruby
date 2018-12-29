@@ -29,8 +29,7 @@ module GlisteningRuby
     end
 
     def normal_at(world_point)
-      object_point = @inverse * world_point
-      (@inverse_transpose * object_normal(object_point)).normalize
+      normal_to_world(object_normal(world_to_object(world_point)))
     end
 
     def world_to_object(world_point)
