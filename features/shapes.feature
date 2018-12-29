@@ -93,7 +93,7 @@ Feature: Abstract shapes
           And s.transform= Translation[5, 0, 0]
           And s is added to g2
          When wp := Point[-2, 0, -10]
-          And p := s.world_to_object wp
+          And p := s.to_local wp
          Then p = Point[0, 0, -1]
 
     Scenario: Converting a normal from object to world space

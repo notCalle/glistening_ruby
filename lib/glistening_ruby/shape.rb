@@ -29,12 +29,12 @@ module GlisteningRuby
     end
 
     def normal_at(world_point)
-      normal_to_world(object_normal(world_to_object(world_point)))
+      normal_to_world(object_normal(to_local(world_point)))
     end
 
-    def world_to_object(world_point)
-      world_point = parent.world_to_object(world_point) unless parent.nil?
-      @inverse * world_point
+    def to_local(world_point)
+      world_point = parent.to_local(world_point) unless parent.nil?
+      super(world_point)
     end
 
     def normal_to_world(normal)
