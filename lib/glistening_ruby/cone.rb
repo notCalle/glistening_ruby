@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+require_relative 'point'
 require_relative 'quadratic'
 require_relative 'shape'
+require_relative 'vector'
 
 module GlisteningRuby
   # A double-napped come
@@ -17,6 +19,11 @@ module GlisteningRuby
 
     attr_accessor :maximum, :minimum
     attr_writer :closed
+
+    def bounds
+      [Point[@minimum, @minimum, @minimum],
+       Point[@maximum, @maximum, @maximum]]
+    end
 
     def closed?
       @closed

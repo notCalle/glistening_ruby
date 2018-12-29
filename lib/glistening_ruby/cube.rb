@@ -1,41 +1,16 @@
 # frozen_string_literal: true
 
-require_relative 'intersection'
-require_relative 'intersections'
-require_relative 'matrix'
-require_relative 'material'
-require_relative 'point'
-require_relative 'shape'
+require_relative 'aabb'
+require_relative 'vector'
 
 module GlisteningRuby
   # An axis aligned unit Cube
-  class Cube < Shape
+  class Cube < AABB
+    def initialize
+      super [Point[-1, -1, -1], Point[1, 1, 1]]
+    end
+
     private
-
-    def intersections(ray)
-      t_min = -Float::INFINITY
-      t_max = Float::INFINITY
-
-      ray.origin.zip(ray.direction).each do |origin, direction|
-        min, max = axis_intersections(origin, direction)
-        t_min = min if min > t_min
-        t_max = max if max < t_max
-        return [] if t_min > t_max
-      end
-
-      [t_min, t_max]
-    end
-
-    def axis_intersections(origin, direction)
-      [nonan_div(-1 - origin, direction),
-       nonan_div(1 - origin, direction)].sort
-    end
-
-    def nonan_div(numerator, denominator)
-      return numerator / denominator unless numerator.zero? && denominator.zero?
-
-      Float::INFINITY
-    end
 
     def object_normal(point) # rubocop:disable Metrics/AbcSize
       max = point.map(&:abs).max

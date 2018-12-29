@@ -7,7 +7,7 @@ module GlisteningRuby
   # the convention that w = 1.0 for points
   module Point
     def self.[](x_axis, y_axis, z_axis)
-      Tuple[x_axis, y_axis, z_axis, 1.0]
+      Tuple[x_axis.to_f, y_axis.to_f, z_axis.to_f, 1.0]
     end
 
     def self.===(obj)

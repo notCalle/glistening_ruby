@@ -20,21 +20,21 @@ module GlisteningRuby
       @inverse_transpose = transform.submatrix(3, 3).inverse.transpose
     end
 
-    # Transform a point in world space to local space
+    # Transform a point in outer space to local space
     #
     # :call-seq:
-    #   to_local(world_point) => local_point
+    #   to_local(outer_point) => local_point
     #
     def to_local(point)
       @inverse * point
     end
 
-    # Transform a point in local space to world space
+    # Transform a point in local space to outer space
     #
     # :call-seq:
-    #   to_local(local_point) => world_point
+    #   to_outer(local_point) => outer_point
     #
-    def to_world(point)
+    def to_outer(point)
       @transform * point
     end
   end

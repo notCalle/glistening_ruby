@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'intersection'
 require_relative 'intersections'
-require_relative 'matrix'
 require_relative 'material'
 require_relative 'point'
 require_relative 'transformable'
@@ -10,13 +8,24 @@ require_relative 'transformable'
 module GlisteningRuby
   # Abstract base shape
   class Shape < Transformable
-    def initialize
-      @material = Material[]
+    def initialize(*)
+      @material = nil
       @cast_shadows = true
+      @parent = nil
       super
     end
 
-    attr_accessor :cast_shadows, :material
+    attr_accessor :cast_shadows
+    attr_reader :parent
+
+    attr_writer :material
+    def material
+      @material ||= @parent&.material || Material[]
+    end
+
+    def bounds
+      raise NotImplementedError
+    end
 
     def cast_shadows?
       @cast_shadows
@@ -27,8 +36,23 @@ module GlisteningRuby
     end
 
     def normal_at(world_point)
-      object_point = @inverse * world_point
-      (@inverse_transpose * object_normal(object_point)).normalize
+      normal_to_world(object_normal(to_local(world_point)))
     end
+
+    def to_local(world_point)
+      world_point = parent.to_local(world_point) unless parent.nil?
+      super(world_point)
+    end
+
+    def normal_to_world(normal)
+      normal = (@inverse_transpose * normal).normalize
+      return normal if parent.nil?
+
+      parent.normal_to_world(normal)
+    end
+
+    protected
+
+    attr_writer :parent
   end
 end

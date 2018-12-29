@@ -76,3 +76,50 @@ Feature: Abstract shapes
         Given bool := false
           And s.cast_shadows= bool
          Then s does not cast_shadows
+
+    Scenario: A shape has a parent attribute
+
+        Given s := TestShape[]
+         Then s.parent is nothing
+
+    Scenario: Converting a point from world to object space
+
+        Given g1 := Group[]
+          And g1.transform= RotationY[1/4]
+          And g2 := Group[]
+          And g2.transform= Scaling[2, 2, 2]
+          And g2 is added to g1
+          And s := Sphere[]
+          And s.transform= Translation[5, 0, 0]
+          And s is added to g2
+         When wp := Point[-2, 0, -10]
+          And p := s.to_local wp
+         Then p = Point[0, 0, -1]
+
+    Scenario: Converting a normal from object to world space
+
+        Given g1 := Group[]
+          And g1.transform= RotationY[1/4]
+          And g2 := Group[]
+          And g2.transform= Scaling[1, 2, 3]
+          And g2 is added to g1
+          And s := Sphere[]
+          And s.transform= Translation[5, 0, 0]
+          And s is added to g2
+         When on := Vector[√3/3, √3/3, √3/3]
+          And n := s.normal_to_world on
+         Then n = Vector[0.28571, 0.42857, -0.85714]
+
+    Scenario: Finding the normal on a child object
+
+        Given g1 := Group[]
+          And g1.transform= RotationY[1/4]
+          And g2 := Group[]
+          And g2.transform= Scaling[1, 2, 3]
+          And g2 is added to g1
+          And s := Sphere[]
+          And s.transform= Translation[5, 0, 0]
+          And s is added to g2
+         When p := Point[1.7321, 1.1547, -5.5774]
+          And n := s.normal_at p
+         Then n = Vector[0.28570, 0.42854, -0.85716]

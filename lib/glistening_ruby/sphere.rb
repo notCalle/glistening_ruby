@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'intersection'
-require_relative 'intersections'
-require_relative 'matrix'
-require_relative 'material'
 require_relative 'point'
 require_relative 'quadratic'
 require_relative 'shape'
@@ -12,6 +8,11 @@ module GlisteningRuby
   # Sphere
   class Sphere < Shape
     include Quadratic
+
+    def bounds
+      [Point[-1, -1, -1],
+       Point[1, 1, 1]]
+    end
 
     private
 
