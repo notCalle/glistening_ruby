@@ -1,5 +1,5 @@
 Feature: Groups of shapes
-@wip
+
     Scenario: Creating a new group
 
         Given g := Group[]
