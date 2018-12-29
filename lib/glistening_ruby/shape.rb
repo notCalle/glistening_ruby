@@ -32,5 +32,9 @@ module GlisteningRuby
       object_point = @inverse * world_point
       (@inverse_transpose * object_normal(object_point)).normalize
     end
+
+    protected
+
+    attr_writer :parent
   end
 end

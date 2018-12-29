@@ -9,10 +9,17 @@ module GlisteningRuby
     extend Forwardable
 
     def initialize(*)
-      @shapes = []
+      @shapes = Set[]
       super
     end
 
-    def_delegators :@shapes, :empty?
+    def <<(other)
+      raise "#{other} already has a parent" unless other.parent.nil?
+
+      @shapes << other
+      other.parent = self
+    end
+
+    def_delegators :@shapes, :empty?, :include?
   end
 end

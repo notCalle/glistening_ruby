@@ -5,7 +5,7 @@ Feature: Groups of shapes
         Given g := Group[]
          Then g.transform is the identity matrix
           And g is empty
-@wip
+
     Scenario: Adding a child to a group
 
         Given g := Group[]
