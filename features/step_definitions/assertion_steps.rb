@@ -86,6 +86,12 @@ Then(
 end
 
 Then(
+  '{variable} includes {variable}'
+) do |a, b|
+  expect(seval(a, :include?, b)).to be_truthy
+end
+
+Then(
   '{variable} does/is {predicate}'
 ) do |subj, method|
   expect(seval(subj, method)).to be_truthy

@@ -3,5 +3,5 @@
 Given(
   '{variable} is added to {variable}'
 ) do |thing, world|
-  seval(world).objects << seval(thing)
+  seval(world, :<<, thing)
 end
