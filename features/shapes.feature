@@ -95,3 +95,17 @@ Feature: Abstract shapes
          When wp := Point[-2, 0, -10]
           And p := s.world_to_object wp
          Then p = Point[0, 0, -1]
+@wip
+    Scenario: Converting a normal from object to world space
+
+        Given g1 := Group[]
+          And g1.transform= RotationY[1/4]
+          And g2 := Group[]
+          And g2.transform= Scaling[1, 2, 3]
+          And g2 is added to g1
+          And s := Sphere[]
+          And s.transform= Translation[5, 0, 0]
+          And s is added to g2
+         When on := Vector[√3/3, √3/3, √3/3]
+          And n := s.normal_to_world on
+         Then n = Vector[0.28571, 0.42857, -0.85714]
