@@ -76,3 +76,8 @@ Feature: Abstract shapes
         Given bool := false
           And s.cast_shadows= bool
          Then s does not cast_shadows
+@wip
+    Scenario: A shape has a parent attribute
+
+        Given s := TestShape[]
+         Then s.parent is nothing

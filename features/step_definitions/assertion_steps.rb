@@ -98,6 +98,18 @@ Then(
 end
 
 Then(
+  '{variable}.{method} does/is {predicate}'
+) do |subj, method, predicate|
+  expect(seval(seval(subj, method), predicate)).to be_truthy
+end
+
+Then(
+  '{variable}.{method} does/is not {predicate}'
+) do |subj, method, predicate|
+  expect(seval(seval(subj, method), predicate)).to be_falsey
+end
+
+Then(
   '{variable} is {predicate} in {variable}'
 ) do |subj, method, obj|
   expect(seval(obj, method, subj)).to be_truthy
