@@ -81,3 +81,17 @@ Feature: Abstract shapes
 
         Given s := TestShape[]
          Then s.parent is nothing
+@wip
+    Scenario: Converting a point from world to object space
+
+        Given g1 := Group[]
+          And g1.transform= RotationY[1/4]
+          And g2 := Group[]
+          And g2.transform= Scaling[2, 2, 2]
+          And g2 is added to g1
+          And s := Sphere[]
+          And s.transform= Translation[5, 0, 0]
+          And s is added to g2
+         When wp := Point[-2, 0, -10]
+          And p := s.world_to_object wp
+         Then p = Point[0, 0, -1]
