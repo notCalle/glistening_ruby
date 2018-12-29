@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+require_relative 'point'
 require_relative 'quadratic'
 require_relative 'shape'
+require_relative 'vector'
 
 module GlisteningRuby
   # A cylinder
@@ -17,6 +19,11 @@ module GlisteningRuby
 
     attr_accessor :maximum, :minimum
     attr_writer :closed
+
+    def bounds
+      [Point[-1, @minimum, -1],
+       Point[1, @maximum, 1]]
+    end
 
     def closed?
       @closed

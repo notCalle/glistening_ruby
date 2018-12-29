@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'intersection'
 require_relative 'intersections'
-require_relative 'matrix'
 require_relative 'material'
 require_relative 'point'
 require_relative 'transformable'
@@ -10,7 +8,7 @@ require_relative 'transformable'
 module GlisteningRuby
   # Abstract base shape
   class Shape < Transformable
-    def initialize
+    def initialize(*)
       @material = Material[]
       @cast_shadows = true
       @parent = nil
@@ -19,6 +17,10 @@ module GlisteningRuby
 
     attr_accessor :cast_shadows, :material
     attr_reader :parent
+
+    def bounds
+      raise NotImplementedError
+    end
 
     def cast_shadows?
       @cast_shadows

@@ -7,7 +7,7 @@ module GlisteningRuby
   # the convention that w = 0.0 for vectors
   module Vector
     def self.[](x_axis, y_axis, z_axis)
-      Tuple[x_axis, y_axis, z_axis, 0.0]
+      Tuple[x_axis.to_f, y_axis.to_f, z_axis.to_f, 0.0]
     end
 
     def self.===(obj)

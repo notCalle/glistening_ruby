@@ -1,10 +1,17 @@
 # frozen_string_literal: true
 
+require_relative 'point'
 require_relative 'shape'
+require_relative 'vector'
 
 module GlisteningRuby
   # A snakeless plane
   class Plane < Shape
+    def bounds
+      [Point[-Float::INFINITY, 0, Float::INFINITY],
+       Point[Float::INFINITY, 0, Float::INFINITY]]
+    end
+
     private
 
     def intersections(ray)
