@@ -38,6 +38,13 @@ module GlisteningRuby
       @inverse * world_point
     end
 
+    def normal_to_world(normal)
+      normal = (@inverse_transpose * normal).normalize
+      return normal if parent.nil?
+
+      parent.normal_to_world(normal)
+    end
+
     protected
 
     attr_writer :parent

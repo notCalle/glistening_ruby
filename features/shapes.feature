@@ -95,7 +95,7 @@ Feature: Abstract shapes
          When wp := Point[-2, 0, -10]
           And p := s.world_to_object wp
          Then p = Point[0, 0, -1]
-@wip
+
     Scenario: Converting a normal from object to world space
 
         Given g1 := Group[]
