@@ -13,10 +13,12 @@ module GlisteningRuby
     def initialize
       @material = Material[]
       @cast_shadows = true
+      @parent = nil
       super
     end
 
     attr_accessor :cast_shadows, :material
+    attr_reader :parent
 
     def cast_shadows?
       @cast_shadows
