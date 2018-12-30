@@ -12,3 +12,18 @@ Feature: Wavefront OBJ files
             """
          When parser := ObjFile[gibberish]
          Then parser.ignored = 5
+@wip
+    Scenario: Parsing vertex records
+
+        Given file containing:
+            """
+            v -1 1 0
+            v -1.0000 0.5000 0.0000
+            v 1 0 0
+            v 1 1 0
+            """
+         When parser := ObjFile[file]
+         Then parser.vertices[1] = Point[-1, 1, 0]
+          And parser.vertices[2] = Point[-1, 0.5, 0]
+          And parser.vertices[3] = Point[1, 0, 0]
+          And parser.vertices[4] = Point[1, 1, 0]
