@@ -24,7 +24,7 @@ module GlisteningRuby
       @normal
     end
 
-    def intersections(ray)
+    def intersections(ray) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
       ray_x_e2 = ray.direction.cross @e2
       determinant = @e1.dot ray_x_e2
       return [] if close?(determinant, 0)
@@ -33,6 +33,10 @@ module GlisteningRuby
       v1_to_origin = ray.origin - @v1
       u = f * (v1_to_origin.dot ray_x_e2)
       return [] unless u.between?(0, 1)
+
+      origin_x_e1 = v1_to_origin.cross @e1
+      v = f * (ray.direction.dot origin_x_e1)
+      return [] if v.negative? || (u + v) > 1
 
       [0] # fake
     end
