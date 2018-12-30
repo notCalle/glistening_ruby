@@ -92,3 +92,13 @@ Feature: Wavefront OBJ files
           And t2.v1 = parser.vertices[1]
           And t2.v2 = parser.vertices[3]
           And t2.v3 = parser.vertices[4]
+@wip
+    Scenario: Converting an OBJ file to a group
+
+        Given file with contents of "triangles.obj"
+          And parser := ObjFile[file]
+         When g := parser.to_group
+          And g1 := parser["FirstGroup"]
+          And g2 := parser["SecondGroup"]
+         Then g includes g1
+          And g includes g2
