@@ -12,7 +12,7 @@ module GlisteningRuby
     include Enumerable
 
     def initialize
-      @shapes = Set[]
+      @shapes = []
       super
     end
 
@@ -28,7 +28,7 @@ module GlisteningRuby
       aabb.bounds
     end
 
-    def_delegators :@shapes, :empty?, :include?, :each
+    def_delegators :@shapes, :empty?, :include?, :each, :[]
 
     def intersect(ray)
       ray = ray.transform(@inverse)
