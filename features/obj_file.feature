@@ -50,7 +50,7 @@ Feature: Wavefront OBJ files
           And t2.v1 = parser.vertices[1]
           And t2.v2 = parser.vertices[3]
           And t2.v3 = parser.vertices[4]
-@wip
+
     Scenario: Triangulating polygons
 
         Given file containing:

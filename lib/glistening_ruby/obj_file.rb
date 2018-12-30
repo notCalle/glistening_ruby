@@ -17,29 +17,39 @@ module GlisteningRuby
 
     def parsers
       {
-        /^v(?:\s+(?:-?\d+(?:\.\d+)?)){3}$/ =>
-        ->(md) { @vertices << parse_vertex(md) },
-
-        /^f(?:\s\d+){3}$/ =>
-        ->(md) { @default_group << parse_triangle(md) }
+        /^v(?:\s+(?:-?\d+(?:\.\d+)?)){3}$/ => :parse_vertex,
+        /^f(?:\s\d+){3}$/ => :parse_triangle,
+        /^f(?:\s\d+){4,}$/ => :parse_polygon
       }
     end
 
     def parse(line)
       @ignored += 1 unless parsers.any? do |rex, f|
         if (m = rex.match(line))
-          f.call(m)
+          send(f, m)
         end
       end
     end
 
     def parse_vertex(matchdata)
-      Point[*matchdata.to_s.split[1..3]]
+      @vertices << Point[*matchdata.to_s.split[1..3]]
     end
 
     def parse_triangle(matchdata)
-      vertices = matchdata.to_s.split[1..3].map { |v| @vertices[v.to_i] }
-      Triangle.new(*vertices)
+      vertices = match_to_vertices(matchdata)
+      @default_group << Triangle.new(*vertices)
+    end
+
+    def parse_polygon(matchdata)
+      vertices = match_to_vertices(matchdata)
+      v1 = vertices[0]
+      1.upto(vertices.size - 2) do |n|
+        @default_group << Triangle[v1, vertices[n], vertices[n + 1]]
+      end
+    end
+
+    def match_to_vertices(matchdata)
+      matchdata.to_s.split[1..-1].map { |v| @vertices[v.to_i] }
     end
   end
 end
