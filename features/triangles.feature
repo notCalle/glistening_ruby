@@ -12,7 +12,7 @@ Feature: Triangles
           And t.e1 = Vector[-1, -1, 0]
           And t.e2 = Vector[1, -1, 0]
           And t.normal = Vector[0, 0, -1]
-@wip
+
     Scenario Outline: Finding the normal on a triangle
 
         Given p1 := Point[0, 1, 0]

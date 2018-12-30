@@ -17,5 +17,11 @@ module GlisteningRuby
     end
 
     attr_reader :e1, :e2, :normal, :v1, :v2, :v3
+
+    private
+
+    def object_normal(_point)
+      @normal
+    end
   end
 end
