@@ -9,7 +9,7 @@ module GlisteningRuby
       @groups = { nil => @default_group }
       @ignored = 0
       @vertices = [nil]
-      input.lines.map(&:strip).each { |line| parse(line) }
+      input.each_line { |line| parse(line.strip) }
     end
 
     attr_reader :default_group, :ignored, :vertices
