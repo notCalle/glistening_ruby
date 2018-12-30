@@ -12,7 +12,7 @@ Feature: Wavefront OBJ files
             """
          When parser := ObjFile[gibberish]
          Then parser.ignored = 5
-@wip
+
     Scenario: Parsing vertex records
 
         Given file containing:
