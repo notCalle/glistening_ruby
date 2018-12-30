@@ -38,7 +38,7 @@ module GlisteningRuby
       v = f * (ray.direction.dot origin_x_e1)
       return [] if v.negative? || (u + v) > 1
 
-      [0] # fake
+      [f * (@e2.dot origin_x_e1)]
     end
   end
 end

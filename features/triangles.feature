@@ -59,7 +59,7 @@ Feature: Triangles
           And r := Ray[p, v]
          When xs := t.intersect r
          Then xs is empty
-@wip
+
     Scenario: A ray hits a triangles
 
         Given p := Point[0, 0.5, -2]
