@@ -1,5 +1,5 @@
 Feature: Wavefront OBJ files
-@wip
+
     Scenario: Ignoring unrecognized lines
 
         Given gibberish containing:
