@@ -50,3 +50,30 @@ Feature: Wavefront OBJ files
           And t2.v1 = parser.vertices[1]
           And t2.v2 = parser.vertices[3]
           And t2.v3 = parser.vertices[4]
+@wip
+    Scenario: Triangulating polygons
+
+        Given file containing:
+            """
+            v -1 1 0
+            v -1 0 0
+            v 1 0 0
+            v 1 1 0
+            v 0 2 0
+
+            f 1 2 3 4 5
+            """
+         When parser := ObjFile[file]
+          And g := parser.default_group
+          And t1 := g[0]
+          And t2 := g[1]
+          And t3 := g[2]
+         Then t1.v1 = parser.vertices[1]
+          And t1.v2 = parser.vertices[2]
+          And t1.v3 = parser.vertices[3]
+          And t2.v1 = parser.vertices[1]
+          And t2.v2 = parser.vertices[3]
+          And t2.v3 = parser.vertices[4]
+          And t3.v1 = parser.vertices[1]
+          And t3.v2 = parser.vertices[4]
+          And t3.v3 = parser.vertices[5]
