@@ -5,6 +5,10 @@ require_relative 'group'
 module GlisteningRuby
   # Parse a Wavefront OBJ file
   class ObjFile < Group
+    def self.open(filename)
+      new(File.open(filename))
+    end
+
     def initialize(input)
       @current_group = self
       @shapes = []
@@ -31,8 +35,8 @@ module GlisteningRuby
     def parsers
       {
         /^v(?:\s+(?:-?\d+(?:\.\d+)?)){3}$/ => :parse_vertex,
-        /^f(?:\s\d+){3}$/ => :parse_triangle,
-        /^f(?:\s\d+){4,}$/ => :parse_polygon,
+        %r{^f(?:\s+\d+(?:/\d+){0,2}){3}$} => :parse_triangle,
+        %r{^f(?:\s+\d+(?:/\d+){0,2}){4,}$} => :parse_polygon,
         /^g\s+(.+)$/ => :parse_group
       }
     end
