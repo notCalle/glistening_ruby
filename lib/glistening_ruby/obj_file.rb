@@ -5,8 +5,8 @@ module GlisteningRuby
   # Parse a Wavefront OBJ file
   class ObjFile < Base
     def initialize(input)
-      @current_group = @default_group = Group.new
-      @groups = { nil => @default_group }
+      @current_group = @default_group = []
+      @groups = {}
       @ignored = 0
       @vertices = [nil]
       input.each_line { |line| parse(line.strip) }
@@ -17,6 +17,8 @@ module GlisteningRuby
     def [](index)
       @groups[index.to_sym]
     end
+
+    alias to_group default_group
 
     private
 
@@ -39,6 +41,7 @@ module GlisteningRuby
 
     def parse_group(matchdata)
       @current_group = @groups[matchdata[1].to_sym] ||= Group.new
+      @default_group << @current_group
     end
 
     def parse_vertex(matchdata)
