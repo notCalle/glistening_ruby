@@ -12,7 +12,7 @@ module GlisteningRuby
     include Enumerable
 
     def initialize
-      @shapes = []
+      @shapes ||= []
       super
     end
 
