@@ -27,3 +27,26 @@ Feature: Wavefront OBJ files
           And parser.vertices[2] = Point[-1, 0.5, 0]
           And parser.vertices[3] = Point[1, 0, 0]
           And parser.vertices[4] = Point[1, 1, 0]
+@wip
+    Scenario: Parsing triangle faces
+
+        Given file containing:
+            """
+            v -1 1 0
+            v -1 0 0
+            v 1 0 0
+            v 1 1 0
+
+            f 1 2 3
+            f 1 3 4
+            """
+         When parser := ObjFile[file]
+          And g := parser.default_group
+          And t1 := g[0]
+          And t2 := g[1]
+         Then t1.v1 = parser.vertices[1]
+          And t1.v2 = parser.vertices[2]
+          And t1.v3 = parser.vertices[3]
+          And t2.v1 = parser.vertices[1]
+          And t2.v2 = parser.vertices[3]
+          And t2.v3 = parser.vertices[4]
