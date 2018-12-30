@@ -29,6 +29,11 @@ module GlisteningRuby
       determinant = @e1.dot ray_x_e2
       return [] if close?(determinant, 0)
 
+      f = 1.0 / determinant
+      v1_to_origin = ray.origin - @v1
+      u = f * (v1_to_origin.dot ray_x_e2)
+      return [] unless u.between?(0, 1)
+
       [0] # fake
     end
   end
