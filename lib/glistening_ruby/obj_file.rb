@@ -5,7 +5,8 @@ module GlisteningRuby
   # Parse a Wavefront OBJ file
   class ObjFile < Base
     def initialize(input)
-      @default_group = Group.new
+      @current_group = @default_group = Group.new
+      @groups = { nil => @default_group }
       @ignored = 0
       @vertices = [nil]
       input.lines.map(&:strip).each { |line| parse(line) }
@@ -13,13 +14,18 @@ module GlisteningRuby
 
     attr_reader :default_group, :ignored, :vertices
 
+    def [](index)
+      @groups[index.to_sym]
+    end
+
     private
 
     def parsers
       {
         /^v(?:\s+(?:-?\d+(?:\.\d+)?)){3}$/ => :parse_vertex,
         /^f(?:\s\d+){3}$/ => :parse_triangle,
-        /^f(?:\s\d+){4,}$/ => :parse_polygon
+        /^f(?:\s\d+){4,}$/ => :parse_polygon,
+        /^g\s+(.+)$/ => :parse_group
       }
     end
 
@@ -31,20 +37,24 @@ module GlisteningRuby
       end
     end
 
+    def parse_group(matchdata)
+      @current_group = @groups[matchdata[1].to_sym] ||= Group.new
+    end
+
     def parse_vertex(matchdata)
       @vertices << Point[*matchdata.to_s.split[1..3]]
     end
 
     def parse_triangle(matchdata)
       vertices = match_to_vertices(matchdata)
-      @default_group << Triangle.new(*vertices)
+      @current_group << Triangle.new(*vertices)
     end
 
     def parse_polygon(matchdata)
       vertices = match_to_vertices(matchdata)
       v1 = vertices[0]
       1.upto(vertices.size - 2) do |n|
-        @default_group << Triangle[v1, vertices[n], vertices[n + 1]]
+        @current_group << Triangle[v1, vertices[n], vertices[n + 1]]
       end
     end
 

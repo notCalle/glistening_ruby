@@ -77,7 +77,7 @@ Feature: Wavefront OBJ files
           And t3.v1 = parser.vertices[1]
           And t3.v2 = parser.vertices[4]
           And t3.v3 = parser.vertices[5]
-@wip
+
     Scenario: Triangles in groups
 
         Given file with contents of "triangles.obj"
