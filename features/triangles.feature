@@ -1,5 +1,5 @@
 Feature: Triangles
-@wip
+
     Scenario: Constructing a triangle
 
         Given p1 := Point[0, 1, 0]
