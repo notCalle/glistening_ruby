@@ -77,3 +77,18 @@ Feature: Wavefront OBJ files
           And t3.v1 = parser.vertices[1]
           And t3.v2 = parser.vertices[4]
           And t3.v3 = parser.vertices[5]
+@wip
+    Scenario: Triangles in groups
+
+        Given file with contents of "triangles.obj"
+         When parser := ObjFile[file]
+          And g1 := parser["FirstGroup"]
+          And g2 := parser["SecondGroup"]
+          And t1 := g1[0]
+          And t2 := g2[0]
+         Then t1.v1 = parser.vertices[1]
+          And t1.v2 = parser.vertices[2]
+          And t1.v3 = parser.vertices[3]
+          And t2.v1 = parser.vertices[1]
+          And t2.v2 = parser.vertices[3]
+          And t2.v3 = parser.vertices[4]
