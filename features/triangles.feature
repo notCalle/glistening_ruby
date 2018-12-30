@@ -43,3 +43,19 @@ Feature: Triangles
           And r := Ray[p, v]
          When xs := t.intersect r
          Then xs is empty
+@wip
+    Scenario: A ray misses the v1:v2 edge
+
+        Given p := Point[-1, 1, -2]
+          And v := Vector[0, 0, 1]
+          And r := Ray[p, v]
+         When xs := t.intersect r
+         Then xs is empty
+@wip
+    Scenario: A ray misses the v2:v3 edge
+
+        Given p := Point[0, -1, -2]
+          And v := Vector[0, 0, 1]
+          And r := Ray[p, v]
+         When xs := t.intersect r
+         Then xs is empty
