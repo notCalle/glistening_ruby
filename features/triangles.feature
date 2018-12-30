@@ -27,7 +27,7 @@ Feature: Triangles
         | 0, 0.5, 0     |
         | -0.5, 0.75, 0 |
         | 0.5, 0.25, 0  |
-@wip
+
     Scenario: Intersecting a ray parallel to a triangle
 
         Given p := Point[0, -1, -2]

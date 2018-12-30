@@ -23,5 +23,13 @@ module GlisteningRuby
     def object_normal(_point)
       @normal
     end
+
+    def intersections(ray)
+      ray_x_e2 = ray.direction.cross @e2
+      determinant = @e1.dot ray_x_e2
+      return [] if close?(determinant, 0)
+
+      [0] # fake
+    end
   end
 end
