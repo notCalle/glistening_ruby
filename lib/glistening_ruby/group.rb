@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 require 'forwardable'
-require_relative 'aabb'
-require_relative 'intersections'
+require_relative 'bounding_tree'
 require_relative 'shape'
 
 module GlisteningRuby
@@ -12,39 +11,32 @@ module GlisteningRuby
     include Enumerable
 
     def initialize
-      @shapes = Set[]
+      @shapes ||= []
       super
     end
 
     def <<(other)
       raise "#{other} already has a parent" unless other.parent.nil?
 
-      @aabb = nil
+      @bounding_tree = nil
       @shapes << other
       other.parent = self
     end
 
     def bounds
-      aabb.bounds
+      bounding_tree.bounds
     end
 
-    def_delegators :@shapes, :empty?, :include?, :each
+    def_delegators :@shapes, :empty?, :include?, :each, :[]
 
     def intersect(ray)
-      ray = ray.transform(@inverse)
-      return Intersections.new unless intersect_bounds?(ray)
-
-      Intersections.new << flat_map { |s| s.intersect(ray).to_a }
+      bounding_tree.intersect(ray.transform(@inverse))
     end
 
     private
 
-    def aabb
-      @aabb ||= AABB.new(flat_map { |s| AABB.from_shape(s).bounds })
-    end
-
-    def intersect_bounds?(ray)
-      aabb.intersect(ray)
+    def bounding_tree
+      @bounding_tree ||= BoundingTree.new(@shapes)
     end
   end
 end

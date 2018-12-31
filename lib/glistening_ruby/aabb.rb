@@ -21,6 +21,12 @@ module GlisteningRuby
       [Point[*@min], Point[*@max]]
     end
 
+    def largest_axis
+      xyz = (Point[*@max] - Point[*@min]).xyz
+      max = xyz.max
+      %i[x y z].zip(xyz).find { |_, v| v == max }[0]
+    end
+
     def transform(matrix)
       points = [[@x_min, @y_min, @z_min],
                 [@x_max, @y_min, @z_min],

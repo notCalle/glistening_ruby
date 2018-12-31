@@ -25,6 +25,18 @@ Given(
 end
 
 Given(
+  '{variable} := {variable}[{int}]'
+) do |lhs, rhs, index|
+  seval(lhs, :'=', seval(rhs)[index])
+end
+
+Given(
+  '{variable} := {variable}[{string}]'
+) do |lhs, rhs, index|
+  seval(lhs, :'=', seval(rhs)[index])
+end
+
+Given(
   '{variable} := {variable}.{method}[{int}]'
 ) do |lhs, rhs, method, index|
   seval(lhs, :'=', seval(rhs, method)[index])

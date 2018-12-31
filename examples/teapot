@@ -1,0 +1,78 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'pry'
+require 'glistening_ruby'
+
+# Render a hexagon
+class Main < GlisteningRuby::Base
+  include GlisteningRuby
+
+  def initialize
+    @world = World.new do |world|
+      setup_room(world)
+      setup_teapot(world)
+      world << PointLight[Point[-1.5, 2.5, -1.5], Color.new(1.0, 1.0, 1.0)]
+    end
+  end
+
+  def setup_room(world)
+    world << Cube.new do |s|
+      s.material = Material.new do |m|
+        m.pattern = Pattern::Checkers.new do |c|
+          c << Color[0.5, 0.5, 0.5] << Color[0.75, 0.75, 0.75]
+          c.transform = identity.scale('1/16'.to_r)
+        end
+        m.diffuse = 0.7
+        m.ambient = 0.3
+        m.reflective = 0.2
+        m.shininess = 50
+      end
+      s.transform = identity.translate(0, 1, 0).scale(2)
+    end
+  end
+
+  def setup_teapot(world)
+    world << ObjFile.new(File.open(__dir__ + '/teapot-low.obj')) do |g|
+      g.transform = identity.rotate_x('-1/4'.to_r)
+                            .scale('1/16'.to_r)
+      g.material = Material.new do |m|
+        m.color = Color[1.0, 0.8, 0.5]
+        m.shininess = 300
+        m.diffuse = 0.7
+        m.ambient = 0.3
+      end
+    end
+  end
+
+  def render(width = 320, height = 256)
+    t0 = Time.now
+    camera = Camera.new(width, height, '1/6'.to_r) do |c|
+      c.progress = lambda do |x, y|
+        pct = Rational(y * width + x, width * height)
+        next if pct.zero?
+
+        t1 = Time.now
+        STDOUT << "#{(pct * 100).to_i}% done, "
+        STDOUT << "#{((t1 - t0) * (1.0 - pct) / pct).to_i} s to go.  \r"
+      end
+      c.transform = ViewTransform[
+        Point[-0.5, 1.2, -1.6],
+        Point[0, 0.4, 0],
+        Vector[0, 1, 0]
+      ]
+    end
+
+    @canvas = camera.render(@world)
+    puts "Rendering time: #{Time.now - t0} s"
+    self
+  end
+
+  def save(filename)
+    File.open(filename, 'w') do |file|
+      @canvas.to_ppm(file)
+    end
+  end
+end
+Pry.start Main

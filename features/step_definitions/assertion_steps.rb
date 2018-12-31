@@ -25,6 +25,12 @@ Then(
 end
 
 Then(
+  '{variable}.{method} = {variable}.{method}[{int}]'
+) do |a, a_method, b, b_method, i|
+  expect(seval(a, a_method)).to eq seval(b, b_method)[i]
+end
+
+Then(
   '{variable} = {class}[]'
 ) do |a, klass|
   expect(seval(a)).to eq klass[]

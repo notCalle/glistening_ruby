@@ -87,3 +87,10 @@ Then(
 ) do |a, op, b, klass, *tuple|
   expect(seval(a, op, b)).to eq klass[*tuple]
 end
+
+Then(
+  '{variable}.{method}[{int}]'\
+  ' = {class}[{scalar}, {scalar}, {scalar}]'
+) do |a, m, i, klass, *tuple|
+  expect(seval(a, m)[i]).to eq klass[*tuple]
+end

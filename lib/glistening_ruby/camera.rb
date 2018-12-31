@@ -18,6 +18,7 @@ module GlisteningRuby
     end
 
     attr_reader :fov, :h, :pixel_size, :transform, :w
+    attr_writer :progress
 
     def transform=(transform)
       @transform = transform
@@ -39,6 +40,7 @@ module GlisteningRuby
         canvas.each do |_, x, y|
           ray = ray_for_pixel(x, y)
           canvas[x, y] = world.color_at ray
+          @progress&.call(x, y)
         end
       end
     end
