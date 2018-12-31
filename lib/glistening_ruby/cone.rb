@@ -21,8 +21,9 @@ module GlisteningRuby
     attr_writer :closed
 
     def bounds
-      [Point[@minimum, @minimum, @minimum],
-       Point[@maximum, @maximum, @maximum]]
+      xz_max = [@minimum.abs, @maximum.abs].max
+      [Point[-xz_max, @minimum, -xz_max],
+       Point[xz_max, @maximum, xz_max]]
     end
 
     def closed?
