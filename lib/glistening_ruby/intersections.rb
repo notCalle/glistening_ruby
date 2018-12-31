@@ -28,6 +28,7 @@ module GlisteningRuby
         @intersections << intersection
       end
       @intersections.sort!
+      self
     end
 
     attr_reader :hit
