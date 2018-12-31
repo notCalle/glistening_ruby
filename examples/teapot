@@ -49,6 +49,14 @@ class Main < GlisteningRuby::Base
   def render(width = 320, height = 256)
     t0 = Time.now
     camera = Camera.new(width, height, '1/6'.to_r) do |c|
+      c.progress = lambda do |x, y|
+        pct = Rational(y * width + x, width * height)
+        next if pct.zero?
+
+        t1 = Time.now
+        STDOUT << "#{(pct * 100).to_i}% done, "
+        STDOUT << "#{((t1 - t0) * (1.0 - pct) / pct).to_i} s to go.  \r"
+      end
       c.transform = ViewTransform[
         Point[-0.5, 1.2, -1.6],
         Point[0, 0.4, 0],
