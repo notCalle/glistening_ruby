@@ -115,3 +115,30 @@ Feature: Wavefront OBJ files
          Then parser.normals[1] = Vector[0, 0, 1]
           And parser.normals[2] = Vector[0.707, 0, -0.707]
           And parser.normals[3] = Vector[1, 2, 3]
+@wip
+    Scenario: Faces with normals
+
+        Given file containing:
+            """
+            v 0 1 0
+            v -1 0 0
+            v 1 0 0
+
+            vn -1 0 0
+            vn 1 0 0
+            vn 0 1 0
+
+            f 1//3 2//1 3//2
+            f 1/0/3 2/102/1 3/14/2
+            """
+         When parser := ObjFile[file]
+          And g := parser.default_group
+          And t1 := g[0]
+          And t2 := g[1]
+         Then t1.v1 = parser.vertices[1]
+          And t1.v2 = parser.vertices[2]
+          And t1.v3 = parser.vertices[3]
+          And t1.n1 = parser.normals[3]
+          And t1.n2 = parser.normals[1]
+          And t1.n3 = parser.normals[2]
+          And t2 is identical to t1

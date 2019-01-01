@@ -140,3 +140,10 @@ end
 Then('{variable} has no light source') do |name|
   expect(seval(name).lights).to be_empty
 end
+
+Then('{variable} is identical to {variable}') do |a, b|
+  a = seval(a)
+  b = seval(b)
+  expect(a.class).to eq b.class
+  expect(a.instance_variables).to eq b.instance_variables
+end
