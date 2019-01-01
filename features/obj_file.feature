@@ -102,7 +102,7 @@ Feature: Wavefront OBJ files
           And g2 := parser["SecondGroup"]
          Then g includes g1
           And g includes g2
-@wip
+
     Scenario: Vertex normal records
 
         Given file containing:

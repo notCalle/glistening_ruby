@@ -14,12 +14,13 @@ module GlisteningRuby
       @shapes = []
       @groups = {}
       @ignored = 0
+      @normals = [nil]
       @vertices = [nil]
       input.each_line { |line| parse(line.strip) }
       super()
     end
 
-    attr_reader :ignored, :vertices
+    attr_reader :ignored, :normals, :vertices
 
     def [](index)
       return super if index.is_a? Integer
@@ -35,6 +36,7 @@ module GlisteningRuby
     def parsers
       {
         /^v(?:\s+(?:-?\d+(?:\.\d+)?)){3}$/ => :parse_vertex,
+        /^vn(?:\s+(?:-?\d+(?:\.\d+)?)){3}$/ => :parse_normal,
         %r{^f(?:\s+\d+(?:/\d+){0,2}){3}$} => :parse_triangle,
         %r{^f(?:\s+\d+(?:/\d+){0,2}){4,}$} => :parse_polygon,
         /^g\s+(.+)$/ => :parse_group
@@ -56,6 +58,10 @@ module GlisteningRuby
 
     def parse_vertex(matchdata)
       @vertices << Point[*matchdata.to_s.split[1..3]]
+    end
+
+    def parse_normal(matchdata)
+      @normals << Vector[*matchdata.to_s.split[1..3]]
     end
 
     def parse_triangle(matchdata)
