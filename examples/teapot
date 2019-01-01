@@ -9,10 +9,10 @@ require 'glistening_ruby'
 class Main < GlisteningRuby::Base
   include GlisteningRuby
 
-  def initialize
+  def initialize(version = 'low')
     @world = World.new do |world|
       setup_room(world)
-      setup_teapot(world)
+      setup_teapot(world, version)
       world << PointLight[Point[-1.5, 2.5, -1.5], Color.new(1.0, 1.0, 1.0)]
     end
   end
@@ -22,7 +22,7 @@ class Main < GlisteningRuby::Base
       s.material = Material.new do |m|
         m.pattern = Pattern::Checkers.new do |c|
           c << Color[0.5, 0.5, 0.5] << Color[0.75, 0.75, 0.75]
-          c.transform = identity.scale('1/16'.to_r)
+          c.transform = identity.scale('1/8'.to_r)
         end
         m.diffuse = 0.7
         m.ambient = 0.3
@@ -33,8 +33,8 @@ class Main < GlisteningRuby::Base
     end
   end
 
-  def setup_teapot(world)
-    world << ObjFile.new(File.open(__dir__ + '/teapot-low.obj')) do |g|
+  def setup_teapot(world, version)
+    world << ObjFile.new(File.open(__dir__ + "/teapot-#{version}.obj")) do |g|
       g.transform = identity.rotate_x('-1/4'.to_r)
                             .scale('1/16'.to_r)
       g.material = Material.new do |m|
@@ -46,7 +46,7 @@ class Main < GlisteningRuby::Base
     end
   end
 
-  def render(width = 320, height = 256)
+  def render(width = 320, height = 256, limit: World::RECURSION_LIMIT)
     t0 = Time.now
     camera = Camera.new(width, height, '1/6'.to_r) do |c|
       c.progress = lambda do |x, y|
@@ -64,7 +64,7 @@ class Main < GlisteningRuby::Base
       ]
     end
 
-    @canvas = camera.render(@world)
+    @canvas = camera.render(@world, limit: limit)
     puts "Rendering time: #{Time.now - t0} s"
     self
   end

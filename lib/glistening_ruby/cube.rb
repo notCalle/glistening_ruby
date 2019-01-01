@@ -12,7 +12,7 @@ module GlisteningRuby
 
     private
 
-    def object_normal(point) # rubocop:disable Metrics/AbcSize
+    def object_normal(point, _hit) # rubocop:disable Metrics/AbcSize
       max = point.map(&:abs).max
       return Vector[point.x, 0, 0] if close?(point.x.abs, max)
       return Vector[0, point.y, 0] if close?(point.y.abs, max)

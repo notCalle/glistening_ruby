@@ -35,8 +35,8 @@ module GlisteningRuby
       Intersections.for_object(self, *intersections(ray.transform(@inverse)))
     end
 
-    def normal_at(world_point)
-      normal_to_world(object_normal(to_local(world_point)))
+    def normal_at(world_point, hit = nil)
+      normal_to_world(object_normal(to_local(world_point), hit))
     end
 
     def to_local(world_point)

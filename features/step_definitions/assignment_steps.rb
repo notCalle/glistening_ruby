@@ -198,6 +198,12 @@ When(
   seval(var, :'=', klass[*args.map { |arg| seval(arg) }])
 end
 
+When(
+  '{variable} := {class}[{scalar}, {variable}, {scalar}, {scalar}]'
+) do |var, klass, *args|
+  seval(var, :'=', klass[*args.map { |arg| seval(arg) }])
+end
+
 Given(
   'the following {int}x{int} matrix {matrix}:'
 ) do |rows, cols, name, table|

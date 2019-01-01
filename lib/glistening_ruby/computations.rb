@@ -5,7 +5,7 @@ module GlisteningRuby
   class Computations
     def initialize(hit, ray, intersections)
       initialize_hit(hit)
-      initialize_ray(ray)
+      initialize_ray(ray, hit)
       initialize_refraction(hit, intersections)
 
       @inside = @normalv.dot(@eyev).negative?
@@ -66,10 +66,10 @@ module GlisteningRuby
       @object = hit.object
     end
 
-    def initialize_ray(ray)
+    def initialize_ray(ray, hit)
       @point = ray.position(@t)
       @eyev = -ray.direction
-      @normalv = @object.normal_at(@point)
+      @normalv = @object.normal_at(@point, hit)
       @reflectv = ray.direction.reflect(@normalv)
     end
 

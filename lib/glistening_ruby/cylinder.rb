@@ -55,7 +55,7 @@ module GlisteningRuby
       xs.select { |t| (o.x + t * d.x)**2 + (o.z + t * d.z)**2 <= 1 }
     end
 
-    def object_normal(point)
+    def object_normal(point, _hit)
       return Vector[0, 1, 0] if point.y >= @maximum - EPSILON
       return Vector[0, -1, 0] if point.y <= @minimum + EPSILON
 

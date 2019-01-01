@@ -20,7 +20,7 @@ module GlisteningRuby
       [-ray.origin.y / ray.direction.y]
     end
 
-    def object_normal(_point)
+    def object_normal(_point, _hit)
       Vector[0, 1, 0]
     end
   end
