@@ -35,11 +35,11 @@ module GlisteningRuby
       Ray.new(origin, direction)
     end
 
-    def render(world)
+    def render(world, limit: World::RECURSION_LIMIT)
       Canvas.new(@w, @h) do |canvas|
         canvas.each do |_, x, y|
           ray = ray_for_pixel(x, y)
-          canvas[x, y] = world.color_at ray
+          canvas[x, y] = world.color_at ray, limit
           @progress&.call(x, y)
         end
       end
