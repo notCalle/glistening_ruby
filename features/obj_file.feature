@@ -102,3 +102,16 @@ Feature: Wavefront OBJ files
           And g2 := parser["SecondGroup"]
          Then g includes g1
           And g includes g2
+@wip
+    Scenario: Vertex normal records
+
+        Given file containing:
+            """
+            vn 0 0 1
+            vn 0.707 0 -0.707
+            vn 1 2 3
+            """
+         When parser := ObjFile[file]
+         Then parser.normals[1] = Vector[0, 0, 1]
+          And parser.normals[2] = Vector[0.707, 0, -0.707]
+          And parser.normals[3] = Vector[1, 2, 3]
