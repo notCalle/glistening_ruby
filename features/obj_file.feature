@@ -115,7 +115,7 @@ Feature: Wavefront OBJ files
          Then parser.normals[1] = Vector[0, 0, 1]
           And parser.normals[2] = Vector[0.707, 0, -0.707]
           And parser.normals[3] = Vector[1, 2, 3]
-@wip
+
     Scenario: Faces with normals
 
         Given file containing:

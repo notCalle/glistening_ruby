@@ -37,8 +37,7 @@ module GlisteningRuby
       {
         /^v(?:\s+(?:-?\d+(?:\.\d+)?)){3}$/ => :parse_vertex,
         /^vn(?:\s+(?:-?\d+(?:\.\d+)?)){3}$/ => :parse_normal,
-        %r{^f(?:\s+\d+(?:/\d+){0,2}){3}$} => :parse_triangle,
-        %r{^f(?:\s+\d+(?:/\d+){0,2}){4,}$} => :parse_polygon,
+        %r{^f(?:\s+\d+(?:/\d*){0,2}){3,}$} => :parse_polygon,
         /^g\s+(.+)$/ => :parse_group
       }
     end
@@ -64,21 +63,29 @@ module GlisteningRuby
       @normals << Vector[*matchdata.to_s.split[1..3]]
     end
 
-    def parse_triangle(matchdata)
-      vertices = match_to_vertices(matchdata)
-      @current_group << Triangle.new(*vertices)
-    end
-
     def parse_polygon(matchdata)
-      vertices = match_to_vertices(matchdata)
-      v1 = vertices[0]
-      1.upto(vertices.size - 2) do |n|
-        @current_group << Triangle[v1, vertices[n], vertices[n + 1]]
+      face = match_to_faceinfo(matchdata)
+      v1 = face[0][0]
+      n1 = face[0][2]
+      1.upto(face.size - 2) do |n|
+        @current_group << face_to_triangle(face, v1, n1, n)
       end
     end
 
-    def match_to_vertices(matchdata)
-      matchdata.to_s.split[1..-1].map { |v| @vertices[v.to_i] }
+    def face_to_triangle(face, vtx1, nml1, step) # rubocop:disable Metrics/AbcSize, Metrics/LineLength
+      f2 = face[step]
+      f3 = face[step + 1]
+      if nml1.nil? || nml1.zero?
+        Triangle[@vertices[vtx1], @vertices[f2[0]], @vertices[f3[0]]]
+      else
+        SmoothTriangle[@vertices[vtx1], @vertices[f2[0]], @vertices[f3[0]],
+                       @normals[nml1], @normals[f2[2]], @normals[f3[2]]]
+      end
+    end
+
+    # 1/2/3 => [1, 2, 3]
+    def match_to_faceinfo(matchdata)
+      matchdata.to_s.split[1..-1].map { |v| v.split('/').map(&:to_i) }
     end
   end
 end
