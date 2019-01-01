@@ -205,3 +205,13 @@ Feature: Ray / object intersections
          When comps := i0.prepare r, xs
           And reflectance := comps.schlick
          Then reflectance = 0.48873
+@wip
+    Scenario: An intersection can encapsulate "u" and "v"
+
+        Given p1 := Point[0, 1, 0]
+          And p2 := Point[-1, 0, 0]
+          And p3 := Point[1, 0, 0]
+          And s := Triangle[p1, p2, p3]
+         When i := Intersection[3.5, s, 0.2, 0.4]
+         Then i.u = 0.2
+          And i.v = 0.4
