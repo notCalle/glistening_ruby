@@ -27,7 +27,7 @@ Feature: Smooth triangles, with interpolated normals
          And xs := tri.intersect r
         Then xs[0].u = 0.45
          And xs[0].v = 0.25
-@wip
+
     Scenario: A smooth triangle uses u/v to interpolate the normal
 
         When i := Intersection[1, tri, 0.45, 0.25]

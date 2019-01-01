@@ -33,7 +33,7 @@ module GlisteningRuby
       quadratic(a, b, c)
     end
 
-    def object_normal(point)
+    def object_normal(point, _hit)
       point - Point::ZERO
     end
   end

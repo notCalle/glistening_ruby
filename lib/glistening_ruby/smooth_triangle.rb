@@ -13,6 +13,10 @@ module GlisteningRuby
 
     attr_reader :n1, :n2, :n3
 
+    def object_normal(_point, hit)
+      @n2 * hit.u + @n3 * hit.v + @n1 * (1 - hit.u - hit.v)
+    end
+
     def uv
       [@u, @v]
     end

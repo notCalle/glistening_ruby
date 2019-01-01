@@ -29,7 +29,7 @@ module GlisteningRuby
                  Point[x_max, y_max, z_max]]
     end
 
-    def object_normal(_point)
+    def object_normal(_point, _hit)
       @normal
     end
 
