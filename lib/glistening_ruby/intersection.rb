@@ -10,12 +10,16 @@ module GlisteningRuby
     include Comparable
     extend Forwardable
 
-    def initialize(t_intersect, object)
+    # rubocop:disable Naming/UncommunicativeMethodParamName
+    def initialize(t_intersect, object, u = nil, v = nil)
       @t = t_intersect
       @object = object
+      @u = u
+      @v = v
     end
+    # rubocop:enable Naming/UncommunicativeMethodParamName
 
-    attr_reader :object, :t
+    attr_reader :object, :t, :u, :v
 
     def <=>(other)
       @t.<=>other.t

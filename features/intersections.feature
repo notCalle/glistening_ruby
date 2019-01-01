@@ -205,7 +205,7 @@ Feature: Ray / object intersections
          When comps := i0.prepare r, xs
           And reflectance := comps.schlick
          Then reflectance = 0.48873
-@wip
+
     Scenario: An intersection can encapsulate "u" and "v"
 
         Given p1 := Point[0, 1, 0]
