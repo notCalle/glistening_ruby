@@ -12,6 +12,7 @@ module GlisteningRuby
 
     # rubocop:disable Naming/UncommunicativeMethodParamName
     def initialize(t_intersect, object, u = nil, v = nil)
+      u, v = object.uv if object.respond_to? :uv
       @t = t_intersect
       @object = object
       @u = u

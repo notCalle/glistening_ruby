@@ -18,7 +18,7 @@ Feature: Smooth triangles, with interpolated normals
          And tri.n1 = n1
          And tri.n2 = n2
          And tri.n3 = n3
-@wip
+
     Scenario: An intersection with a smooth triangle stores u/v
 
         When p := Point[-0.2, 0.3, -2]

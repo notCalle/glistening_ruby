@@ -12,5 +12,9 @@ module GlisteningRuby
     end
 
     attr_reader :n1, :n2, :n3
+
+    def uv
+      [@u, @v]
+    end
   end
 end
