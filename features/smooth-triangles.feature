@@ -34,3 +34,13 @@ Feature: Smooth triangles, with interpolated normals
          And p := Point[0, 0, 0]
          And n := tri.normal_at p, i
         Then n = Vector[-0.5547, 0.83205, 0]
+
+    Scenario: Preparing the normal on a smooth triangle
+
+        When i := Intersection[1, tri, 0.45, 0.25]
+         And p := Point[-0.2, 0.3, -2]
+         And v := Vector[0, 0, 1]
+         And r := Ray[p, v]
+         And xs := Intersections[i]
+         And comps := i.prepare r, xs
+        Then comps.normalv = Vector[-0.5547, 0.83205, 0]
