@@ -30,7 +30,7 @@ module GlisteningRuby
       @closed
     end
 
-    def object_normal(point) # rubocop:disable Metrics/AbcSize
+    def object_normal(point, _hit) # rubocop:disable Metrics/AbcSize
       return Vector[0, 1, 0] if point.y >= @maximum - EPSILON
       return Vector[0, -1, 0] if point.y <= @minimum + EPSILON
 
