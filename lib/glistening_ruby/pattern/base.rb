@@ -54,6 +54,8 @@ module GlisteningRuby
 
       private
 
+      attr_writer :pigments
+
       # Grade a point for color interpolation
       #
       # :call-seq:

@@ -17,6 +17,10 @@ module GlisteningRuby
         @color = color
       end
 
+      def pattern(name)
+        @pattern = Pattern[name]
+      end
+
       def rgb(*args)
         Color.rgb(*args)
       end
