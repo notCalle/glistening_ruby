@@ -19,8 +19,8 @@ module GlisteningRuby
         world << Light.setup(&block)
       end
 
-      def shape(name)
-        world << Shape[name]
+      def shape(name, &block)
+        world << Shape[name, &block]
       end
 
       def render(*args, verbose: false, **kwargs)

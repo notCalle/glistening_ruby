@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 require_relative 'base'
+require_relative 'color'
 
 module GlisteningRuby
   module DSL
     # Light builder DSL class
     class Light < Base
+      include ColorSpace
+
       def instance
         super
         GlisteningRuby::PointLight.new(@point, @color)

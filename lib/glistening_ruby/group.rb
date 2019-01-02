@@ -35,6 +35,10 @@ module GlisteningRuby
 
     private
 
+    def shapes=(shapes)
+      shapes.each { |s| self << s }
+    end
+
     def bounding_tree
       @bounding_tree ||= BoundingTree.new(@shapes)
     end

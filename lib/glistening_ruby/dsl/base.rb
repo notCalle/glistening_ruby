@@ -7,7 +7,7 @@ module GlisteningRuby
       def self.define(name, *args, klass: self, &block)
         this = self
         klass.define_singleton_method("dsl_#{name}") do
-          this.setup(*args, &block)
+          this.new(*args, &block)
         end
       end
 
@@ -15,8 +15,8 @@ module GlisteningRuby
         new(*args, &block).instance
       end
 
-      def self.[](name, *args)
-        send("dsl_#{name}", *args)
+      def self.[](name, *args, &block)
+        send("dsl_#{name}", *args).instance(&block)
       end
 
       def initialize(*args, &block)

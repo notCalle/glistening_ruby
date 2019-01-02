@@ -5,20 +5,23 @@ require_relative '../color'
 
 module GlisteningRuby
   module DSL
-    # Color builder DSL class
-    class Color < Base
-      def self.rgb(red, green, blue)
+    # Color space helper module
+    module ColorSpace
+      def rgb(red, green, blue)
         ::GlisteningRuby::Color.new(red, green, blue)
       end
+    end
+
+    # Color builder DSL class
+    class Color < Base
+      extend ColorSpace
 
       def instance
-        ::GlisteningRuby::Color.new(@red, @green, @blue)
+        @color
       end
 
-      def rgb(red, green, blue)
-        @red = red.to_f
-        @green = green.to_f
-        @blue = blue.to_f
+      def rgb(*args)
+        @color = self.class.rgb(args)
       end
     end
   end
