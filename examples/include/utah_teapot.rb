@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'glistening_ruby/dsl'
-
 material :glazed_ceramic do
   color rgb 1.0, 0.8, 0.5
   ambient 0.3
