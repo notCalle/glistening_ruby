@@ -7,6 +7,8 @@ module GlisteningRuby
   module DSL
     # Material builder DSL class
     class Material < Base
+      include ColorSpace
+
       def instance
         super
         ::GlisteningRuby::Material.new { |i| copy_ivars(i) }
@@ -17,12 +19,8 @@ module GlisteningRuby
         @color = color
       end
 
-      def pattern(name)
-        @pattern = Pattern[name]
-      end
-
-      def rgb(*args)
-        Color.rgb(*args)
+      def pattern(name, &block)
+        @pattern = Pattern[name, &block]
       end
 
       def phong(specular, shininess = 200)

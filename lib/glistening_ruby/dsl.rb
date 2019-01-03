@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 require 'glistening_ruby'
+require_relative 'pattern_dsl'
 require_relative 'shape_dsl'
 require_relative 'dsl/color'
-require_relative 'dsl/checkers'
 require_relative 'dsl/material'
-require_relative 'dsl/pattern'
 require_relative 'dsl/scene'
 
 module GlisteningRuby
@@ -29,13 +28,6 @@ module GlisteningRuby
 
     def shape
       ShapeDSL
-    end
-  end
-
-  # Top level pattern DSL module
-  module PatternDSL
-    def self.checkers(name, &block)
-      DSL::Checkers.define(name, klass: DSL::Pattern, &block)
     end
   end
 
