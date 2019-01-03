@@ -6,7 +6,7 @@ material :drink do
   diffuse 0.3
   phong 0.7
   reflective 0.7
-  transparent 0.7, 1.3
+  transparent rgb(0.7, 0.6, 0.5), 1.3
 end
 
 material :glass do
