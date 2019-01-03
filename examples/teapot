@@ -4,35 +4,31 @@
 require 'bundler/setup'
 require 'pry'
 require 'glistening_ruby/dsl'
+require stdlib 'colors'
 
 require_relative 'include/utah_teapot'
 
-color(:white) { rgb 1, 1, 1 }
-
-pattern.checkers :grey_tiles do
-  color rgb 0.5, 0.5, 0.5
-  color rgb 0.75, 0.75, 0.75
-  scale 1/8r
-end
-
 material :shiny_tiles do
-  pattern :grey_tiles
+  pattern.checkers do
+    color grey 0.5
+    color grey 0.75
+    scale 1/8r
+  end
   ambient 0.3
   diffuse 0.7
   phong 0.9, 50
   reflective 0.2
 end
 
-shape.cube :room do
-  material :shiny_tiles
-  translate 0, 1, 0
-  scale 2
-end
-
 scene.pry do
   light { point -1.5, 2.5, -1.5; color :white }
 
-  shape :room
+  shape.cube do
+    material :shiny_tiles
+    translate 0, 1, 0
+    scale 2
+  end
+
   shape :utah_teapot
 
   camera do
