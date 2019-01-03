@@ -52,7 +52,7 @@ Feature: Cones
 
         Given shape := Cone[]
           And p := Point[<point>]
-         When n := shape.object_normal p
+         When n := shape.object_normal p, nil
          Then n = Vector[<normal>]
 
     Examples:
