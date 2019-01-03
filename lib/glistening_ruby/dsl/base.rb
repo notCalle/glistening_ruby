@@ -27,9 +27,18 @@ module GlisteningRuby
         instance_exec(&block) if block_given?
       end
 
+      private
+
       def copy_ivars(other, ivars = instance_variables)
         ivars.each do |ivar|
           other.send("#{ivar[1..-1]}=", instance_variable_get(ivar))
+        end
+      end
+
+      def dsl(dsl_module, &block)
+        Module.new do
+          extend dsl_module
+          define_singleton_method(:callback, &block)
         end
       end
     end

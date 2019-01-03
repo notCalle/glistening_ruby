@@ -2,6 +2,7 @@
 
 require_relative 'color'
 require_relative '../material'
+require_relative '../pattern/blend'
 
 module GlisteningRuby
   module DSL
@@ -11,6 +12,11 @@ module GlisteningRuby
 
       def instance
         super
+        @pattern = if @pattern&.count&.> 1
+                     ::GlisteningRuby::Pattern::Blend.new(*@pattern)
+                   else
+                     @pattern&.last
+                   end
         ::GlisteningRuby::Material.new { |i| copy_ivars(i) }
       end
 
@@ -19,8 +25,11 @@ module GlisteningRuby
         @color = color
       end
 
-      def pattern(name, &block)
-        @pattern = Pattern[name, &block]
+      def pattern(name = nil, &block)
+        r = (@pattern ||= [])
+        return dsl(PatternDSL) { |p| r << p } if name.nil?
+
+        r << Pattern[name, &block]
       end
 
       def phong(specular, shininess = 200)

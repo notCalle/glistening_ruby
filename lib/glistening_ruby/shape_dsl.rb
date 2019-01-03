@@ -10,6 +10,7 @@ require_relative 'dsl/shape'
 module GlisteningRuby
   # Top level shape DSL module
   module ShapeDSL
+    # Named object factory definition
     def self.cone(name, &block)
       DSL::Cone.define(name, klass: DSL::Shape, &block)
     end
@@ -36,6 +37,35 @@ module GlisteningRuby
 
     def self.sphere(name, &block)
       DSL::Sphere.define(name, klass: DSL::Shape, &block)
+    end
+
+    # Anonymous object creation
+    def cone(*args, &block)
+      callback DSL::Cone.setup(*args, &block)
+    end
+
+    def cube(*args, &block)
+      callback DSL::Cube.setup(*args, &block)
+    end
+
+    def cylinder(*args, &block)
+      callback DSL::Cylinder.setup(*args, &block)
+    end
+
+    def group(*args, &block)
+      callback DSL::Group.setup(*args, &block)
+    end
+
+    def mesh(*args, &block)
+      callback DSL::Mesh.setup(*args, &block)
+    end
+
+    def plane(*args, &block)
+      callback DSL::Plane.setup(*args, &block)
+    end
+
+    def sphere(*args, &block)
+      callback DSL::Sphere.setup(*args, &block)
     end
   end
 end

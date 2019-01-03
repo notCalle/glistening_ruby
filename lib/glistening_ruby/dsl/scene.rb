@@ -4,6 +4,7 @@ require_relative 'base'
 require_relative 'camera'
 require_relative 'light'
 require_relative 'shape'
+require_relative '../shape_dsl'
 
 module GlisteningRuby
   module DSL
@@ -19,8 +20,11 @@ module GlisteningRuby
         world << Light.setup(&block)
       end
 
-      def shape(name, &block)
-        world << Shape[name, &block]
+      def shape(name = nil, &block)
+        w = world
+        return dsl(ShapeDSL) { |s| w << s } if name.nil?
+
+        w << Shape[name, &block]
       end
 
       def render(*args, verbose: false, **kwargs)
