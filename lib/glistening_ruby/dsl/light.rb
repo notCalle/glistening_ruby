@@ -11,6 +11,7 @@ module GlisteningRuby
 
       def instance
         super
+        @color ||= grey 1
         GlisteningRuby::PointLight.new(@point, @color)
       end
 

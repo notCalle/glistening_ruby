@@ -6,8 +6,8 @@ module GlisteningRuby
   module DSL
     # Shape builder DSL class
     class Shape < Transformable
-      def material(name, &block)
-        @material = Material[name, &block]
+      def material(name = nil, &block)
+        @material = name.nil? ? Material.setup(&block) : Material[name, &block]
       end
 
       def shadows(maybe = true)
