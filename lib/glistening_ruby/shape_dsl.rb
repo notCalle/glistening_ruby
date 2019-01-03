@@ -2,7 +2,6 @@
 
 require 'glistening_ruby'
 require_relative 'dsl/cone'
-require_relative 'dsl/cube'
 require_relative 'dsl/cylinder'
 require_relative 'dsl/group'
 require_relative 'dsl/mesh'
@@ -29,6 +28,14 @@ module GlisteningRuby
 
     def self.mesh(name, &block)
       DSL::Mesh.define(name, klass: DSL::Shape, &block)
+    end
+
+    def self.plane(name, &block)
+      DSL::Plane.define(name, klass: DSL::Shape, &block)
+    end
+
+    def self.sphere(name, &block)
+      DSL::Sphere.define(name, klass: DSL::Shape, &block)
     end
   end
 end

@@ -6,8 +6,36 @@ module GlisteningRuby
   module DSL
     # Shape builder DSL class
     class Shape < Transformable
-      def material(name)
-        @material = Material[name]
+      def material(name, &block)
+        @material = Material[name, &block]
+      end
+
+      def shadows(maybe = true)
+        @cast_shadows = maybe
+      end
+    end
+
+    # Cube builder DSL class
+    class Cube < Shape
+      def instance
+        super
+        ::GlisteningRuby::Cube.new { |i| copy_ivars(i) }
+      end
+    end
+
+    # Plane builder DSL class
+    class Plane < Shape
+      def instance
+        super
+        ::GlisteningRuby::Plane.new { |i| copy_ivars(i) }
+      end
+    end
+
+    # Sphere builder DSL class
+    class Sphere < Shape
+      def instance
+        super
+        ::GlisteningRuby::Sphere.new { |i| copy_ivars(i) }
       end
     end
   end
