@@ -3,140 +3,137 @@
 
 require 'bundler/setup'
 require 'pry'
-require 'glistening_ruby'
+require 'glistening_ruby/dsl'
 
-# Render some reflections
-class Main < GlisteningRuby::Base # rubocop:disable Metrics/ClassLength
-  include GlisteningRuby
+material :glass do
+  color rgb 0.1, 0.2, 0.1
+  ambient 0.1
+  diffuse 0.2
+  phong 0.9, 300
+  reflective 0.9
+  transparent 0.9, 1.5
+end
 
-  def initialize
-    @world = World.new do |world|
-      setup_floor(world)
-      setup_water(world)
-      setup_sky(world)
-      setup_spheres(world)
+shape.sphere :large_sphere do
+  material :glass
+  translate -0.5, 1, 0.5
+end
 
-      world << PointLight[Point[0, 10, -10], Color.new(0.4, 0.5, 0.7)]
-      world << PointLight[Point[5, 5, -10], Color.new(0.7, 0.5, 0.4)]
-    end
+pattern.gradient :yellow_green_gradient do
+  color rgb 0.8, 0.8, 0.2
+  color rgb 0.8, 0.2, 0.8
+  color rgb 0.2, 0.8, 0.2
+end
+
+material :yellow_green_gradient do
+  pattern :yellow_green_gradient do
+    rotate z: 1/8r
   end
+  diffuse 0.7
+  phong 0.3
+  reflective 0.2
+end
 
-  def setup_floor(world)
-    world << Plane.new do |s|
-      s.material = Material.new do |m|
-        m.pattern = Pattern::Blend.new do |b|
-          b << Pattern::Stripe.new do |p|
-            p << Color.new(0.3, 0.3, 0.3)
-            p << Color.new(0.7, 0.7, 0.7)
-            p.transform = identity.rotate_y('1/8'.to_r)
-                                  .scale('1/8'.to_r**0.5)
-          end
-          b << Pattern::Stripe.new do |p|
-            p << Color.new(0.7, 0.3, 0.2)
-            p << Color.new(0.2, 0.3, 0.7)
-            p.transform = identity.rotate_y('-1/8'.to_r)
-                                  .scale('1/8'.to_r**0.5)
-          end
-          b.transform = identity.scale(2)
-        end
-        m.specular = 0
-      end
-    end
+shape.sphere :medium_sphere do
+  material :yellow_green_gradient
+  scale 1/2r
+  translate 1.5, 0.5, -0.5
+end
+
+pattern.stripe :blue_yellow_stripes do
+  color rgb 1.0, 0.8, 0.1
+  color rgb 0.0, 0.2, 0.9
+end
+
+material :blue_yellow_stripes do
+  pattern :blue_yellow_stripes do
+    scale 1/3r
+    rotate z: 1/8r, x: 1/4r
   end
+  diffuse 0.7
+  phong 0.3
+end
 
-  def setup_water(world)
-    world << Plane.new do |s|
-      s.cast_shadows = false
-      s.transform = identity.translate(0, 0.5, 0)
-      s.material = Material.new do |m|
-        m.specular = 0.8
-        m.reflective = 0.9
-        m.transparency = 0.9
-        m.refractive_index = 1.1
-        m.diffuse = 0.2
-        m.ambient = 0.2
-        m.color = Color[0.0, 0.1, 0.1]
-      end
-    end
+shape.sphere :small_sphere do
+  material :blue_yellow_stripes
+  scale 1/3r
+  translate -1.5, 0.33, -0.75
+end
+
+material :water do
+  color rgb 0.0, 0.1, 0.1
+  ambient 0.2
+  diffuse 0.2
+  phong 0.8
+  reflective 0.9
+  transparent 0.9, 1.1
+end
+
+shape.plane :water do
+  material :water
+  shadows false
+  translate 0, 0.5, 0
+end
+
+material :sky do
+  color rgb 0.2, 0.5, 1.0
+  ambient 0.8
+  diffuse 0.2
+  phong 0
+end
+
+shape.plane :sky do
+  material :sky
+  shadows false
+  translate 0, 100, 0
+end
+
+pattern.stripe :grey_stripes do
+  color rgb 0.3, 0.3, 0.3
+  color rgb 0.7, 0.7, 0.7
+end
+
+pattern.stripe :red_blue_stripes do
+  color rgb 0.7, 0.3, 0.2
+  color rgb 0.2, 0.3, 0.7
+end
+
+pattern.blend :red_blue_grey_plaid do
+  pattern :grey_stripes do
+    rotate y: 1/8r
+    scale 1/8r**0.5
   end
-
-  def setup_sky(world)
-    world << Plane.new do |s|
-      s.cast_shadows = false
-      s.transform = identity.translate(0, 100, 0)
-      s.material = Material.new do |m|
-        m.specular = 0
-        m.diffuse = 0.2
-        m.ambient = 0.8
-        m.color = Color[0.2, 0.5, 1.0]
-      end
-    end
+  pattern :red_blue_stripes do
+    rotate y: -1/8r
+    scale 1/8r**0.5
   end
+  scale 2
+end
 
-  def setup_spheres(world)
-    [
-      {
-        transform: identity.translate(-0.5, 1, 0.5),
-        material: Material.new do |m|
-          m.color = Color[0.1, 0.2, 0.1]
-          m.ambient = 0.1
-          m.diffuse = 0.2
-          m.shininess = 300
-          m.specular = 0.9
-          m.reflective = 0.9
-          m.transparency = 0.9
-          m.refractive_index = 1.5
-        end
-      },
-      {
-        transform: identity.scale(0.5).translate(1.5, 0.5, -0.5),
-        material: Material.new do |m|
-          m.pattern = Pattern::Gradient.new([0.8, 0.8, 0.2],
-                                            [0.8, 0.2, 0.8],
-                                            [0.2, 0.8, 0.2])
-          m.pattern.transform = identity.rotate_z('1/8'.to_r)
-          m.diffuse = 0.7
-          m.specular = 0.3
-          m.reflective = 0.2
-        end
-      },
-      {
-        transform: identity.scale(0.33).translate(-1.5, 0.33, -0.75),
-        material: Material.new do |m|
-          m.pattern = Pattern::Stripe.new([1.0, 0.8, 0.1], [0.0, 0.2, 0.9])
-          m.pattern.transform =
-            identity.rotate_z('1/8'.to_r).rotate_x('1/4'.to_r).scale(0.33)
-          m.diffuse = 0.7
-          m.specular = 0.3
-        end
-      }
-    ].each do |cfg|
-      world << Sphere.new do |s|
-        s.transform = cfg[:transform]
-        s.material = cfg[:material]
-      end
-    end
-  end
+material :red_blue_grey_plaid do
+  pattern :red_blue_grey_plaid
 
-  def render(width = 320, height = 256)
-    t0 = Time.now
-    camera = Camera.new(width, height, '1/8'.to_r) do |c|
-      c.transform = ViewTransform[
-        Point[3, 2, -5],
-        Point[0, 1, 0],
-        Vector[0, 1, 0]
-      ]
-    end
+  phong 0
+end
 
-    @canvas = camera.render(@world)
-    puts "Rendering time: #{Time.now - t0} s"
-    self
-  end
+shape.plane :floor do
+  material :red_blue_grey_plaid
+end
 
-  def save(filename)
-    File.open(filename, 'w') do |file|
-      @canvas.to_ppm(file)
-    end
+scene.pry do
+  light { point 0, 10, -10; color rgb 0.4, 0.5, 0.7 }
+  light { point 5, 5, -10; color rgb 0.7, 0.5, 0.4 }
+
+  shape :floor
+  shape :water
+  shape :sky
+  shape :large_sphere
+  shape :medium_sphere
+  shape :small_sphere
+
+  camera do
+    canvas 320, 256
+    position 3, 2, -5
+    look_at 0, 1, 0
   end
 end
-Pry.start Main
