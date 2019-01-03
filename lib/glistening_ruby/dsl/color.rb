@@ -10,6 +10,10 @@ module GlisteningRuby
       def rgb(red, green, blue)
         ::GlisteningRuby::Color.new(red, green, blue)
       end
+
+      def grey(intensity)
+        rgb(intensity, intensity, intensity)
+      end
     end
 
     # Color builder DSL class
@@ -20,8 +24,14 @@ module GlisteningRuby
         @color
       end
 
-      def rgb(*args)
-        @color = self.class.rgb(args)
+      def method_missing(name, *args)
+        return super unless self.class.respond_to?(name)
+
+        @color = self.class.send(name, *args)
+      end
+
+      def respond_to_missing?(name)
+        self.class.respond_to?(name) || super
       end
     end
   end

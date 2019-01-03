@@ -29,6 +29,10 @@ module GlisteningRuby
     def shape
       ShapeDSL
     end
+
+    def stdlib(submodule)
+      "glistening_ruby/dsl/stdlib/#{submodule}"
+    end
   end
 
   # Top level scene DSL module
