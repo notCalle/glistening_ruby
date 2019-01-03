@@ -2,6 +2,7 @@
 
 require_relative 'color'
 require_relative 'transformable'
+require_relative '../patterns'
 
 module GlisteningRuby
   module DSL
@@ -46,6 +47,30 @@ module GlisteningRuby
       def instance
         super
         ::GlisteningRuby::Pattern::Gradient.new { |i| copy_ivars(i) }
+      end
+    end
+
+    # Perturbation pattern builder DSL class
+    class Perturb < Pattern
+      def instance
+        super
+        ::GlisteningRuby::Pattern::Perturb.new { |i| copy_ivars(i) }
+      end
+    end
+
+    # Radial gradient pattern builder DSL class
+    class Radial < Pattern
+      def instance
+        super
+        ::GlisteningRuby::Pattern::Radial.new { |i| copy_ivars(i) }
+      end
+    end
+
+    # Ring pattern builder DSL class
+    class Ring < Pattern
+      def instance
+        super
+        ::GlisteningRuby::Pattern::Ring.new { |i| copy_ivars(i) }
       end
     end
 

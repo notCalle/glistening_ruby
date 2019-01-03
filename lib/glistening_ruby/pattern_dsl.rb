@@ -19,6 +19,18 @@ module GlisteningRuby
       DSL::Gradient.define(name, klass: DSL::Pattern, &block)
     end
 
+    def self.perturb(name, &block)
+      DSL::Perturb.define(name, klass: DSL::Pattern, &block)
+    end
+
+    def self.radial(name, &block)
+      DSL::Radial.define(name, klass: DSL::Pattern, &block)
+    end
+
+    def self.ring(name, &block)
+      DSL::Ring.define(name, klass: DSL::Pattern, &block)
+    end
+
     def self.stripe(name, &block)
       DSL::Stripe.define(name, klass: DSL::Pattern, &block)
     end
@@ -34,6 +46,18 @@ module GlisteningRuby
 
     def gradient(*args, &block)
       callback DSL::Gradient.setup(*args, &block)
+    end
+
+    def perturb(*args, &block)
+      callback DSL::Perturb.setup(*args, &block)
+    end
+
+    def radial(*args, &block)
+      callback DSL::Radial.setup(*args, &block)
+    end
+
+    def ring(*args, &block)
+      callback DSL::Ring.setup(*args, &block)
     end
 
     def stripe(*args, &block)
