@@ -19,14 +19,11 @@ shape.sphere :large_sphere do
   translate -0.5, 1, 0.5
 end
 
-pattern.gradient :yellow_green_gradient do
-  color rgb 0.8, 0.8, 0.2
-  color rgb 0.8, 0.2, 0.8
-  color rgb 0.2, 0.8, 0.2
-end
-
 material :yellow_green_gradient do
-  pattern :yellow_green_gradient do
+  pattern.gradient do
+    color rgb 0.8, 0.8, 0.2
+    color rgb 0.8, 0.2, 0.8
+    color rgb 0.2, 0.8, 0.2
     rotate z: 1/8r
   end
   diffuse 0.7
@@ -40,13 +37,10 @@ shape.sphere :medium_sphere do
   translate 1.5, 0.5, -0.5
 end
 
-pattern.stripe :blue_yellow_stripes do
-  color rgb 1.0, 0.8, 0.1
-  color rgb 0.0, 0.2, 0.9
-end
-
 material :blue_yellow_stripes do
-  pattern :blue_yellow_stripes do
+  pattern.stripe do
+    color rgb 1.0, 0.8, 0.1
+    color rgb 0.0, 0.2, 0.9
     scale 1/3r
     rotate z: 1/8r, x: 1/4r
   end
@@ -88,31 +82,20 @@ shape.plane :sky do
   translate 0, 100, 0
 end
 
-pattern.stripe :grey_stripes do
-  color rgb 0.3, 0.3, 0.3
-  color rgb 0.7, 0.7, 0.7
-end
-
-pattern.stripe :red_blue_stripes do
-  color rgb 0.7, 0.3, 0.2
-  color rgb 0.2, 0.3, 0.7
-end
-
-pattern.blend :red_blue_grey_plaid do
-  pattern :grey_stripes do
-    rotate y: 1/8r
-    scale 1/8r**0.5
-  end
-  pattern :red_blue_stripes do
-    rotate y: -1/8r
-    scale 1/8r**0.5
-  end
-  scale 2
-end
-
 material :red_blue_grey_plaid do
-  pattern :red_blue_grey_plaid
-
+  width = 1/2r**0.5
+  pattern.stripe :grey_stripes do
+    color rgb 0.3, 0.3, 0.3
+    color rgb 0.7, 0.7, 0.7
+    rotate y: 1/8r
+    scale width
+  end
+  pattern.stripe :red_blue_stripes do
+    color rgb 0.7, 0.3, 0.2
+    color rgb 0.2, 0.3, 0.7
+    rotate y: -1/8r
+    scale width
+  end
   phong 0
 end
 
