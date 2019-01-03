@@ -6,8 +6,12 @@ module GlisteningRuby
   module DSL
     # Shape builder DSL class
     class Shape < Transformable
-      def material(name = nil, &block)
-        @material = name.nil? ? Material.setup(&block) : Material[name, &block]
+      def material(name = nil, *args, &block)
+        @material = if name.nil?
+                      Material.setup(&block)
+                    else
+                      Material[name, *args, &block]
+                    end
       end
 
       def shadows(maybe = true)

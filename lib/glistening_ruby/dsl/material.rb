@@ -25,11 +25,11 @@ module GlisteningRuby
         @color = color
       end
 
-      def pattern(name = nil, &block)
+      def pattern(name = nil, *args, &block)
         r = (@pattern ||= [])
         return dsl(PatternDSL) { |p| r << p } if name.nil?
 
-        r << Pattern[name, &block]
+        r << Pattern[name, *args, &block]
       end
 
       def phong(specular, shininess = 200)

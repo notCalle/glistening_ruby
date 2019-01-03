@@ -15,8 +15,8 @@ module GlisteningRuby
         pigments << color
       end
 
-      def pattern(name, &block)
-        pigments << Pattern[name, &block]
+      def pattern(name, *args, &block)
+        pigments << Pattern[name, *args, &block]
       end
 
       private

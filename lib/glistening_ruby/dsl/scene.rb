@@ -20,11 +20,11 @@ module GlisteningRuby
         world << Light.setup(&block)
       end
 
-      def shape(name = nil, &block)
+      def shape(name = nil, *args, &block)
         w = world
         return dsl(ShapeDSL) { |s| w << s } if name.nil?
 
-        w << Shape[name, &block]
+        w << Shape[name, *args, &block]
       end
 
       def render(*args, verbose: false, **kwargs)

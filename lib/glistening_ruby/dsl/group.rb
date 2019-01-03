@@ -11,8 +11,11 @@ module GlisteningRuby
         ::GlisteningRuby::Group.new { |i| copy_ivars(i) }
       end
 
-      def shape(name)
-        shapes << Shape[name]
+      def shape(name = nil, *args, &block)
+        r = shapes
+        return dsl(ShapeDSL) { |s| r << s } if name.nil?
+
+        shapes << Shape[name, *args, &block]
       end
 
       private

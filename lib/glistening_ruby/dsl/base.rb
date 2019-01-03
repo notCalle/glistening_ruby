@@ -4,9 +4,9 @@ module GlisteningRuby
   module DSL
     # Base class for object builder DSL classes
     class Base
-      def self.define(name, *args, klass: self, &block)
+      def self.define(name, klass: self, &block)
         this = self
-        klass.define_singleton_method("dsl_#{name}") do
+        klass.define_singleton_method("dsl_#{name}") do |*args|
           this.new(*args, &block)
         end
       end
