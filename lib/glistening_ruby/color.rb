@@ -12,6 +12,10 @@ module GlisteningRuby
     def color_at(_point)
       self
     end
+
+    def zero?
+      r.zero? && g.zero? && b.zero?
+    end
   end
 
   Color::BLACK = Color.new(0, 0, 0)

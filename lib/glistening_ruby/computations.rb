@@ -20,7 +20,7 @@ module GlisteningRuby
 
     def fresnel?
       m = @object.material
-      m.reflective.positive? && m.transparency.positive?
+      !m.reflective.zero? && !m.transparency.zero?
     end
 
     def total_internal_reflection?

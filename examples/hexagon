@@ -3,75 +3,39 @@
 
 require 'bundler/setup'
 require 'pry'
-require 'glistening_ruby'
+require 'glistening_ruby/dsl'
 
-# Render a hexagon
-class Main < GlisteningRuby::Base
-  include GlisteningRuby
-
-  def initialize
-    @world = World.new do |world|
-      setup_hexagon(world)
-      world << PointLight[Point[-2, 2.5, -2], Color.new(1.0, 1.0, 1.0)]
-    end
+shape.group :hexagon do
+  material do
+    color rgb 1.0, 0.8, 0.5
+    phong 0.9, 300
+    reflective 0.9
   end
-
-  def setup_hexagon(world)
-    world << Group.new do |g|
-      g.material = Material.new do |m|
-        m.color = Color[1.0, 0.8, 0.5]
-        m.shininess = 300
-        m.reflective = 0.9
-      end
-      0.upto(5) do |n|
-        g << hexagon_side(n)
-      end
-    end
-  end
-
-  def hexagon_side(side)
-    Group.new do |g|
-      g.transform = identity.rotate_y(Rational(side, 6))
-      g << hexagon_corner << hexagon_edge
-    end
-  end
-
-  def hexagon_corner
-    Sphere.new do |s|
-      s.transform = identity.scale(0.25).translate(0, 0, -1)
-    end
-  end
-
-  def hexagon_edge
-    Cylinder.new do |s|
-      s.minimum = 0
-      s.maximum = 1
-      s.transform = identity.scale(0.25, 1, 0.25)
-                            .rotate_z('-1/4'.to_r)
-                            .rotate_y('-1/12'.to_r)
-                            .translate(0, 0, -1)
-    end
-  end
-
-  def render(width = 320, height = 256)
-    t0 = Time.now
-    camera = Camera.new(width, height, '1/6'.to_r) do |c|
-      c.transform = ViewTransform[
-        Point[1.5, 1.2, -1.3],
-        Point[0, 0, 0],
-        Vector[0, 1, 0]
-      ]
-    end
-
-    @canvas = camera.render(@world)
-    puts "Rendering time: #{Time.now - t0} s"
-    self
-  end
-
-  def save(filename)
-    File.open(filename, 'w') do |file|
-      @canvas.to_ppm(file)
-    end
+  0.upto 5 do |n|
+    shape :side, n
   end
 end
-Pry.start Main
+
+shape.group :side do |side|
+  shape.sphere do
+    scale 1/4r
+  end
+  shape.cylinder do
+    scale 0.25, 1, 0.25
+    rotate z: -1/4r, y: -1/12r
+  end
+  translate 0, 0, -1
+  rotate y: Rational(side, 6)
+end
+
+scene.pry do
+  light { point -2, 2.5, -2 }
+
+  shape :hexagon
+
+  camera do
+    canvas 320, 256, 1/6r
+    position 1.5, 1.2, -1.3
+    look_at 0, 0, 0
+  end
+end

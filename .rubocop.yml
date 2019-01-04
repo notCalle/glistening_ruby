@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
 
 Metrics/BlockLength:
   Exclude:
@@ -19,8 +19,20 @@ Metrics/ParameterLists:
 
 Metrics/AbcSize:
   Exclude:
-    - 'examples/*'
+    - 'examples/**/*'
 
 Metrics/MethodLength:
   Exclude:
-    - 'examples/*'
+    - 'examples/**/*'
+
+Style/Semicolon:
+  Exclude:
+    - 'examples/**/*'
+
+Layout/SpaceAroundOperators:
+  Exclude:
+    - 'examples/**/*'
+
+Lint/AmbiguousOperator:
+  Exclude:
+    - 'examples/**/*'

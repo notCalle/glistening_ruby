@@ -42,6 +42,8 @@ module GlisteningRuby
           canvas[x, y] = world.color_at ray, limit
           @progress&.call(x, y)
         end
+      rescue Interrupt
+        canvas
       end
     end
 
