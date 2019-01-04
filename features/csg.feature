@@ -39,3 +39,14 @@ Feature: Constructive Solid Geometry
         | intersection  | false | true  | false | does      |
         | intersection  | false | false | true  | does not  |
         | intersection  | false | false | false | does not  |
+@wip
+    Examples: CSG difference operations
+        | operation     | lhit  | inl   | inr   | allow     |
+        | difference    | true  | true  | true  | does not  |
+        | difference    | true  | true  | false | does      |
+        | difference    | true  | false | true  | does not  |
+        | difference    | true  | false | false | does      |
+        | difference    | false | true  | true  | does      |
+        | difference    | false | true  | false | does      |
+        | difference    | false | false | true  | does not  |
+        | difference    | false | false | false | does not  |
