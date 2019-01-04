@@ -8,7 +8,9 @@ module GlisteningRuby
     class CSG < Shape
       def instance
         super
-        ::GlisteningRuby::CSG.new(@op, *@shapes)
+        @shapes.reduce do |left, right|
+          ::GlisteningRuby::CSG.send(@op, left, right)
+        end
       end
 
       def shape(name = nil, *args, &block)
