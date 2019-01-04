@@ -31,6 +31,10 @@ module GlisteningRuby
       def operation
         'union'
       end
+
+      def allow_intersection?(left_hit, in_left, in_right)
+        (left_hit && !in_right) || (!left_hit && !in_left)
+      end
     end
   end
 end

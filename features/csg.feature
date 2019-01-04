@@ -17,7 +17,7 @@ Feature: Constructive Solid Geometry
           And s2 := Sphere[]
          When c := CSG["<operation>", s1, s2]
          Then c <allow> allow_intersection <lhit>, <inl>, <inr>
-@wip
+
     Examples: CSG union operations
         | operation | lhit  | inl   | inr   | allow     |
         | union     | true  | true  | true  | does not  |
