@@ -62,6 +62,12 @@ Then(
 end
 
 Then(
+  '{variable}.{method} = {string}'
+) do |name, method, string|
+  expect(seval(name, method)).to eq string
+end
+
+Then(
   '{variable}.{method} = {matrix}'
 ) do |name, method, matrix|
   expect(seval(name, method)).to eq seval(matrix)

@@ -73,6 +73,12 @@ Given(
 end
 
 Given(
+  '{variable} := {class}[{string}, {variable}, {variable}]'
+) do |var, klass, *tuple|
+  seval(var, :'=', klass[*tuple.map { |i| seval(i) }])
+end
+
+Given(
   '{variable} := {class}[{variable}, {variable}, {variable}, {variable}]'
 ) do |var, klass, *tuple|
   seval(var, :'=', klass[*tuple.map { |i| seval(i) }])
