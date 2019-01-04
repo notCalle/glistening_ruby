@@ -2,6 +2,7 @@
 
 require 'glistening_ruby'
 require_relative 'dsl/cone'
+require_relative 'dsl/csg'
 require_relative 'dsl/cylinder'
 require_relative 'dsl/group'
 require_relative 'dsl/mesh'
@@ -23,8 +24,16 @@ module GlisteningRuby
       DSL::Cylinder.define(name, klass: DSL::Shape, &block)
     end
 
+    def self.difference(name, &block)
+      DSL::Difference.define(name, klass: DSL::Shape, &block)
+    end
+
     def self.group(name, &block)
       DSL::Group.define(name, klass: DSL::Shape, &block)
+    end
+
+    def self.intersection(name, &block)
+      DSL::Intersection.define(name, klass: DSL::Shape, &block)
     end
 
     def self.mesh(name, &block)
@@ -37,6 +46,10 @@ module GlisteningRuby
 
     def self.sphere(name, &block)
       DSL::Sphere.define(name, klass: DSL::Shape, &block)
+    end
+
+    def self.union(name, &block)
+      DSL::Union.define(name, klass: DSL::Shape, &block)
     end
 
     # Anonymous object creation
@@ -52,8 +65,16 @@ module GlisteningRuby
       callback DSL::Cylinder.setup(*args, &block)
     end
 
+    def difference(*args, &block)
+      callback DSL::Difference.setup(*args, &block)
+    end
+
     def group(*args, &block)
       callback DSL::Group.setup(*args, &block)
+    end
+
+    def intersection(*args, &block)
+      callback DSL::Intersection.setup(*args, &block)
     end
 
     def mesh(*args, &block)
@@ -66,6 +87,10 @@ module GlisteningRuby
 
     def sphere(*args, &block)
       callback DSL::Sphere.setup(*args, &block)
+    end
+
+    def union(*args, &block)
+      callback DSL::Union.setup(*args, &block)
     end
   end
 end
