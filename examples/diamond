@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'pry'
+require 'glistening_ruby/dsl'
+require stdlib 'colors'
+
+require_relative 'include/diamond'
+
+material :shiny_tiles do
+  pattern.checkers do
+    color rgb 0.6, 0.5, 0.3
+    color grey 0.75
+    scale 1/8r
+  end
+  ambient 0.3
+  diffuse 0.7
+  phong 0.9, 50
+  reflective 0.05
+end
+
+scene.pry do
+  light { point -1.5, 2.5, -1.5; color :white }
+
+  shape.cube do
+    material :shiny_tiles
+    translate 0, 1, 0
+    scale 2
+  end
+
+  shape :diamond do
+    scale 1/2r
+    rotate z: 1/8r, y: -1/9r
+  end
+
+  camera do
+    canvas 320, 256
+    position -0.5, 1.2, -1.6
+    look_at 0, 0.1, 0
+  end
+end
