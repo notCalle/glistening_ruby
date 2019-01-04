@@ -28,7 +28,7 @@ Feature: Constructive Solid Geometry
         | union     | false | true  | false | does not  |
         | union     | false | false | true  | does      |
         | union     | false | false | false | does      |
-@wip
+
     Examples: CSG intersection operations
         | operation     | lhit  | inl   | inr   | allow     |
         | intersection  | true  | true  | true  | does      |

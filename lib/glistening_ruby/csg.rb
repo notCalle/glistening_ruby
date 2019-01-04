@@ -13,6 +13,10 @@ module GlisteningRuby
       Union.new(left, right)
     end
 
+    def self.intersection(left, right)
+      Intersection.new(left, right)
+    end
+
     # Abstract base class for CSG operations
     class Base < Shape
       def initialize(left, right)
@@ -34,6 +38,17 @@ module GlisteningRuby
 
       def allow_intersection?(left_hit, in_left, in_right)
         (left_hit && !in_right) || (!left_hit && !in_left)
+      end
+    end
+
+    # Concrete CSG Intersection
+    class Intersection < Base
+      def operation
+        'intersection'
+      end
+
+      def allow_intersection?(left_hit, in_left, in_right)
+        (left_hit && in_right) || (!left_hit && in_left)
       end
     end
   end
