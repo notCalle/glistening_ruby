@@ -1,5 +1,5 @@
 Feature: Constructive Solid Geometry
-@wip
+
     Scenario: CSG is created with an operation and two shapes
 
         Given s1 := Sphere[]
