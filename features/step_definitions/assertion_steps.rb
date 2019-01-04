@@ -50,6 +50,12 @@ Then(
 end
 
 Then(
+  '{variable}[{int}] = {variable}[{int}]'
+) do |lvar, lindex, rvar, rindex|
+  expect(seval(lvar)[lindex]).to eq seval(rvar)[rindex]
+end
+
+Then(
   '{variable}[{int}].{method} = {variable}'
 ) do |a, index, method, b|
   expect(seval(seval(a)[index], method)).to eq seval(b)

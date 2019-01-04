@@ -50,3 +50,24 @@ Feature: Constructive Solid Geometry
         | difference    | false | true  | false | does      |
         | difference    | false | false | true  | does not  |
         | difference    | false | false | false | does not  |
+@wip
+    Scenario Outline: Filtering a list of intersections
+
+        Given s1 := Sphere[]
+          And s2 := Cube[]
+          And c := CSG["<operation>", s1, s2]
+          And i0 := Intersection[1, s1]
+          And i1 := Intersection[2, s2]
+          And i2 := Intersection[3, s1]
+          And i3 := Intersection[4, s2]
+          And xs := Intersections[i0, i1, i2, i3]
+         When result := c.select_intersections xs
+         Then result.count = 2
+          And result[0] = xs[<x0>]
+          And result[1] = xs[<x1>]
+
+    Examples:
+        | operation     | x0    | x1    |
+        | union         | 0     | 3     |
+        | intersection  | 1     | 2     |
+        | difference    | 0     | 1     |
