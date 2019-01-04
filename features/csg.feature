@@ -71,3 +71,30 @@ Feature: Constructive Solid Geometry
         | union         | 0     | 3     |
         | intersection  | 1     | 2     |
         | difference    | 0     | 1     |
+@wip
+    Scenario: A ray misses a CSG object
+
+        Given s1 := Sphere[]
+          And s2 := Cube[]
+          And c := CSG["union", s1, s2]
+          And p := Point[0, 2, -5]
+          And v := Vector[0, 0, 1]
+          And r := Ray[p, v]
+         When xs := c.intersect r
+         Then xs is empty
+@wip
+    Scenario: A ray hits a CSG object
+
+        Given s1 := Sphere[]
+          And s2 := Sphere[]
+          And s2.transform= Translation[0, 0, 0.5]
+          And c := CSG["union", s1, s2]
+          And p := Point[0, 0, -5]
+          And v := Vector[0, 0, 1]
+          And r := Ray[p, v]
+         When xs := c.intersect r
+         Then xs.count = 2
+          And xs[0].t = 4
+          And xs[0].object = s1
+          And xs[1].t = 6.5
+          And xs[1].object = s2
