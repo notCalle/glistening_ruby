@@ -71,7 +71,7 @@ Feature: Constructive Solid Geometry
         | union         | 0     | 3     |
         | intersection  | 1     | 2     |
         | difference    | 0     | 1     |
-@wip
+
     Scenario: A ray misses a CSG object
 
         Given s1 := Sphere[]
@@ -82,7 +82,7 @@ Feature: Constructive Solid Geometry
           And r := Ray[p, v]
          When xs := c.intersect r
          Then xs is empty
-@wip
+
     Scenario: A ray hits a CSG object
 
         Given s1 := Sphere[]

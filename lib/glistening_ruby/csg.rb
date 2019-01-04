@@ -38,6 +38,11 @@ module GlisteningRuby
 
       attr_reader :left, :right
 
+      def intersect(ray)
+        ray = ray.transform(@inverse)
+        select_intersections(@left.intersect(ray) << @right.intersect(ray))
+      end
+
       def select_intersections(intersections)
         inl = false
         inr = false
