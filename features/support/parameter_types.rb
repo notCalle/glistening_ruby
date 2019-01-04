@@ -40,7 +40,7 @@ ParameterType(
 
 ParameterType(
   name: 'method',
-  regexp: /[a-z][a-z_0-9]*=?/,
+  regexp: /[a-z][a-z_0-9]*[=?]?/,
   use_for_snippets: false,
   transformer: ->(name) { name.to_sym }
 )

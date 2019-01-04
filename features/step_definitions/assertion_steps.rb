@@ -134,6 +134,18 @@ Then(
 end
 
 Then(
+  '{variable} does not {predicate} {boolean}, {boolean}, {boolean}'
+) do |obj, predicate, *args|
+  expect(seval(obj, predicate, *args)).to be_falsey
+end
+
+Then(
+  '{variable} does {predicate} {boolean}, {boolean}, {boolean}'
+) do |obj, predicate, *args|
+  expect(seval(obj, predicate, *args)).to be_truthy
+end
+
+Then(
   '{variable} is not {predicate} in {variable}'
 ) do |subj, method, obj|
   expect(seval(obj, method, subj)).to be_falsey

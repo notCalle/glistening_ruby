@@ -25,6 +25,12 @@ Given(
 end
 
 Given(
+  '{variable} := {variable}.{method} {boolean}, {boolean}, {boolean}'
+) do |lhs, rhs, method, *args|
+  seval(lhs, :'=', rhs, method, *args)
+end
+
+Given(
   '{variable} := {variable}[{int}]'
 ) do |lhs, rhs, index|
   seval(lhs, :'=', seval(rhs)[index])
