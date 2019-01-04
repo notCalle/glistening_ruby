@@ -50,7 +50,7 @@ Feature: Constructive Solid Geometry
         | difference    | false | true  | false | does      |
         | difference    | false | false | true  | does not  |
         | difference    | false | false | false | does not  |
-@wip
+
     Scenario Outline: Filtering a list of intersections
 
         Given s1 := Sphere[]

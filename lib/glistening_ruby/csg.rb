@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'intersections'
 require_relative 'shape'
 
 module GlisteningRuby
@@ -31,7 +32,23 @@ module GlisteningRuby
         super()
       end
 
+      def include?(other)
+        super || @left.include?(other) || @right.include?(other)
+      end
+
       attr_reader :left, :right
+
+      def select_intersections(intersections)
+        inl = false
+        inr = false
+
+        intersections.each.with_object(Intersections.new) do |i, result|
+          lhit = @left.include? i.object
+          result << [i] if allow_intersection?(lhit, inl, inr)
+          inl = !inl if lhit
+          inr = !inr unless lhit
+        end
+      end
     end
 
     # Concrete CSG Union
