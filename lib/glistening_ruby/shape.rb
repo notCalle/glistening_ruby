@@ -15,6 +15,10 @@ module GlisteningRuby
       super
     end
 
+    def include?(other)
+      other == self
+    end
+
     attr_accessor :cast_shadows
     attr_reader :parent
 

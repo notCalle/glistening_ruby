@@ -19,7 +19,7 @@ module GlisteningRuby
 
       def range(min_max)
         @minimum = min_max.min
-        @maxumum = min_max.max
+        @maximum = min_max.max
       end
     end
   end

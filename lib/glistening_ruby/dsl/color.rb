@@ -25,13 +25,13 @@ module GlisteningRuby
       end
 
       def method_missing(name, *args)
-        return super unless self.class.respond_to?(name)
+        return super unless respond_to_missing?(name)
 
         @color = self.class.send(name, *args)
       end
 
-      def respond_to_missing?(name)
-        self.class.respond_to?(name) || super
+      def respond_to_missing?(name, include_all = false)
+        self.class.respond_to?(name, include_all) || super
       end
     end
   end

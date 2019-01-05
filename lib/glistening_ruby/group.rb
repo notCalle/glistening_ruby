@@ -15,6 +15,10 @@ module GlisteningRuby
       super
     end
 
+    def include?(other)
+      super || @shapes.any? { |s| s.include? other }
+    end
+
     def <<(other)
       raise "#{other} already has a parent" unless other.parent.nil?
 
@@ -27,7 +31,7 @@ module GlisteningRuby
       bounding_tree.bounds
     end
 
-    def_delegators :@shapes, :empty?, :include?, :each, :[]
+    def_delegators :@shapes, :empty?, :each, :[]
 
     def intersect(ray)
       bounding_tree.intersect(ray.transform(@inverse))

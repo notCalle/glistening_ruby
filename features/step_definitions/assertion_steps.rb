@@ -50,6 +50,12 @@ Then(
 end
 
 Then(
+  '{variable}[{int}] = {variable}[{int}]'
+) do |lvar, lindex, rvar, rindex|
+  expect(seval(lvar)[lindex]).to eq seval(rvar)[rindex]
+end
+
+Then(
   '{variable}[{int}].{method} = {variable}'
 ) do |a, index, method, b|
   expect(seval(seval(a)[index], method)).to eq seval(b)
@@ -59,6 +65,12 @@ Then(
   '{variable}[{int}].{method} = {scalar}'
 ) do |a, index, method, value|
   expect(seval(seval(a)[index], method)).to be_within(EPSILON).of value
+end
+
+Then(
+  '{variable}.{method} = {string}'
+) do |name, method, string|
+  expect(seval(name, method)).to eq string
 end
 
 Then(
@@ -125,6 +137,18 @@ Then(
   '{variable} is {predicate} in {variable}'
 ) do |subj, method, obj|
   expect(seval(obj, method, subj)).to be_truthy
+end
+
+Then(
+  '{variable} does not {predicate} {boolean}, {boolean}, {boolean}'
+) do |obj, predicate, *args|
+  expect(seval(obj, predicate, *args)).to be_falsey
+end
+
+Then(
+  '{variable} does {predicate} {boolean}, {boolean}, {boolean}'
+) do |obj, predicate, *args|
+  expect(seval(obj, predicate, *args)).to be_truthy
 end
 
 Then(

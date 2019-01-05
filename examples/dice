@@ -1,0 +1,130 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'pry'
+require 'glistening_ruby/dsl'
+require stdlib 'colors'
+
+material :shiny_tiles do
+  pattern.checkers do
+    color rgb 0.6, 0.5, 0.3
+    color grey 0.75
+    scale 1/8r
+  end
+  ambient 0.3
+  diffuse 0.7
+  phong 0.9, 50
+  reflective 0.05
+end
+
+shape.cylinder :base_cyl do
+  closed
+  range(-1..1)
+  scale 1.35, 1, 1.35
+end
+
+shape.sphere :pip do |x = 0, z = x|
+  material do
+    color :white
+    ambient 0.3
+    phong 0
+  end
+  scale 1/3r
+  translate x * 1/2r, 5/4r, z * 1/2r
+end
+
+shape.group :pip1 do
+  shape :pip
+end
+
+shape.group :pip2 do
+  shape :pip, 1
+  shape :pip, -1
+  rotate z: 1/4r
+end
+
+shape.group :pip3 do
+  -1.upto 1 do |n|
+    shape :pip, n
+  end
+  rotate x: 1/4r
+end
+
+shape.group :pip4 do
+  [-1, 1].each do |x|
+    [-1, 1].each do |z|
+      shape :pip, x, z
+    end
+  end
+  rotate x: -1/4r
+end
+
+shape.group :pip5 do
+  shape :pip
+  [-1, 1].each do |x|
+    [-1, 1].each do |z|
+      shape :pip, x, z
+    end
+  end
+  rotate z: -1/4r
+end
+
+shape.group :pip6 do
+  -1.upto 1 do |x|
+    [-1, 1].each do |z|
+      shape :pip, x, z
+    end
+  end
+  rotate x: 1/2r
+end
+
+shape.intersection :base_die do |c|
+  material do
+    color c
+    diffuse 0.5
+    phong 0.9, 300
+    transparent 0.5, 1.5
+    reflective 0.5
+  end
+  shape :base_cyl
+  shape(:base_cyl) { rotate x: 1/4r }
+  shape(:base_cyl) { rotate z: 1/4r }
+end
+
+shape.difference :die do |color = :red|
+  shape :base_die, color
+  shape :pip1
+  shape :pip2
+  shape :pip3
+  shape :pip4
+  shape :pip5
+  shape :pip6
+end
+
+scene.pry do
+  light { point -1.5, 2.5, -1.5; color :white }
+
+  shape.cube do
+    material :shiny_tiles
+    translate 0, 1, 0
+    scale 3
+  end
+
+  shape :die do
+    translate -1.1, 1, -0.9
+    scale 1/2r
+  end
+
+  shape :die, :blue do
+    rotate x: 1/4r, z: -1/4r, y: 1/17r
+    translate 0.8, 1, 1.1
+    scale 1/2r
+  end
+
+  camera do
+    canvas 320, 256
+    position 1.5, 2.5, -2
+    look_at 0, 0.5, 0
+  end
+end

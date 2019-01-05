@@ -25,6 +25,12 @@ Given(
 end
 
 Given(
+  '{variable} := {variable}.{method} {boolean}, {boolean}, {boolean}'
+) do |lhs, rhs, method, *args|
+  seval(lhs, :'=', rhs, method, *args)
+end
+
+Given(
   '{variable} := {variable}[{int}]'
 ) do |lhs, rhs, index|
   seval(lhs, :'=', seval(rhs)[index])
@@ -68,6 +74,12 @@ end
 
 Given(
   '{variable} := {class}[{variable}, {variable}, {variable}]'
+) do |var, klass, *tuple|
+  seval(var, :'=', klass[*tuple.map { |i| seval(i) }])
+end
+
+Given(
+  '{variable} := {class}[{string}, {variable}, {variable}]'
 ) do |var, klass, *tuple|
   seval(var, :'=', klass[*tuple.map { |i| seval(i) }])
 end
