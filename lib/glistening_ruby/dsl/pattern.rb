@@ -15,8 +15,11 @@ module GlisteningRuby
         pigments << color
       end
 
-      def pattern(name, *args, &block)
-        pigments << Pattern[name, *args, &block]
+      def pattern(name = nil, *args, &block)
+        r = pigments
+        return dsl(PatternDSL) { |p| r << p } if name.nil?
+
+        r << Pattern[name, *args, &block]
       end
 
       private
