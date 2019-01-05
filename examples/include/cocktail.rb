@@ -26,20 +26,32 @@ shape.group :cocktail do
     translate 0, 0.11, 0
   end
 
-  shape.cone do
-    material :glass
-    scale 0.1
-    translate 0, 0.1, 0
+  shape :cocktail_glass
+end
+
+shape.union :cocktail_glass do
+  material :glass
+
+  shape.difference do
+    shape.cone do
+      closed
+      scale 0.1
+      translate 0, 0.1, 0
+    end
+
+    shape.cone do
+      closed
+      scale 0.1
+      translate 0, 0.11, 0
+    end
   end
 
   shape.cylinder do
-    material :glass
     closed
     scale 0.01, 0.11, 0.01
   end
 
   shape.cone do
-    material :glass
     closed
     scale 0.08, -0.01, 0.08
     translate 0, 0.01, 0
