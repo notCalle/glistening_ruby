@@ -22,7 +22,7 @@ module GlisteningRuby
       private
 
       def ivars
-        instance_variables.reject - %i[@file]
+        instance_variables - %i[@file]
       end
     end
   end
