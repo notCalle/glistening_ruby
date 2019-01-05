@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'pry'
+require 'glistening_ruby/dsl'
+require stdlib 'colors'
+
+shape.sphere :left do
+  material do
+    color :red
+  end
+  translate -0.25, 0, 0
+end
+
+shape.sphere :right do
+  material do
+    color :blue
+  end
+  translate 0.25, 0, 0
+end
+
+scene.pry do |op|
+  light { point 3, 5, -5; color :white }
+
+  shape.send op do
+    shape :left
+    shape :right
+  end
+
+  camera do
+    canvas 320, 256
+    position 0.5, 0, -4
+    look_at 0, 0, 0
+  end
+end
