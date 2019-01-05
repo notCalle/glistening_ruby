@@ -10,6 +10,10 @@ module GlisteningRuby
   module DSL
     # Scene builder DSL class
     class Scene < Base
+      def initialize(&block)
+        @block = block
+      end
+
       alias instance itself
 
       def camera(&block)
@@ -28,9 +32,11 @@ module GlisteningRuby
       end
 
       def render(*args, verbose: false, **kwargs)
+        @world = nil
+        instance_exec(*args, &@block)
         @t0 = Time.now
         @camera.progress = progress_proc(verbose)
-        @canvas = @camera.render(world, *args, **kwargs)
+        @canvas = @camera.render(world, **kwargs)
         puts "Rendering time: #{Time.now - @t0} s" if verbose
       end
 
