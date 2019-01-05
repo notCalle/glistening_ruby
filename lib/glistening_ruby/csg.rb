@@ -43,7 +43,7 @@ module GlisteningRuby
       end
 
       def intersect(ray)
-        ray = ray.transform(@inverse)
+        ray = ray.transform(inverse)
         return Intersections.new unless intersect_bounds?(ray)
 
         select_intersections(@left.intersect(ray) << @right.intersect(ray))

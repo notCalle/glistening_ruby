@@ -36,7 +36,7 @@ module GlisteningRuby
     end
 
     def intersect(ray)
-      Intersections.for_object(self, *intersections(ray.transform(@inverse)))
+      Intersections.for_object(self, *intersections(ray.transform(inverse)))
     end
 
     def normal_at(world_point, hit = nil)
@@ -49,7 +49,7 @@ module GlisteningRuby
     end
 
     def normal_to_world(normal)
-      normal = (@inverse_transpose * normal).normalize
+      normal = (inverse_transpose * normal).normalize
       return normal if parent.nil?
 
       parent.normal_to_world(normal)

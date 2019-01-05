@@ -34,7 +34,7 @@ module GlisteningRuby
     def_delegators :@shapes, :empty?, :each, :[]
 
     def intersect(ray)
-      bounding_tree.intersect(ray.transform(@inverse))
+      bounding_tree.intersect(ray.transform(inverse))
     end
 
     private

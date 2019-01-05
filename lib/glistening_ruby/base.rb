@@ -19,5 +19,15 @@ module GlisteningRuby
     def identity
       Matrix::IDENTITY
     end
+
+    private
+
+    def cache
+      @cache ||= {}
+    end
+
+    def reset_cache
+      @cache = nil
+    end
   end
 end
