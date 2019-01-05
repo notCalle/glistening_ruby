@@ -21,7 +21,7 @@ module GlisteningRuby
     attr_accessor :lights, :objects
 
     def <<(thing)
-      if thing.is_a?(PointLight)
+      if thing.is_a?(Light::Base)
         @lights << thing
       else
         @objects << thing
