@@ -27,6 +27,18 @@ module GlisteningRuby
         instance_exec(&block) if block_given?
       end
 
+      def method_missing(name, value, *args)
+        return super unless args.empty? && respond_to_missing?(name)
+
+        instance_variable_set("@#{name}", value) if args.empty?
+      end
+
+      def respond_to_missing?(name, *)
+        return true if name =~ /[a-z]+/
+
+        super
+      end
+
       private
 
       def copy_ivars(other)
