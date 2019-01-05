@@ -78,7 +78,7 @@ shape.group :table do
 end
 
 scene.pry do
-  light { point -2, 2.5, -2 }
+  light.spherical { translate -2, 2.5, -2 }
 
   shape :room
   shape.group do

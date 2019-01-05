@@ -104,8 +104,8 @@ shape.plane :floor do
 end
 
 scene.pry do
-  light { point 0, 10, -10; color rgb 0.4, 0.5, 0.7 }
-  light { point 5, 5, -10; color rgb 0.7, 0.5, 0.4 }
+  light.spherical { translate 0, 10, -10; color rgb 0.4, 0.5, 0.7 }
+  light.spherical { translate 5, 5, -10; color rgb 0.7, 0.5, 0.4 }
 
   shape :floor
   shape :water
