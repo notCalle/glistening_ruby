@@ -38,8 +38,14 @@ module GlisteningRuby
 
       attr_reader :left, :right
 
+      def bounds
+        aabb.bounds
+      end
+
       def intersect(ray)
         ray = ray.transform(@inverse)
+        return Intersections.new unless intersect_bounds?(ray)
+
         select_intersections(@left.intersect(ray) << @right.intersect(ray))
       end
 
@@ -53,6 +59,16 @@ module GlisteningRuby
           inl = !inl if lhit
           inr = !inr unless lhit
         end
+      end
+
+      private
+
+      def aabb
+        @aabb ||= AABB.from_shapes(@left, @right)
+      end
+
+      def intersect_bounds?(ray)
+        !aabb.intersect(ray).empty?
       end
     end
 
