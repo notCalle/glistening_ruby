@@ -4,6 +4,7 @@ require_relative 'base'
 require_relative 'camera'
 require_relative 'light'
 require_relative 'shape'
+require_relative '../light_dsl'
 require_relative '../shape_dsl'
 
 module GlisteningRuby
@@ -20,8 +21,11 @@ module GlisteningRuby
         @camera = Camera.setup(&block)
       end
 
-      def light(&block)
-        world << Light.setup(&block)
+      def light(name = nil, *args, &block)
+        w = world
+        return dsl(LightDSL) { |l| w << l } if name.nil?
+
+        w << Light[name, *args, &block]
       end
 
       def shape(name = nil, *args, &block)
