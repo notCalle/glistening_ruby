@@ -7,7 +7,11 @@ module GlisteningRuby
   # An axis aligned bounding box
   class AABB < Shape
     def self.from_shape(shape)
-      new(shape.bounds).transform(shape.transform)
+      new(shape.bounds).transform!(shape.transform)
+    end
+
+    def self.from_shapes(*shapes)
+      new(shapes.flat_map { |shape| from_shape(shape).bounds })
     end
 
     def initialize(points)
@@ -27,7 +31,7 @@ module GlisteningRuby
       %i[x y z].zip(xyz).find { |_, v| v == max }[0]
     end
 
-    def transform(matrix)
+    def transform!(matrix)
       points = [[@x_min, @y_min, @z_min],
                 [@x_max, @y_min, @z_min],
                 [@x_min, @y_max, @z_min],
