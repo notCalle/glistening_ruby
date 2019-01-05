@@ -8,9 +8,10 @@ module GlisteningRuby
     class CSG < Shape
       def instance
         super
-        @shapes.reduce do |left, right|
+        i = @shapes.reduce do |left, right|
           ::GlisteningRuby::CSG.send(@op, left, right)
         end
+        copy_ivars(i)
       end
 
       def shape(name = nil, *args, &block)
@@ -22,6 +23,10 @@ module GlisteningRuby
 
       private
 
+      def ivars
+        instance_variables - %i[@op @shapes]
+      end
+
       def shapes
         @shapes ||= []
       end
@@ -29,7 +34,7 @@ module GlisteningRuby
 
     # CSG Difference builder DSL class
     class Difference < CSG
-      def initialize
+      def initialize(*)
         @op = :difference
         super
       end
@@ -37,7 +42,7 @@ module GlisteningRuby
 
     # CSG Intersection builder DSL class
     class Intersection < CSG
-      def initialize
+      def initialize(*)
         @op = :intersection
         super
       end
@@ -45,7 +50,7 @@ module GlisteningRuby
 
     # CSG Union builder DSL class
     class Union < CSG
-      def initialize
+      def initialize(*)
         @op = :union
         super
       end

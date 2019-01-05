@@ -9,7 +9,7 @@ module GlisteningRuby
       def instance
         super
         ::GlisteningRuby::ObjFile.new(File.open(@file)) do |i|
-          copy_ivars(i, instance_variables.reject { |iv| iv == :@file })
+          copy_ivars(i)
         end
       end
 
@@ -17,6 +17,12 @@ module GlisteningRuby
         caller = caller_locations(1..1).first
         caller_dir = File.dirname(caller.absolute_path)
         @file = File.expand_path(name, caller_dir)
+      end
+
+      private
+
+      def ivars
+        instance_variables.reject - %i[@file]
       end
     end
   end

@@ -29,10 +29,15 @@ module GlisteningRuby
 
       private
 
-      def copy_ivars(other, ivars = instance_variables)
+      def copy_ivars(other)
         ivars.each do |ivar|
           other.send("#{ivar[1..-1]}=", instance_variable_get(ivar))
         end
+        other
+      end
+
+      def ivars
+        instance_variables
       end
 
       def dsl(dsl_module, &block)
