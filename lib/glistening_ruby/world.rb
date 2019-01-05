@@ -89,9 +89,8 @@ module GlisteningRuby
     end
 
     def shadowed?(point, light = @lights[0])
-      lightv = light.position - point
-      distance = lightv.magnitude
-      direction = lightv.normalize
+      distance = light.distance(point)
+      direction = light.direction(point)
 
       intersect(Ray[point, direction], shadow: true).hit&.t&.< distance
     end

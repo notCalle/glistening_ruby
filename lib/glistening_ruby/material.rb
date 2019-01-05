@@ -37,17 +37,17 @@ module GlisteningRuby
 
     def lighting(object, light, # rubocop:disable Metrics/ParameterLists
                  point, eyev, normalv, in_shadow = false)
-      effective_color = color_at(object, point) * light.intensity
+      effective_color = color_at(object, point) * light.intensity(point)
       ambient = effective_color * @ambient
       return ambient if in_shadow
 
-      lightv = (light.position - point).normalize
+      lightv = light.direction(point)
       light_dot_normal = lightv.dot normalv
       return ambient if light_dot_normal.negative?
 
       ambient +
         diffuse_lighting(effective_color, light_dot_normal) +
-        specular_lighting(light, lightv, normalv, eyev)
+        specular_lighting(point, light, lightv, normalv, eyev)
     end
 
     private
@@ -60,12 +60,12 @@ module GlisteningRuby
       effective_color * @diffuse * light_dot_normal
     end
 
-    def specular_lighting(light, lightv, normalv, eyev)
+    def specular_lighting(point, light, lightv, normalv, eyev)
       reflectv = (-lightv).reflect(normalv)
       reflect_dot_eye = reflectv.dot eyev
       return Color::BLACK unless reflect_dot_eye.positive?
 
-      light.intensity * @specular * reflect_dot_eye**@shininess
+      light.intensity(point) * @specular * reflect_dot_eye**@shininess
     end
   end
 end
