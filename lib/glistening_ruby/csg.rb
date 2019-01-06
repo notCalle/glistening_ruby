@@ -43,7 +43,7 @@ module GlisteningRuby
 
       def intersect(ray)
         ray = ray.transform(inverse)
-        return Intersections.new unless intersect_bounds?(ray)
+        return Intersections.new unless aabb.intersect_bounds?(ray)
 
         select_intersections(left.intersect(ray) << right.intersect(ray))
       end
@@ -74,10 +74,6 @@ module GlisteningRuby
 
       def aabb
         @aabb ||= AABB.from_shapes(left, right)
-      end
-
-      def intersect_bounds?(ray)
-        !aabb.intersect(ray).empty?
       end
     end
 

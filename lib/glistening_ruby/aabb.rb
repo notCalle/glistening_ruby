@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require_relative 'point'
-require_relative 'shape'
+require_relative 'base'
 
 module GlisteningRuby
   # An axis aligned bounding box
-  class AABB < Shape
+  class AABB < Base
     def self.from_shape(shape)
       new(shape.bounds).transform!(shape.transform)
     end
@@ -44,14 +44,8 @@ module GlisteningRuby
       self
     end
 
-    private
-
-    def initialize_minmax(points)
-      @x_min, @x_max = points.map(&:x).minmax
-      @y_min, @y_max = points.map(&:y).minmax
-      @z_min, @z_max = points.map(&:z).minmax
-      @min = [@x_min, @y_min, @z_min]
-      @max = [@x_max, @y_max, @z_max]
+    def intersect_bounds?(ray)
+      !intersections(ray).empty?
     end
 
     def intersections(ray)
@@ -67,6 +61,16 @@ module GlisteningRuby
       end
 
       [t_min, t_max]
+    end
+
+    private
+
+    def initialize_minmax(points)
+      @x_min, @x_max = points.map(&:x).minmax
+      @y_min, @y_max = points.map(&:y).minmax
+      @z_min, @z_max = points.map(&:z).minmax
+      @min = [@x_min, @y_min, @z_min]
+      @max = [@x_max, @y_max, @z_max]
     end
 
     def axis_intersections(min, max, origin, direction)
