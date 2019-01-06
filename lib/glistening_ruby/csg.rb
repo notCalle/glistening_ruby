@@ -27,8 +27,6 @@ module GlisteningRuby
       def initialize(left, right)
         left.parent = self
         right.parent = self
-        @left = left
-        @right = right
         super()
       end
 
@@ -59,6 +57,18 @@ module GlisteningRuby
           inl = !inl if lhit
           inr = !inr unless lhit
         end
+      end
+
+      def append(child)
+        return @left = child if @left.nil?
+        return @right = child if @right.nil?
+
+        raise 'CSG can only have two children'
+      end
+
+      def delete(child)
+        @left = child.parent = nil if @left == child
+        @right = child.parent = nil if @right == child
       end
 
       private

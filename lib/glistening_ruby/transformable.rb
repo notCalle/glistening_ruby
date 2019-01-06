@@ -5,9 +5,7 @@ require_relative 'base'
 module GlisteningRuby
   # Abstract transformable object
   class Transformable < Base
-    def initialize(*)
-      super
-    end
+    attr_reader :parent
 
     def transform
       @transform ||= Matrix::IDENTITY
@@ -42,6 +40,50 @@ module GlisteningRuby
     #
     def to_outer(point)
       transform * point
+    end
+
+    def object_to_world(point)
+      world_transform * point
+    end
+
+    def normal_to_world(vector)
+      (world_inverse_transpose * vector).normalize
+    end
+
+    def world_to_object(point)
+      world_inverse * point
+    end
+
+    protected
+
+    def parent=(parent)
+      reset_cache
+      unless parent
+        @parent = nil
+        return
+      end
+      @parent&.delete(self)
+      @parent = parent
+      @parent.append(self)
+    end
+
+    def world_inverse
+      return inverse if parent.nil?
+
+      cache[:world_inverse] ||= world_transform.inverse
+    end
+
+    def world_inverse_transpose
+      return inverse_transpose if parent.nil?
+
+      cache[:world_inverse_transpose] ||=
+        world_transform.submatrix(3, 3).inverse.transpose
+    end
+
+    def world_transform
+      return transform if parent.nil?
+
+      cache[:world_transform] ||= parent.world_transform * transform
     end
   end
 end

@@ -20,10 +20,6 @@ module GlisteningRuby
     end
 
     def <<(other)
-      raise "#{other} already has a parent" unless other.parent.nil?
-
-      @bounding_tree = nil
-      @shapes << other
       other.parent = self
     end
 
@@ -35,6 +31,21 @@ module GlisteningRuby
 
     def intersect(ray)
       bounding_tree.intersect(ray.transform(inverse))
+    end
+
+    def append(child)
+      raise 'Can only append my children' unless child.parent == self
+
+      reset_cache
+      @shapes.append child
+    end
+
+    def delete(child)
+      raise 'Can only delete my children' if child.parent == self
+
+      reset_cache
+      @shapes.delete child
+      child.parent = nil
     end
 
     private
