@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'aabb'
 require_relative 'intersections'
 require_relative 'material'
 require_relative 'point'
@@ -23,6 +24,10 @@ module GlisteningRuby
     attr_writer :material
     def material
       @material ||= @parent&.material || Material[]
+    end
+
+    def aabb
+      cache[:aabb] ||= AABB.from_shape(self)
     end
 
     def bounds

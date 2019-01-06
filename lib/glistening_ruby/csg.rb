@@ -70,10 +70,8 @@ module GlisteningRuby
         raise 'CSG can not orphan its children'
       end
 
-      private
-
       def aabb
-        @aabb ||= AABB.from_shapes(left, right)
+        cache[:aabb] ||= AABB.from_shapes(left, right)
       end
     end
 
