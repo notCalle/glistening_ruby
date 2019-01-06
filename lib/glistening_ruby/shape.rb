@@ -20,6 +20,9 @@ module GlisteningRuby
     end
 
     attr_accessor :cast_shadows
+    def cast_shadows?
+      @cast_shadows
+    end
 
     attr_writer :material
     def material
@@ -34,11 +37,9 @@ module GlisteningRuby
       raise NotImplementedError
     end
 
-    def cast_shadows?
-      @cast_shadows
-    end
-
     def intersect(ray)
+      return Intersections.new if ray.is_a?(ShadowRay) && !@cast_shadows
+
       Intersections.for_object(self, *intersections(ray.transform(inverse)))
     end
 

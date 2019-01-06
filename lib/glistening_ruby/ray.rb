@@ -27,4 +27,6 @@ module GlisteningRuby
       self.class.new(matrix * @origin, matrix * @direction)
     end
   end
+
+  class ShadowRay < Ray; end
 end

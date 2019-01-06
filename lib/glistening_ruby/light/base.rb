@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../transformable'
 require_relative '../color'
+require_relative '../intersections'
+require_relative '../transformable'
 
 module GlisteningRuby
   module Light
@@ -18,6 +19,10 @@ module GlisteningRuby
 
       def intensity(_point)
         raise NotImplementedError
+      end
+
+      def intersect(_ray)
+        Intersections.new
       end
     end
   end
