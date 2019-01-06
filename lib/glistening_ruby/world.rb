@@ -46,7 +46,7 @@ module GlisteningRuby
     end
 
     def reflected_color(comps, ttl = RECURSION_LIMIT)
-      reflective = comps.object.material.reflective
+      reflective = comps.material.reflective
       return Color::BLACK if ttl.zero? || reflective.zero?
 
       reflect_ray = Ray.new(comps.point, comps.reflectv)
@@ -54,7 +54,7 @@ module GlisteningRuby
     end
 
     def refracted_color(comps, ttl = RECURSION_LIMIT)
-      transparency = comps.object.material.transparency
+      transparency = comps.material.transparency
       return Color::BLACK if ttl.zero? || transparency.zero?
       return Color::BLACK if comps.total_internal_reflection?
 
@@ -66,7 +66,7 @@ module GlisteningRuby
       eyev = comps.eyev
       point = comps.point
       object = comps.object
-      material = object.material
+      material = comps.material
       normalv = comps.normalv
       lights.reduce(Color::BLACK) do |color, light|
         shadow = shadowed?(point, light)
@@ -78,7 +78,7 @@ module GlisteningRuby
       surface = phong_shaded_color(comps)
       reflected = reflected_color(comps, ttl)
       refracted = refracted_color(comps, ttl)
-      return surface + reflected + refracted unless comps.fresnel?
+      return surface + reflected + refracted unless comps.material.fresnel?
 
       reflectance = comps.schlick
       transmittance = 1 - reflectance

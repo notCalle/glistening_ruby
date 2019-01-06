@@ -35,6 +35,18 @@ module GlisteningRuby
         @specular == other.specular
     end
 
+    def reflective?
+      !reflective.zero?
+    end
+
+    def transparent?
+      !transparency.zero?
+    end
+
+    def fresnel?
+      reflective? && transparent?
+    end
+
     def lighting(object, light, # rubocop:disable Metrics/ParameterLists
                  point, eyev, normalv, in_shadow = false)
       effective_color = color_at(object, point) * light.intensity(point)
