@@ -7,7 +7,7 @@ module GlisteningRuby
     # A distant parallelly radiating light source
     class Parallel < Base
       def direction(_point)
-        cache[:direction] ||= to_outer Vector[0, 0, -1]
+        cache[:direction] ||= object_to_world Vector[0, 0, -1]
       end
 
       def distance(_point)

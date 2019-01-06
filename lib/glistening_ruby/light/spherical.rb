@@ -29,7 +29,7 @@ module GlisteningRuby
       end
 
       def position
-        cache[:position] ||= transform * Point[0, 0, 0]
+        cache[:position] ||= object_to_world Point[0, 0, 0]
       end
 
       private
