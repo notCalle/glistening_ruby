@@ -22,7 +22,14 @@ module GlisteningRuby
     end
 
     def bounds
-      [Point[*@min], Point[*@max]]
+      cache[:bounds] = [Point[@x_min, @y_min, @z_min],
+                        Point[@x_max, @y_max, @z_max]]
+    end
+
+    def center
+      cache[:center] = Point[(@x_min + @x_max) / 2,
+                             (@y_min + @y_max) / 2,
+                             (@z_min + @z_max) / 2]
     end
 
     def largest_axis
@@ -66,6 +73,7 @@ module GlisteningRuby
     private
 
     def initialize_minmax(points)
+      reset_cache
       @x_min, @x_max = points.map(&:x).minmax
       @y_min, @y_max = points.map(&:y).minmax
       @z_min, @z_max = points.map(&:z).minmax

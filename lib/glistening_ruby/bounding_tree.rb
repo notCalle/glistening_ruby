@@ -38,8 +38,8 @@ module GlisteningRuby
 
     def sort_by_axis(shapes, axis)
       shapes.sort do |a, b|
-        a_axis = axis.call AABB.from_shape(a).bounds.reduce(&:+)
-        b_axis = axis.call AABB.from_shape(b).bounds.reduce(&:+)
+        a_axis = axis.call a.aabb.center
+        b_axis = axis.call b.aabb.center
         a_axis <=> b_axis
       end
     end
