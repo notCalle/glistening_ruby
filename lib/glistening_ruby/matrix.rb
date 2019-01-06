@@ -14,6 +14,7 @@ module GlisteningRuby
       size, = *rows
       if size.is_a?(Numeric)
         initialize_identity(size)
+        @identity_matrix = !block_given?
       else
         initialize_from_arrays(rows)
       end
@@ -44,6 +45,8 @@ module GlisteningRuby
     attr_reader :size
 
     def *(other)
+      return other if identity_matrix?
+
       case other
       when Matrix
         multiply_matrix_by_matrix(other)
@@ -66,6 +69,7 @@ module GlisteningRuby
 
     # Matrix of cofactors / determinant, and transposed
     def inverse
+      return self if identity_matrix?
       raise 'not invertible' unless invertible?
 
       Matrix.new(size) do |result|
@@ -74,6 +78,10 @@ module GlisteningRuby
           result[col, row] = cofactor(row, col) / det
         end
       end
+    end
+
+    def identity_matrix?
+      @identity_matrix
     end
 
     def invertible?
@@ -99,6 +107,8 @@ module GlisteningRuby
     end
 
     def transpose
+      return self if identity_matrix?
+
       Matrix.new(size) do |result|
         each_element do |element, row, col|
           result[col, row] = element

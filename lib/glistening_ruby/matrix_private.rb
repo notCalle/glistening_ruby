@@ -43,6 +43,7 @@ module GlisteningRuby
 
     def multiply_matrix_by_matrix(other)
       raise 'matrix sizes differ' unless size == other.size
+      return self if other.identity_matrix?
 
       Matrix.new(size) do |result|
         0.upto(size - 1) do |row|
