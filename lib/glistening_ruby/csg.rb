@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'intersections'
-require_relative 'shape'
+require_relative 'container'
 
 module GlisteningRuby
   # Constructive Solid Geometry
@@ -23,18 +23,19 @@ module GlisteningRuby
     end
 
     # Abstract base class for CSG operations
-    class Base < Shape
+    class Base < Container
       def initialize(left, right)
-        left.parent = self
-        right.parent = self
         super()
+        self << left << right
       end
 
-      def include?(other)
-        super || @left.include?(other) || @right.include?(other)
+      def left
+        @shapes[0]
       end
 
-      attr_reader :left, :right
+      def right
+        @shapes[1]
+      end
 
       def bounds
         aabb.bounds
@@ -44,7 +45,7 @@ module GlisteningRuby
         ray = ray.transform(inverse)
         return Intersections.new unless intersect_bounds?(ray)
 
-        select_intersections(@left.intersect(ray) << @right.intersect(ray))
+        select_intersections(left.intersect(ray) << right.intersect(ray))
       end
 
       def select_intersections(intersections)
@@ -52,7 +53,7 @@ module GlisteningRuby
         inr = false
 
         intersections.each.with_object(Intersections.new) do |i, result|
-          lhit = @left.include? i.object
+          lhit = left.include? i.object
           result << [i] if allow_intersection?(lhit, inl, inr)
           inl = !inl if lhit
           inr = !inr unless lhit
@@ -60,21 +61,19 @@ module GlisteningRuby
       end
 
       def append(child)
-        return @left = child if @left.nil?
-        return @right = child if @right.nil?
+        raise 'CSG can only have two children' unless @shapes.count < 2
 
-        raise 'CSG can only have two children'
+        super
       end
 
-      def delete(child)
-        @left = child.parent = nil if @left == child
-        @right = child.parent = nil if @right == child
+      def delete(_child)
+        raise 'CSG can not orphan its children'
       end
 
       private
 
       def aabb
-        @aabb ||= AABB.from_shapes(@left, @right)
+        @aabb ||= AABB.from_shapes(left, right)
       end
 
       def intersect_bounds?(ray)
