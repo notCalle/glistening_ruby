@@ -1,0 +1,148 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'pry'
+require 'glistening_ruby/dsl'
+require stdlib 'colors'
+
+require_relative 'include/cocktail'
+require_relative 'include/table'
+require_relative 'include/utah_teapot'
+
+material :shiny_tiles do
+  pattern.checkers do
+    color grey 0.5
+    color grey 0.75
+    scale 1/8r
+  end
+  ambient 0.3
+  diffuse 0.7
+  phong 0.9, 50
+  reflective 0.2
+end
+
+material :shiny_metal do
+  reflective 0.9
+  phong 0.9, 300
+  ambient 0
+  diffuse 0
+end
+
+material :wall_paper do
+  pattern.stripe do
+    color grey 0.75
+    color rgb 0.5, 0.5, 0.55
+    scale 1/20r
+  end
+  ambient 0.2
+  diffuse 0.8
+  phong 0
+end
+
+shape.cube :wall do
+  material :wall_paper
+  translate 0, 1, 0
+  scale 2, 1.25, 0.05
+  translate 0, -0.1, 2
+end
+
+shape.cube :floor do
+  material :shiny_tiles
+  translate 0, -1, 0
+  scale 2, 0.05, 2
+end
+
+shape.cube :ceiling do
+  material do
+    ambient 0.2
+    diffuse 0.8
+    phong 0
+  end
+  translate 0, 1, 0
+  scale 2.05, 0.05, 2.05
+  translate 0, 2.4, 0
+end
+
+shape.cube :window_hole do
+  scale 1, 0.6, 0.1
+  translate 0, 1.4, 2
+end
+
+shape.group :window do
+  shape.difference do
+    shape.cube { scale 1, 0.6, 0.05 }
+    shape.cube { scale 0.95, 0.55, 0.1 }
+  end
+  shape.cube do
+    material :glass
+    scale 0.95, 0.55, 0.01
+    shadows false
+  end
+  translate 0, 1.4, 2
+end
+
+shape.group :room do
+  shape :floor
+  shape :ceiling
+  shape.difference do
+    shape :wall
+    shape :window_hole
+  end
+  shape :window
+
+  shape(:wall) { rotate y: 1/4r }
+  shape(:wall) { rotate y: -1/4r }
+  shape(:wall) { rotate y: -1/2r }
+end
+
+shape.group :light do |lit = true|
+  light.spherical { falloff 0.1 } if lit
+  shape.sphere do
+    scale 0.1
+    material do
+      color :white
+      ambient 0.8
+      diffuse 0
+      phong 0
+    end
+    shadows false
+  end
+  shape.cylinder do
+    material :shiny_metal
+    scale 0.01, 1, 0.01
+    translate 0, 0.1, 0
+  end
+end
+
+scene.pry do
+  light.parallel { rotate x: 1/11r, y: 3/8r; color rgb 0.8, 0.7, 0.6 }
+
+  shape.plane do
+    material { color :green; ambient 0.5; diffuse 0.5; phong 0 }
+    translate 0, -0.2, 0
+  end
+
+  shape.plane do
+    material { color rgb 0.3, 0.5, 1.0; ambient 1.0; diffuse 0; phong 0 }
+    translate 0, 10_000, 0
+    shadows false
+  end
+
+  shape(:light, true) { translate 0, 2.1, 0 }
+  shape :room do
+    shape :table do
+      translate 0.5, 0, 1.25
+      shape :utah_teapot, 'low' do
+        scale 1/4r
+        translate 0, 0.85, 0
+      end
+    end
+  end
+
+  camera do
+    canvas 320, 256, 1/6r
+    position -1.8, 1.75, -1.4
+    look_at 1, 1.5, 2
+  end
+end
