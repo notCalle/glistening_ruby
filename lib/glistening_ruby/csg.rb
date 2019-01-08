@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'intersections'
-require_relative 'shape'
+require_relative 'container'
 
 module GlisteningRuby
   # Constructive Solid Geometry
@@ -23,30 +23,29 @@ module GlisteningRuby
     end
 
     # Abstract base class for CSG operations
-    class Base < Shape
+    class Base < Container
       def initialize(left, right)
-        left.parent = self
-        right.parent = self
-        @left = left
-        @right = right
         super()
+        self << left << right
       end
 
-      def include?(other)
-        super || @left.include?(other) || @right.include?(other)
+      def left
+        @shapes[0]
       end
 
-      attr_reader :left, :right
+      def right
+        @shapes[1]
+      end
 
       def bounds
         aabb.bounds
       end
 
       def intersect(ray)
-        ray = ray.transform(@inverse)
-        return Intersections.new unless intersect_bounds?(ray)
+        ray = ray.transform(inverse)
+        return Intersections.new unless aabb.intersect_bounds?(ray)
 
-        select_intersections(@left.intersect(ray) << @right.intersect(ray))
+        select_intersections(left.intersect(ray) << right.intersect(ray))
       end
 
       def select_intersections(intersections)
@@ -54,21 +53,25 @@ module GlisteningRuby
         inr = false
 
         intersections.each.with_object(Intersections.new) do |i, result|
-          lhit = @left.include? i.object
+          lhit = left.include? i.object
           result << [i] if allow_intersection?(lhit, inl, inr)
           inl = !inl if lhit
           inr = !inr unless lhit
         end
       end
 
-      private
+      def append(child)
+        raise 'CSG can only have two children' unless @shapes.count < 2
 
-      def aabb
-        @aabb ||= AABB.from_shapes(@left, @right)
+        super
       end
 
-      def intersect_bounds?(ray)
-        !aabb.intersect(ray).empty?
+      def delete(_child)
+        raise 'CSG can not orphan its children'
+      end
+
+      def aabb
+        cache[:aabb] ||= AABB.from_shapes(left, right)
       end
     end
 

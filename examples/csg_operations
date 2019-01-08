@@ -21,7 +21,7 @@ shape.sphere :right do
 end
 
 scene.pry do |op|
-  light { point 3, 5, -5; color :white }
+  light.spherical { translate 3, 5, -5 }
 
   shape.send op do
     shape :left

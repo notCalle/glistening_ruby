@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'aabb'
 require_relative 'intersections'
 require_relative 'material'
 require_relative 'point'
@@ -11,7 +12,6 @@ module GlisteningRuby
     def initialize(*)
       @material = nil
       @cast_shadows = true
-      @parent = nil
       super
     end
 
@@ -20,43 +20,36 @@ module GlisteningRuby
     end
 
     attr_accessor :cast_shadows
-    attr_reader :parent
+    def cast_shadows?
+      @cast_shadows
+    end
 
     attr_writer :material
     def material
       @material ||= @parent&.material || Material[]
     end
 
+    def aabb
+      cache[:aabb] ||= AABB.from_shape(self)
+    end
+
     def bounds
       raise NotImplementedError
     end
 
-    def cast_shadows?
-      @cast_shadows
-    end
-
     def intersect(ray)
-      Intersections.for_object(self, *intersections(ray.transform(@inverse)))
+      return Intersections.new if ray.is_a?(ShadowRay) && !@cast_shadows
+
+      Intersections.for_object(self, *intersections(ray.transform(inverse)))
     end
 
-    def normal_at(world_point, hit = nil)
-      normal_to_world(object_normal(to_local(world_point), hit))
+    # Find the normal at a point on the object
+    #
+    # :call-seq:
+    #   normal_at(world_point) => world_vector
+    #
+    def normal_at(point, hit = nil)
+      normal_to_world(object_normal(world_to_object(point), hit))
     end
-
-    def to_local(world_point)
-      world_point = parent.to_local(world_point) unless parent.nil?
-      super(world_point)
-    end
-
-    def normal_to_world(normal)
-      normal = (@inverse_transpose * normal).normalize
-      return normal if parent.nil?
-
-      parent.normal_to_world(normal)
-    end
-
-    protected
-
-    attr_writer :parent
   end
 end

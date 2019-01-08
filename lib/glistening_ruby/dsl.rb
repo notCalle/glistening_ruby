@@ -14,6 +14,10 @@ module GlisteningRuby
       DSL::Color.define(name, &block)
     end
 
+    def light
+      LightDSL
+    end
+
     def material(name, &block)
       DSL::Material.define(name, &block)
     end

@@ -51,7 +51,7 @@ shape.sphere :small_sphere do
 end
 
 scene.pry do
-  light { point 0, 10, -10 }
+  light.spherical { translate 0, 10, -10; falloff 0 }
 
   shape.plane do
     material do

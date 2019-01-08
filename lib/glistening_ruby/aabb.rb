@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require_relative 'point'
-require_relative 'shape'
+require_relative 'base'
 
 module GlisteningRuby
   # An axis aligned bounding box
-  class AABB < Shape
+  class AABB < Base
     def self.from_shape(shape)
       new(shape.bounds).transform!(shape.transform)
     end
@@ -22,7 +22,14 @@ module GlisteningRuby
     end
 
     def bounds
-      [Point[*@min], Point[*@max]]
+      cache[:bounds] = [Point[@x_min, @y_min, @z_min],
+                        Point[@x_max, @y_max, @z_max]]
+    end
+
+    def center
+      cache[:center] = Point[(@x_min + @x_max) / 2,
+                             (@y_min + @y_max) / 2,
+                             (@z_min + @z_max) / 2]
     end
 
     def largest_axis
@@ -44,14 +51,8 @@ module GlisteningRuby
       self
     end
 
-    private
-
-    def initialize_minmax(points)
-      @x_min, @x_max = points.map(&:x).minmax
-      @y_min, @y_max = points.map(&:y).minmax
-      @z_min, @z_max = points.map(&:z).minmax
-      @min = [@x_min, @y_min, @z_min]
-      @max = [@x_max, @y_max, @z_max]
+    def intersect_bounds?(ray)
+      !intersections(ray).empty?
     end
 
     def intersections(ray)
@@ -67,6 +68,17 @@ module GlisteningRuby
       end
 
       [t_min, t_max]
+    end
+
+    private
+
+    def initialize_minmax(points)
+      reset_cache
+      @x_min, @x_max = points.map(&:x).minmax
+      @y_min, @y_max = points.map(&:y).minmax
+      @z_min, @z_max = points.map(&:z).minmax
+      @min = [@x_min, @y_min, @z_min]
+      @max = [@x_max, @y_max, @z_max]
     end
 
     def axis_intersections(min, max, origin, direction)

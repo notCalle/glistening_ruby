@@ -7,6 +7,7 @@ module GlisteningRuby
   # A binary tree of contained axis-aligned bounding boxes
   class BoundingTree
     def initialize(shapes)
+      shapes = shapes.select { |s| s.respond_to? :bounds }
       @aabb = AABB.new(shapes.flat_map do |s|
         AABB.from_shape(s).bounds
       end)
@@ -18,7 +19,7 @@ module GlisteningRuby
     attr_reader :bounds
 
     def intersect(ray)
-      return Intersections.new unless intersect_bounds?(ray)
+      return Intersections.new unless @aabb.intersect_bounds?(ray)
       return Intersections.new if @left.nil?
       return @left.intersect(ray) if @right.nil?
 
@@ -26,10 +27,6 @@ module GlisteningRuby
     end
 
     private
-
-    def intersect_bounds?(ray)
-      !@aabb.intersect(ray).empty?
-    end
 
     def split(shapes, &axis)
       return shapes if shapes.count <= 2
@@ -41,8 +38,8 @@ module GlisteningRuby
 
     def sort_by_axis(shapes, axis)
       shapes.sort do |a, b|
-        a_axis = axis.call AABB.from_shape(a).bounds.reduce(&:+)
-        b_axis = axis.call AABB.from_shape(b).bounds.reduce(&:+)
+        a_axis = axis.call a.aabb.center
+        b_axis = axis.call b.aabb.center
         a_axis <=> b_axis
       end
     end

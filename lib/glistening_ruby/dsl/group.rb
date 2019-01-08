@@ -11,6 +11,13 @@ module GlisteningRuby
         ::GlisteningRuby::Group.new { |i| copy_ivars(i) }
       end
 
+      def light(name = nil, *args, &block)
+        r = shapes
+        return dsl(LightDSL) { |l| r << l } if name.nil?
+
+        r << Light[name, *args, &block]
+      end
+
       def shape(name = nil, *args, &block)
         r = shapes
         return dsl(ShapeDSL) { |s| r << s } if name.nil?

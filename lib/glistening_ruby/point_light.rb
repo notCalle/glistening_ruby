@@ -1,17 +1,20 @@
 # frozen_string_literal: true
 
-require_relative 'base'
+require_relative 'light/spherical'
 require_relative 'color'
+require_relative 'point'
+require_relative 'translation'
 
 module GlisteningRuby
-  # A point light source
-  class PointLight < Base
+  # A fake point light source without distance falloff
+  class PointLight < Light::Spherical
     def initialize(position, intensity = Color::WHITE)
-      @position = position
-      @intensity = intensity
-      super
+      self.transform = Translation.new(*position.xyz)
+      super intensity
     end
 
-    attr_reader :intensity, :position
+    def intensity(point = Point::ZERO)
+      super
+    end
   end
 end

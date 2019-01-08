@@ -21,9 +21,11 @@ material :shiny_tiles do
 end
 
 scene.pry do
-  light { point -1.5, 2.5, -1.5; color :white }
+  light.spherical { translate -1.5, 2.5, -1.5; falloff 0.1 }
+  light.parallel { rotate x: 1/9r; color grey 0.5 }
 
   shape.cube do
+    shadows false
     material :shiny_tiles
     translate 0, 1, 0
     scale 2

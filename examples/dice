@@ -103,7 +103,7 @@ shape.difference :die do |color = :red|
 end
 
 scene.pry do
-  light { point -1.5, 2.5, -1.5; color :white }
+  light.spherical { translate -1.5, 2.5, -1.5 }
 
   shape.cube do
     material :shiny_tiles

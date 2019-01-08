@@ -2,46 +2,20 @@
 
 require 'forwardable'
 require_relative 'bounding_tree'
-require_relative 'shape'
+require_relative 'container'
 
 module GlisteningRuby
   # A group of shapes
-  class Group < Shape
-    extend Forwardable
-    include Enumerable
-
-    def initialize
-      @shapes ||= []
-      super
-    end
-
-    def include?(other)
-      super || @shapes.any? { |s| s.include? other }
-    end
-
-    def <<(other)
-      raise "#{other} already has a parent" unless other.parent.nil?
-
-      @bounding_tree = nil
-      @shapes << other
-      other.parent = self
-    end
-
+  class Group < Container
     def bounds
       bounding_tree.bounds
     end
 
-    def_delegators :@shapes, :empty?, :each, :[]
-
     def intersect(ray)
-      bounding_tree.intersect(ray.transform(@inverse))
+      bounding_tree.intersect(ray.transform(inverse))
     end
 
     private
-
-    def shapes=(shapes)
-      shapes.each { |s| self << s }
-    end
 
     def bounding_tree
       @bounding_tree ||= BoundingTree.new(@shapes)
