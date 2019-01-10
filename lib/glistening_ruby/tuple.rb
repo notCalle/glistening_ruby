@@ -4,7 +4,7 @@ require_relative 'base'
 
 module GlisteningRuby
   # This is a 4D tuple, used for representing points and vectors
-  class Tuple < Base
+  class Tuple < Base # rubocop:disable Metrics/ClassLength
     include Enumerable
 
     def initialize(x_axis = 0, y_axis = 0, z_axis = 0, w_axis = 0)
@@ -85,6 +85,11 @@ module GlisteningRuby
 
     def dot(other)
       @x * other.x + @y * other.y + @z * other.z + @w * other.w
+    end
+
+    def dot_a(ary)
+      x2, y2, z2, w2 = ary
+      @x * x2 + @y * y2 + @z * z2 + @w * w2
     end
 
     def cross(other) # rubocop:disable Metrics/AbcSize
