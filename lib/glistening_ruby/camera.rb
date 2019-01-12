@@ -66,7 +66,8 @@ module GlisteningRuby
 
           pid, = Process.waitpid2
           job = jobs[pid]
-          job[:line].replace YAML.safe_load(job[:file])
+          job[:line].replace YAML.safe_load(job[:file],
+                                            permitted_classes: [Color])
           job[:file].close!
           @progress&.call(@w - 1, y)
         end
@@ -75,7 +76,8 @@ module GlisteningRuby
       ensure
         Process.waitall.each do |pid, _|
           job = jobs[pid]
-          job[:line].replace YAML.safe_load(job[:file])
+          job[:line].replace YAML.safe_load(job[:file],
+                                            permitted_classes: [Color])
           job[:file].close!
         end
       end
