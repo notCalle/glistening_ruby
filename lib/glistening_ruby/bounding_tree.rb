@@ -7,7 +7,6 @@ module GlisteningRuby
   # A binary tree of contained axis-aligned bounding boxes
   class BoundingTree
     def initialize(shapes)
-      shapes = shapes.select { |s| s.respond_to? :bounds }
       @aabb = AABB.from_shapes(shapes)
       @axis = @aabb.largest_axis
       @bounds = @aabb.bounds
