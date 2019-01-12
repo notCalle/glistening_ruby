@@ -11,7 +11,7 @@ module GlisteningRuby
     end
 
     def self.from_shapes(shapes)
-      new(shapes.flat_map { |shape| from_shape(shape).bounds })
+      new(shapes.flat_map { |shape| shape.aabb.bounds })
     end
 
     def initialize(points)
