@@ -5,7 +5,7 @@ require_relative 'base'
 
 module GlisteningRuby
   # An axis aligned bounding box
-  class AABB < Base
+  class AABB < Base # rubocop:disable Metrics/ClassLength
     def self.from_shape(shape)
       new(shape.bounds).transform!(shape.transform)
     end
@@ -36,9 +36,14 @@ module GlisteningRuby
     end
 
     def center
-      cache[:center] ||= Point[(@x_min + @x_max) / 2,
-                               (@y_min + @y_max) / 2,
-                               (@z_min + @z_max) / 2]
+      cache[:center] ||= lambda do
+        center = [
+          (@x_min + @x_max) / 2,
+          (@y_min + @y_max) / 2,
+          (@z_min + @z_max) / 2
+        ].map { |c| c.nan? ? 0 : c }
+        Point[*center]
+      end.call
     end
 
     def largest_axis

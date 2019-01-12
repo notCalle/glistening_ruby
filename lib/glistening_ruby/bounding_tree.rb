@@ -25,11 +25,16 @@ module GlisteningRuby
 
     private
 
-    def split(shapes, &_axis)
-      return shapes if shapes.count <= 2
+    def split(shapes, &_axis) # rubocop:disable Metrics/AbcSize
+      count = shapes.count
+      return shapes if count <= 2
 
       shapes = shapes.sort_by { |s| yield s.aabb.center }
-      l = shapes.count / 2
+      sum = 0
+      costs = shapes.map { |s| sum += s.aabb.area }
+      median_cost = costs.last / 2
+      l = costs.find_index { |c| c >= median_cost }.clamp(1, count - 2)
+
       [0..(l - 1), l..-1].map { |i| self.class.new(shapes[i]) }
     end
   end
