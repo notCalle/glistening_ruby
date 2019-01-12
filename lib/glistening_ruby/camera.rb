@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'yaml'
 require_relative 'base'
 require_relative 'matrix'
 
@@ -35,7 +36,9 @@ module GlisteningRuby
       Ray.new(origin, direction)
     end
 
-    def render(world, limit: World::RECURSION_LIMIT)
+    def render(world, limit: World::RECURSION_LIMIT, threads: 1)
+      return render_threaded(world, threads, limit) if threads > 1
+
       Canvas.new(@w, @h) do |canvas|
         canvas.each do |_, x, y|
           ray = ray_for_pixel(x, y)
@@ -48,6 +51,42 @@ module GlisteningRuby
     end
 
     private
+
+    def render_threaded(world, threads, limit) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
+      jobs = []
+      Canvas.new(@w, @h) do |canvas|
+        canvas.each_line do |l, y|
+          file = Tempfile.new(["line-#{y}-", '.yaml'])
+          pid = Process.fork do
+            file.write render_line(world, @w, y, limit).to_yaml
+            file.rewind
+          end
+          jobs[pid] = { file: file, line: l }
+          next if y + 1 < threads
+
+          pid, = Process.waitpid2
+          job = jobs[pid]
+          job[:line].replace YAML.safe_load(job[:file])
+          job[:file].close!
+          @progress&.call(@w - 1, y)
+        end
+      rescue Interrupt
+        canvas
+      ensure
+        Process.waitall.each do |pid, _|
+          job = jobs[pid]
+          job[:line].replace YAML.safe_load(job[:file])
+          job[:file].close!
+        end
+      end
+    end
+
+    def render_line(world, width, y_pos, limit)
+      0.upto(width - 1).with_object([]) do |x, result|
+        ray = ray_for_pixel(x, y_pos)
+        result << world.color_at(ray, limit)
+      end
+    end
 
     def initialize_half(aspect, fov)
       half_view = Math.tan(fov * Math::PI)
