@@ -10,7 +10,7 @@ module GlisteningRuby
       new(shape.bounds).transform!(shape.transform)
     end
 
-    def self.from_shapes(*shapes)
+    def self.from_shapes(shapes)
       new(shapes.flat_map { |shape| from_shape(shape).bounds })
     end
 

@@ -8,9 +8,7 @@ module GlisteningRuby
   class BoundingTree
     def initialize(shapes)
       shapes = shapes.select { |s| s.respond_to? :bounds }
-      @aabb = AABB.new(shapes.flat_map do |s|
-        AABB.from_shape(s).bounds
-      end)
+      @aabb = AABB.from_shapes(shapes)
       @axis = @aabb.largest_axis
       @bounds = @aabb.bounds
       @left, @right = split(shapes, &@axis.to_proc)
