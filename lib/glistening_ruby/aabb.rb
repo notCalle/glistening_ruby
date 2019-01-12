@@ -22,20 +22,22 @@ module GlisteningRuby
     end
 
     def bounds
-      cache[:bounds] = [Point[@x_min, @y_min, @z_min],
-                        Point[@x_max, @y_max, @z_max]]
+      cache[:bounds] ||= [Point[@x_min, @y_min, @z_min],
+                          Point[@x_max, @y_max, @z_max]]
     end
 
     def center
-      cache[:center] = Point[(@x_min + @x_max) / 2,
-                             (@y_min + @y_max) / 2,
-                             (@z_min + @z_max) / 2]
+      cache[:center] ||= Point[(@x_min + @x_max) / 2,
+                               (@y_min + @y_max) / 2,
+                               (@z_min + @z_max) / 2]
     end
 
     def largest_axis
-      xyz = (Point[*@max] - Point[*@min]).xyz
-      max = xyz.max
-      %i[x y z].zip(xyz).find { |_, v| v == max }[0]
+      cache[:largest_axis] ||= lambda do
+        xyz = (Point[*@max] - Point[*@min]).xyz
+        max = xyz.max
+        %i[x y z].zip(xyz).find { |_, v| v == max }[0]
+      end.call
     end
 
     def transform!(matrix)
