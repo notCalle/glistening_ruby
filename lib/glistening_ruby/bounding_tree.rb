@@ -35,7 +35,7 @@ module GlisteningRuby
       median_cost = costs.last / 2
       l = costs.find_index { |c| c >= median_cost }.clamp(1, count - 2)
 
-      [0..(l - 1), l..-1].map { |i| self.class.new(shapes[i]) }
+      [self.class.new(shapes[0..(l - 1)]), self.class.new(shapes[l..-1])]
     end
   end
 end
