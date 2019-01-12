@@ -54,7 +54,9 @@ module GlisteningRuby
       end.call
     end
 
-    def transform!(matrix)
+    def transform!(matrix) # rubocop:disable Metrics/MethodLength
+      return self if matrix.identity_matrix?
+
       points = [[@x_min, @y_min, @z_min],
                 [@x_max, @y_min, @z_min],
                 [@x_min, @y_max, @z_min],
