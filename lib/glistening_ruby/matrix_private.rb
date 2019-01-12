@@ -24,16 +24,6 @@ module GlisteningRuby
       +'[' << row.map { |f| format('% .5f', f) }.join(', ') << ']'
     end
 
-    def multiply_matrix_by_tuple(other)
-      result = []
-      each_row do |row|
-        s = row.size
-        row.concat Array.new(4 - s, 0) if s < 4
-        result << other.dot_a(row)
-      end
-      Tuple.new(*result)
-    end
-
     def multiply_matrix_by_matrix(other)
       return self if other.identity_matrix?
 

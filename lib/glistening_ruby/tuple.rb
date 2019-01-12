@@ -12,11 +12,15 @@ module GlisteningRuby
       @y = y_axis
       @z = z_axis
       @w = w_axis
-      super
     end
 
     def each
-      [@x, @y, @z, @w].each { |c| yield c }
+      return to_enum(__method__) { 4 } unless block_given?
+
+      yield @x
+      yield @y
+      yield @z
+      yield @w
     end
 
     def to_s
@@ -30,11 +34,15 @@ module GlisteningRuby
     alias b z
 
     def xy
-      [x, y]
+      [@x, @y]
     end
 
     def xyz
-      [x, y, z]
+      [@x, @y, @z]
+    end
+
+    def xyzw
+      [@x, @y, @z, @w]
     end
 
     def is_a?(kind)
@@ -49,26 +57,30 @@ module GlisteningRuby
     alias kind_of? is_a?
 
     def ==(other)
-      close?(@x, other.x) &&
-        close?(@y, other.y) &&
-        close?(@z, other.z) &&
-        close?(@w, other.w)
+      x2, y2, z2, w2 = other.xyzw
+      close?(@x, x2) &&
+        close?(@y, y2) &&
+        close?(@z, z2) &&
+        close?(@w, w2)
     end
 
     def +(other)
-      self.class.new(@x + other.x, @y + other.y, @z + other.z, @w + other.w)
+      x2, y2, z2, w2 = other.xyzw
+      self.class.new(@x + x2, @y + y2, @z + z2, @w + w2)
     end
 
     def -(other)
-      self.class.new(@x - other.x, @y - other.y, @z - other.z, @w - other.w)
+      x2, y2, z2, w2 = other.xyzw
+      self.class.new(@x - x2, @y - y2, @z - z2, @w - w2)
     end
 
     def *(other)
       if other.is_a?(Tuple)
-        hadamard_product(other)
+        x2, y2, z2, w2 = other.xyzw
       else
-        scalar_product(other)
+        x2 = y2 = z2 = w2 = other
       end
+      self.class.new(@x * x2, @y * y2, @z * z2, @w * w2)
     end
 
     def /(other)
@@ -84,22 +96,20 @@ module GlisteningRuby
     end
 
     def dot(other)
-      @x * other.x + @y * other.y + @z * other.z + @w * other.w
-    end
-
-    def dot_a(ary)
-      x2, y2, z2, w2 = ary
+      x2, y2, z2, w2 = other.xyzw
       @x * x2 + @y * y2 + @z * z2 + @w * w2
     end
 
-    def cross(other) # rubocop:disable Metrics/AbcSize
-      raise TypeError, 'Only valid for Vectors' unless vector?
+    def dot_a(x_2 = 0, y_2 = 0, z_2 = 0, w_2 = 0)
+      @x * x_2 + @y * y_2 + @z * z_2 + @w * w_2
+    end
 
-      Vector[
-        @y * other.z - @z * other.y,
-        @z * other.x - @x * other.z,
-        @x * other.y - @y * other.x
-      ]
+    def cross(other)
+      x2, y2, z2 = other.xyz
+      Tuple.new(@y * z2 - @z * y2,
+                @z * x2 - @x * z2,
+                @x * y2 - @y * x2,
+                0)
     end
 
     def interpolate(other, fraction)
@@ -126,14 +136,6 @@ module GlisteningRuby
 
     def vector?
       close?(@w, 0.0)
-    end
-
-    def hadamard_product(other)
-      self.class.new(@x * other.x, @y * other.y, @z * other.z, @w * other.w)
-    end
-
-    def scalar_product(other)
-      self.class.new(@x * other, @y * other, @z * other, @w * other)
     end
   end
 end

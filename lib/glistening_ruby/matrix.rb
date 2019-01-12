@@ -62,14 +62,18 @@ module GlisteningRuby
       end
     end
 
-    def *(other)
+    def *(other) # rubocop:disable Metrics/MethodLength
       return other if identity_matrix?
 
       case other
+      when Tuple
+        result = []
+        each_row do |row|
+          result << other.dot_a(*row)
+        end
+        Tuple.new(*result)
       when Matrix
         multiply_matrix_by_matrix(other)
-      when Tuple
-        multiply_matrix_by_tuple(other)
       end
     end
 

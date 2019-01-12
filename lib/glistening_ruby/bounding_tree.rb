@@ -28,20 +28,12 @@ module GlisteningRuby
 
     private
 
-    def split(shapes, &axis)
+    def split(shapes, &_axis)
       return shapes if shapes.count <= 2
 
-      shapes = sort_by_axis(shapes, axis)
+      shapes = shapes.sort_by { |s| yield s.aabb.center }
       l = shapes.count / 2
       [0..(l - 1), l..-1].map { |i| self.class.new(shapes[i]) }
-    end
-
-    def sort_by_axis(shapes, axis)
-      shapes.sort do |a, b|
-        a_axis = axis.call a.aabb.center
-        b_axis = axis.call b.aabb.center
-        a_axis <=> b_axis
-      end
     end
   end
 end
