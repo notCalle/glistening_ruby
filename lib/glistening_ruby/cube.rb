@@ -8,20 +8,18 @@ module GlisteningRuby
   # An axis aligned unit Cube
   class Cube < Shape
     def initialize
-      @aabb = AABB.new([Point[-1, -1, -1], Point[1, 1, 1]])
+      @unit_aabb = AABB.new([Point[-1, -1, -1], Point[1, 1, 1]])
       super
     end
 
     def bounds
-      @aabb.bounds
+      @unit_aabb.bounds
     end
-
-    attr_reader :aabb
 
     private
 
     def intersections(ray)
-      @aabb.intersections(ray)
+      @unit_aabb.intersections(ray)
     end
 
     def object_normal(point, _hit) # rubocop:disable Metrics/AbcSize
