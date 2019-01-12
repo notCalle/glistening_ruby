@@ -21,6 +21,15 @@ module GlisteningRuby
       initialize_minmax(points)
     end
 
+    def area
+      cache[:area] ||= lambda do
+        x = @x_max - @x_min
+        y = @y_max - @y_min
+        z = @z_max - @z_min
+        2 * (x * y + x * z + y * z)
+      end.call
+    end
+
     def bounds
       cache[:bounds] ||= [Point[@x_min, @y_min, @z_min],
                           Point[@x_max, @y_max, @z_max]]
