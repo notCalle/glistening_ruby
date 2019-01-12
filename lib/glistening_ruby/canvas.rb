@@ -6,6 +6,12 @@ require_relative 'color'
 module GlisteningRuby
   # A drawable canvas
   class Canvas < Base
+    def self.from_lines(lines)
+      new(lines.first.count, lines.count) do
+        @pixels = lines
+      end
+    end
+
     def initialize(width, height)
       @w = width.to_i
       @h = height.to_i
@@ -29,10 +35,20 @@ module GlisteningRuby
     end
 
     def each
+      return to_enum(__method__) unless block_given?
+
       0.upto(@h - 1) do |y|
         0.upto(@w - 1) do |x|
           yield self[x, y], x, y
         end
+      end
+    end
+
+    def each_line
+      return to_enum(__method__) unless block_given?
+
+      0.upto(@h - 1) do |y|
+        yield @pixels[y], y
       end
     end
 

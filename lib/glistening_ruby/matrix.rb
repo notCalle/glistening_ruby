@@ -6,7 +6,7 @@ require_relative 'matrix_transforms'
 
 module GlisteningRuby
   # A square matrix
-  class Matrix < Base
+  class Matrix < Base # rubocop:disable Metrics/ClassLength
     include MatrixPrivate
     include MatrixTransforms
 
@@ -20,11 +20,10 @@ module GlisteningRuby
       end
 
       super
-      deep_freeze
     end
 
     def to_s
-      +'[' << @rows.map { |r| row_to_s(r) }.join("\n ") << ']'
+      +'[' << each_row.map { |r| row_to_s(r) }.join("\n ") << ']'
     end
 
     def inspect
@@ -32,7 +31,7 @@ module GlisteningRuby
     end
 
     def [](row, col)
-      @rows[row][col]
+      @a[row * @cols + col]
     end
 
     def ==(other)
@@ -42,16 +41,39 @@ module GlisteningRuby
       true
     end
 
-    attr_reader :size
+    attr_reader :cols, :rows
 
-    def *(other)
+    def each_row
+      return to_enum(__method__) { @rows } unless block_given?
+
+      0.upto(@rows - 1) do |r|
+        s = r * @cols
+        yield @a[s..(s + @cols - 1)]
+      end
+    end
+
+    def each_col
+      return to_enum(__method__) { @cols } unless block_given?
+
+      0.upto(@cols - 1) do |c|
+        yield (0.upto(@rows - 1).with_object([]) do |r, result|
+          result << @a[r * @cols + c]
+        end)
+      end
+    end
+
+    def *(other) # rubocop:disable Metrics/MethodLength
       return other if identity_matrix?
 
       case other
+      when Tuple
+        result = []
+        each_row do |row|
+          result << other.dot_a(*row)
+        end
+        Tuple.new(*result)
       when Matrix
         multiply_matrix_by_matrix(other)
-      when Tuple
-        multiply_matrix_by_tuple(other)
       end
     end
 
@@ -116,12 +138,18 @@ module GlisteningRuby
       end
     end
 
+    def size
+      return @cols if @cols == @rows
+
+      [@rows, @cols]
+    end
+
     protected
 
-    attr_reader :rows
+    attr_reader :a
 
     def []=(row, col, new_value)
-      @rows[row][col] = new_value
+      @a[row * @cols + col] = new_value
     end
   end
 

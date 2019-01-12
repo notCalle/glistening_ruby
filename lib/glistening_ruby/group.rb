@@ -18,7 +18,10 @@ module GlisteningRuby
     private
 
     def bounding_tree
-      @bounding_tree ||= BoundingTree.new(@shapes)
+      @bounding_tree ||= lambda do
+        shapes = @shapes.select { |s| s.respond_to? :bounds }
+        BoundingTree.new(shapes)
+      end.call
     end
   end
 end

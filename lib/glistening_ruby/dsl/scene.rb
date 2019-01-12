@@ -35,13 +35,19 @@ module GlisteningRuby
         w << Shape[name, *args, &block]
       end
 
-      def render(*args, verbose: false, **kwargs)
+      def render(*args, verbose: false, **kwargs) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
         @world = nil
-        instance_exec(*args, &@block)
         @t0 = Time.now
+        instance_exec(*args, &@block)
+        @world.lights
+        @world.objects.bounds
+        @t1 = Time.now
+        puts " Setup time: #{@t1 - @t0} s" if verbose
         @camera.progress = progress_proc(verbose)
         @canvas = @camera.render(world, **kwargs)
-        puts "Rendering time: #{Time.now - @t0} s" if verbose
+        @t2 = Time.now
+        puts "Render time: #{@t2 - @t1} s" if verbose
+        puts " Total time: #{@t2 - @t0} s" if verbose
       end
 
       def save(filename)
@@ -59,7 +65,7 @@ module GlisteningRuby
         w = @camera.w
         lambda do |x, y|
           pct = Rational(y * w + x, w * h)
-          next @t1 = Time.now if pct.zero?
+          next if pct.zero?
 
           t2 = Time.now
           STDOUT << "#{(pct * 100).to_i}% done, "

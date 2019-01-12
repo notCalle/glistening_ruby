@@ -6,43 +6,25 @@ module GlisteningRuby
     private
 
     def determinant_2x2
-      self[0, 0] * self[1, 1] - self[0, 1] * self[1, 0]
-    end
-
-    def deep_freeze
-      @rows.each(&:freeze)
-      @rows.freeze
-      freeze
+      @a[0] * @a[3] - @a[1] * @a[2]
     end
 
     def each_element
-      each_row_col do |row, col|
-        yield self[row, col], row, col
+      @a.reduce(0) do |n, el|
+        yield el, n / @cols, n % @cols
+        n + 1
       end
     end
 
     def each_row_col
-      0.upto(size - 1) do |row|
-        0.upto(size - 1) do |col|
-          yield row, col
-        end
-      end
+      0.upto(cols * rows - 1) { |n| yield n / @cols, n % @cols }
     end
 
     def row_to_s(row)
       +'[' << row.map { |f| format('% .5f', f) }.join(', ') << ']'
     end
 
-    def multiply_matrix_by_tuple(other)
-      result = []
-      0.upto(size - 1) do |row|
-        result << Tuple[*@rows[row]].dot(other)
-      end
-      Tuple[*result]
-    end
-
     def multiply_matrix_by_matrix(other)
-      raise 'matrix sizes differ' unless size == other.size
       return self if other.identity_matrix?
 
       Matrix.new(size) do |result|
@@ -61,15 +43,14 @@ module GlisteningRuby
     end
 
     def initialize_identity(size)
-      @rows = Array.new(size) do |row|
-        Array.new(size) { |col| row == col ? 1 : 0 }
-      end
-      @size = size
+      @rows = @cols = size
+      @a = Array.new(size * size) { |n| (n / @cols) == (n % @cols) ? 1 : 0 }
     end
 
     def initialize_from_arrays(array_of_arrays)
-      @rows = array_of_arrays
-      @size = array_of_arrays.size
+      @rows = array_of_arrays.count
+      @cols = array_of_arrays[0].count
+      @a = array_of_arrays.flatten
     end
   end
 end

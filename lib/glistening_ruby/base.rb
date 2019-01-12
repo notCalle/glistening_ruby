@@ -4,8 +4,8 @@
 module GlisteningRuby
   # Base class for everything
   class Base
-    def self.[](*args)
-      new(*args)
+    class << self
+      alias [] new
     end
 
     def initialize(*)

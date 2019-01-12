@@ -7,10 +7,7 @@ module GlisteningRuby
   # A binary tree of contained axis-aligned bounding boxes
   class BoundingTree
     def initialize(shapes)
-      shapes = shapes.select { |s| s.respond_to? :bounds }
-      @aabb = AABB.new(shapes.flat_map do |s|
-        AABB.from_shape(s).bounds
-      end)
+      @aabb = AABB.from_shapes(shapes)
       @axis = @aabb.largest_axis
       @bounds = @aabb.bounds
       @left, @right = split(shapes, &@axis.to_proc)
@@ -28,20 +25,17 @@ module GlisteningRuby
 
     private
 
-    def split(shapes, &axis)
-      return shapes if shapes.count <= 2
+    def split(shapes, &_axis) # rubocop:disable Metrics/AbcSize
+      count = shapes.count
+      return shapes if count <= 2
 
-      shapes = sort_by_axis(shapes, axis)
-      l = shapes.count / 2
-      [0..(l - 1), l..-1].map { |i| self.class.new(shapes[i]) }
-    end
+      shapes = shapes.sort_by { |s| yield s.aabb.center }
+      sum = 0
+      costs = shapes.map { |s| sum += s.aabb.area }
+      median_cost = costs.last / 2
+      l = costs.find_index { |c| c >= median_cost }.clamp(1, count - 2)
 
-    def sort_by_axis(shapes, axis)
-      shapes.sort do |a, b|
-        a_axis = axis.call a.aabb.center
-        b_axis = axis.call b.aabb.center
-        a_axis <=> b_axis
-      end
+      [self.class.new(shapes[0..(l - 1)]), self.class.new(shapes[l..-1])]
     end
   end
 end

@@ -13,7 +13,8 @@ module GlisteningRuby
                            upward.to_a,
                            backward.to_a,
                            [0, 0, 0, 1]]
-      super(*(orientation * Translation.new(*(-origin).xyz)).rows)
+      @a = (orientation * Translation.new(*(-origin).xyz)).a
+      @rows = @cols = 4
     end
 
     private

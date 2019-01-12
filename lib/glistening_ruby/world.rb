@@ -3,6 +3,7 @@
 require_relative 'base'
 require_relative 'color'
 require_relative 'container'
+require_relative 'group'
 require_relative 'intersections'
 require_relative 'lights'
 require_relative 'point'
@@ -15,7 +16,7 @@ module GlisteningRuby
     RECURSION_LIMIT = 5
 
     def initialize
-      @objects = []
+      @objects = Group.new
       super
     end
 
@@ -40,9 +41,7 @@ module GlisteningRuby
     end
 
     def intersect(ray)
-      @objects.each.with_object(Intersections.new) do |object, result|
-        result << object.intersect(ray)
-      end
+      @objects.intersect(ray)
     end
 
     def reflected_color(comps, ttl = RECURSION_LIMIT)
@@ -109,7 +108,7 @@ module GlisteningRuby
     def find_lights(group = @objects)
       return [@light] unless @light.nil?
 
-      queue = group.dup
+      queue = group.to_a
       queue.each.with_object([]) do |object, result|
         queue.concat object.to_a if object.respond_to? :to_a
         result << object if object.is_a? Light::Base

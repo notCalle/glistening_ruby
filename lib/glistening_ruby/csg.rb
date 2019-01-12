@@ -71,7 +71,7 @@ module GlisteningRuby
       end
 
       def aabb
-        cache[:aabb] ||= AABB.from_shapes(left, right)
+        cache[:aabb] ||= AABB.from_shapes([left, right])
       end
     end
 
