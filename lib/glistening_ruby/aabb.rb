@@ -72,14 +72,38 @@ module GlisteningRuby
 
     private
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength
     def initialize_minmax(points)
       reset_cache
-      @x_min, @x_max = points.map(&:x).minmax
-      @y_min, @y_max = points.map(&:y).minmax
-      @z_min, @z_max = points.map(&:z).minmax
-      @min = [@x_min, @y_min, @z_min]
-      @max = [@x_max, @y_max, @z_max]
+      x_min = Float::INFINITY
+      x_max = -Float::INFINITY
+      y_min = Float::INFINITY
+      y_max = -Float::INFINITY
+      z_min = Float::INFINITY
+      z_max = -Float::INFINITY
+      points.each do |p|
+        x, y, z = p.xyz
+        x_min = x if x < x_min
+        x_max = x if x > x_max
+        y_min = y if y < y_min
+        y_max = y if y > y_max
+        z_min = z if z < z_min
+        z_max = z if z > z_max
+      end
+      @x_min = x_min
+      @x_max = x_max
+      @y_min = y_min
+      @y_max = y_max
+      @z_min = z_min
+      @z_max = z_max
+      @min = [x_min, y_min, z_min]
+      @max = [x_max, y_max, z_max]
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/MethodLength
 
     def axis_intersections(min, max, origin, direction)
       [nonan_div(min - origin, direction),
