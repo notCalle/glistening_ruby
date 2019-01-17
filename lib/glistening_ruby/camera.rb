@@ -2,6 +2,7 @@
 
 require 'yaml'
 require_relative 'base'
+require_relative 'color'
 require_relative 'matrix'
 
 module GlisteningRuby
@@ -36,13 +37,12 @@ module GlisteningRuby
       Ray.new(origin, direction)
     end
 
-    def render(world, limit: World::RECURSION_LIMIT, threads: 1)
-      return render_threaded(world, threads, limit) if threads > 1
+    def render(world, threads: 1, **options)
+      return render_threaded(world, threads, **options) if threads > 1
 
       Canvas.new(@w, @h) do |canvas|
         canvas.each do |_, x, y|
-          ray = ray_for_pixel(x, y)
-          canvas[x, y] = world.color_at ray, limit
+          canvas[x, y] = color_for_pixel(world, x, y, **options)
           @progress&.call(x, y)
         end
       rescue Interrupt
@@ -52,13 +52,13 @@ module GlisteningRuby
 
     private
 
-    def render_threaded(world, threads, limit) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
+    def render_threaded(world, threads, **options) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
       jobs = []
       Canvas.new(@w, @h) do |canvas|
         canvas.each_line do |l, y|
           file = Tempfile.new(["line-#{y}-", '.yaml'])
           pid = Process.fork do
-            file.write render_line(world, @w, y, limit).to_yaml
+            file.write render_line(world, @w, y, **options).to_yaml
             file.rewind
           end
           jobs[pid] = { file: file, line: l }
@@ -83,11 +83,33 @@ module GlisteningRuby
       end
     end
 
-    def render_line(world, width, y_pos, limit)
+    def render_line(world, width, y_pos, **options)
       0.upto(width - 1).with_object([]) do |x, result|
-        ray = ray_for_pixel(x, y_pos)
-        result << world.color_at(ray, limit)
+        result << color_for_pixel(world, x, y_pos, **options)
       end
+    end
+
+    def color_for_pixel(world, px_x, px_y,
+                        ssaa: false, limit: World::RECURSION_LIMIT)
+      return color_for_ssaa(world, px_x, px_y, ssaa, limit) if ssaa
+
+      ray = ray_for_pixel(px_x, px_y)
+      world.color_at(ray, limit)
+    end
+
+    def color_for_ssaa(world, px_x, px_y, # rubocop:disable Metrics/AbcSize
+                       samples, limit)
+      step = 1.0 / samples
+      offset = - 0.5 / samples
+      c = Color::BLACK
+      1.upto(samples) do |ssx|
+        1.upto(samples) do |ssy|
+          ray = ray_for_pixel(px_x + offset + step * ssx,
+                              px_y + offset + step * ssy)
+          c += world.color_at(ray, limit)
+        end
+      end
+      c / samples**2
     end
 
     def initialize_half(aspect, fov)
