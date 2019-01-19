@@ -52,13 +52,14 @@ module GlisteningRuby
 
     private
 
+    # rubocop:disable Security/MarshalLoad
     def render_threaded(world, threads, **options) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
       jobs = []
       Canvas.new(@w, @h) do |canvas|
         canvas.each_line do |l, y|
           file = Tempfile.new(["line-#{y}-", '.yaml'])
           pid = Process.fork do
-            file.write render_line(world, @w, y, **options).to_yaml
+            Marshal.dump render_line(world, @w, y, **options), file
             file.rewind
           end
           jobs[pid] = { file: file, line: l }
@@ -66,8 +67,7 @@ module GlisteningRuby
 
           pid, = Process.waitpid2
           job = jobs[pid]
-          job[:line].replace YAML.safe_load(job[:file],
-                                            permitted_classes: [Color])
+          job[:line].replace Marshal.load(job[:file])
           job[:file].close!
           @progress&.call(@w - 1, y)
         end
@@ -76,12 +76,12 @@ module GlisteningRuby
       ensure
         Process.waitall.each do |pid, _|
           job = jobs[pid]
-          job[:line].replace YAML.safe_load(job[:file],
-                                            permitted_classes: [Color])
+          job[:line].replace Marshal.load(job[:file])
           job[:file].close!
         end
       end
     end
+    # rubocop:enable Security/MarshalLoad
 
     def render_line(world, width, y_pos, **options)
       0.upto(width - 1).with_object([]) do |x, result|
@@ -97,8 +97,8 @@ module GlisteningRuby
       world.color_at(ray, limit)
     end
 
-    def color_for_ssaa(world, px_x, px_y, # rubocop:disable Metrics/AbcSize
-                       samples, limit)
+    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    def color_for_ssaa(world, px_x, px_y, samples, limit)
       step = 1.0 / samples
       offset = - 0.5 / samples
       c = Color::BLACK
@@ -111,6 +111,7 @@ module GlisteningRuby
       end
       c / samples**2
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
     def initialize_half(aspect, fov)
       half_view = Math.tan(fov * Math::PI)
