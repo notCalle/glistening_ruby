@@ -97,7 +97,7 @@ shape.group :room do
 end
 
 shape.group :light do |lit = true|
-  light.spherical { falloff 0.1 } if lit
+  light.spherical { falloff 2; radius 0.1 } if lit
   shape.sphere do
     scale 0.1
     material do

@@ -24,10 +24,10 @@ module GlisteningRuby
       attr_accessor :falloff, :radius
 
       def intensity(point)
-        return @intensity if falloff.zero?
+        return @intensity if @falloff.zero?
 
-        d = point_to_light(point)
-        @intensity / (1 + d.dot(d) * falloff)
+        d = distance(point)
+        @intensity * (@falloff / (@falloff + d))**2
       end
 
       def position
