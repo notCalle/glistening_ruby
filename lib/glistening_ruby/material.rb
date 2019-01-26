@@ -47,20 +47,22 @@ module GlisteningRuby
       reflective? && transparent?
     end
 
-    def lighting(object, light, # rubocop:disable Metrics/ParameterLists
-                 point, eyev, normalv, in_shadow = false)
+    # rubocop:disable Metrics/AbcSize, Metrics/ParameterLists
+    def lighting(object, light, point, eyev, normalv, lit = 1.0)
       effective_color = color_at(object, point) * light.intensity(point)
-      ambient = effective_color * @ambient
-      return ambient if in_shadow
+      color = effective_color * @ambient
+      return color if lit.zero?
 
       lightv = light.direction(point)
-      light_dot_normal = lightv.dot normalv
-      return ambient if light_dot_normal.negative?
+      light_dot_normal = lightv.dot(normalv)
+      return color if object.cast_shadows? && light_dot_normal.negative?
 
-      ambient +
-        diffuse_lighting(effective_color, light_dot_normal) +
-        specular_lighting(point, light, lightv, normalv, eyev)
+      color += diffuse_lighting(effective_color, light_dot_normal) * lit
+      return color if light_dot_normal.negative?
+
+      color + specular_lighting(point, light, lightv, normalv, eyev) * lit
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/ParameterLists
 
     private
 
@@ -69,7 +71,7 @@ module GlisteningRuby
     end
 
     def diffuse_lighting(effective_color, light_dot_normal)
-      effective_color * @diffuse * light_dot_normal
+      effective_color * @diffuse * light_dot_normal.abs
     end
 
     def specular_lighting(point, light, lightv, normalv, eyev)
