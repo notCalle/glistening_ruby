@@ -11,11 +11,11 @@ end
 
 material :glass do
   color rgb 0, 0, 0
-  ambient 0.2
-  diffuse 0.2
-  phong 0.9
-  reflective 0.9
-  transparent 0.9, 1.5
+  ambient 0
+  diffuse 0.1
+  phong 0.9, 400
+  reflective 0.99
+  transparent 0.99, 1.5
 end
 
 shape.group :cocktail do

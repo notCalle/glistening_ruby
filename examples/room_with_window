@@ -96,14 +96,12 @@ shape.group :room do
   shape(:wall) { rotate y: -1/2r }
 end
 
-shape.group :light do |lit = true|
+shape.group :lamp do |lit = true|
   light.spherical { falloff 2; radius 0.1 } if lit
   shape.sphere do
     scale 0.1
     material do
       color :white
-      ambient 0.8
-      diffuse 0
       phong 0
     end
     shadows false
@@ -129,7 +127,7 @@ scene.pry do
     shadows false
   end
 
-  shape(:light, true) { translate 0, 2.1, 0 }
+  shape(:lamp, true) { translate 0, 2.1, 0 }
   shape :room do
     shape :table do
       translate 0.5, 0, 1.25
