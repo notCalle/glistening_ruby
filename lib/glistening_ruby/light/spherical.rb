@@ -34,8 +34,10 @@ module GlisteningRuby
         cache[:position] ||= object_to_world Point[0, 0, 0]
       end
 
-      def visibility(point, world, samples)
-        samples = 1 if samples.zero? || @radius.zero?
+      def visibility(point, world, ttl)
+        return super if @radius.zero?
+
+        samples = (3**ttl * @radius / distance(point)).ceil
         1.upto(samples).map { super }.sum / samples
       end
 
