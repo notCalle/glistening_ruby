@@ -7,7 +7,7 @@ require_relative 'matrix'
 
 module GlisteningRuby
   # The camera that renders the world
-  class Camera < Base
+  class Camera < Base # rubocop:disable Metrics/ClassLength
     def initialize(width, height, fov)
       @w = width
       @h = height
@@ -53,34 +53,43 @@ module GlisteningRuby
     private
 
     # rubocop:disable Security/MarshalLoad
-    def render_threaded(world, threads, **options) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
+    # rubocop:disable Metrics/AbcSize, Metrics/BlockLength, Metrics/MethodLength
+    def render_threaded(world, threads, **options)
       jobs = []
       Canvas.new(@w, @h) do |canvas|
-        canvas.each_line do |l, y|
-          file = Tempfile.new(["line-#{y}-", '.yaml'])
-          pid = Process.fork do
-            Marshal.dump render_line(world, @w, y, **options), file
-            file.rewind
-          end
-          jobs[pid] = { file: file, line: l }
-          next if y + 1 < threads
+        begin
+          canvas.each_line do |l, y|
+            file = Tempfile.new(["line-#{y}-", '.yaml'])
+            pid = Process.fork do
+              Marshal.dump render_line(world, @w, y, **options), file
+              file.rewind
+            rescue Interrupt
+              nil
+            end
+            jobs[pid] = { file: file, line: l }
+            next if y + 1 < threads
 
-          pid, = Process.waitpid2
-          job = jobs[pid]
-          job[:line].replace Marshal.load(job[:file])
-          job[:file].close!
-          @progress&.call(@w - 1, y)
+            pid, = Process.waitpid2
+            job = jobs[pid]
+            job[:line].replace Marshal.load(job[:file])
+            job[:file].close!
+            @progress&.call(@w - 1, y)
+          end
+        ensure
+          Process.waitall.each do |pid, _|
+            job = jobs[pid]
+            job[:line].replace Marshal.load(job[:file])
+          rescue EOFError
+            nil
+          ensure
+            job[:file].close!
+          end
         end
       rescue Interrupt
         canvas
-      ensure
-        Process.waitall.each do |pid, _|
-          job = jobs[pid]
-          job[:line].replace Marshal.load(job[:file])
-          job[:file].close!
-        end
       end
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/BlockLength, Metrics/MethodLength
     # rubocop:enable Security/MarshalLoad
 
     def render_line(world, width, y_pos, **options)
