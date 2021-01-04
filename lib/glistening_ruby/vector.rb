@@ -13,5 +13,9 @@ module GlisteningRuby
     def self.===(obj)
       obj.is_a?(Tuple) && obj.close?(obj.w, 0.0)
     end
+
+    def self.random
+      self[rand(-1.0..1.0), rand(-1.0..1.0), rand(-1.0..1.0)]
+    end
   end
 end

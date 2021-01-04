@@ -16,8 +16,8 @@ material :shiny_tiles do
     color grey 0.75
     scale 1/8r
   end
-  ambient 0.3
-  diffuse 0.7
+  ambient 0.2
+  diffuse 0.8
   phong 0.9, 50
   reflective 0.2
 end
@@ -96,14 +96,12 @@ shape.group :room do
   shape(:wall) { rotate y: -1/2r }
 end
 
-shape.group :light do |lit = true|
-  light.spherical { falloff 0.1 } if lit
+shape.group :lamp do |lit = true|
+  light.spherical { falloff 4; radius 0.1 } if lit
   shape.sphere do
     scale 0.1
     material do
       color :white
-      ambient 0.8
-      diffuse 0
       phong 0
     end
     shadows false
@@ -116,7 +114,7 @@ shape.group :light do |lit = true|
 end
 
 scene.pry do
-  light.parallel { rotate x: 1/11r, y: 3/8r; color rgb 0.8, 0.7, 0.6 }
+  light.parallel { rotate x: 1/11r, y: 3/8r; color rgb 0.5, 0.3, 0.2 }
 
   shape.plane do
     material { color :green; ambient 0.5; diffuse 0.5; phong 0 }
@@ -124,16 +122,16 @@ scene.pry do
   end
 
   shape.plane do
-    material { color rgb 0.3, 0.5, 1.0; ambient 1.0; diffuse 0; phong 0 }
+    material { color rgb 0.1, 0.3, 1.0; ambient 1.0; diffuse 0; phong 0 }
     translate 0, 10_000, 0
     shadows false
   end
 
-  shape(:light, true) { translate 0, 2.1, 0 }
+  shape(:lamp, true) { translate 0, 2.1, 0 }
   shape :room do
     shape :table do
       translate 0.5, 0, 1.25
-      shape :utah_teapot, 'low' do
+      shape :utah_teapot, 'hi' do
         scale 1/4r
         translate 0, 0.85, 0
       end
@@ -141,7 +139,7 @@ scene.pry do
   end
 
   camera do
-    canvas 320, 256, 1/6r
+    canvas 720, 576, 1/6r
     position -1.8, 1.75, -1.4
     look_at 1, 1.5, 2
   end

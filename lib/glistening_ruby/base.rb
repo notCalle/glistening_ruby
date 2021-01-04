@@ -12,8 +12,8 @@ module GlisteningRuby
       yield self if block_given?
     end
 
-    def close?(this, that)
-      this == that || (this - that).abs < EPSILON
+    def close?(this, that, epsilon = EPSILON)
+      this == that || (this - that).abs < epsilon
     end
 
     def identity

@@ -11,7 +11,7 @@ module GlisteningRuby
     include Enumerable
 
     def initialize
-      @shapes ||= []
+      @shapes ||= [] # rubocop:disable Lint/DisjunctiveAssignmentInConstructor
       super
     end
 

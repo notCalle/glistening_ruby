@@ -13,16 +13,20 @@ module GlisteningRuby
         super
       end
 
-      def direction(_point)
-        raise NotImplementedError
-      end
-
-      def intensity(_point)
-        raise NotImplementedError
-      end
-
       def intersect(_ray)
         Intersections.new
+      end
+
+      def visibility(point, world, _samples)
+        t = world.intersect(ShadowRay[point, shadow_direction(point)]).hit&.t
+        in_shadow = t&.< distance(point)
+        in_shadow ? 0.0 : 1.0
+      end
+
+      private
+
+      def shadow_direction(point)
+        direction(point)
       end
     end
   end

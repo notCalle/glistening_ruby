@@ -61,20 +61,20 @@ module GlisteningRuby
       color_at(refract_ray, ttl - 1) * transparency
     end
 
-    def phong_shaded_color(comps)
+    def phong_shaded_color(comps, ttl = RECURSION_LIMIT)
       eyev = comps.eyev
       point = comps.point
       object = comps.object
       material = comps.material
       normalv = comps.normalv
       lights.reduce(Color::BLACK) do |color, light|
-        shadow = shadowed?(point, light)
-        color + material.lighting(object, light, point, eyev, normalv, shadow)
+        color + material.lighting(object, light, point, eyev, normalv,
+                                  light.visibility(point, self, ttl))
       end
     end
 
     def shade_hit(comps, ttl = RECURSION_LIMIT)
-      surface = phong_shaded_color(comps)
+      surface = phong_shaded_color(comps, ttl)
       reflected = reflected_color(comps, ttl)
       refracted = refracted_color(comps, ttl)
       return surface + reflected + refracted unless comps.material.fresnel?
@@ -85,10 +85,7 @@ module GlisteningRuby
     end
 
     def shadowed?(point, light = lights[0])
-      distance = light.distance(point)
-      direction = light.direction(point)
-
-      intersect(ShadowRay[point, direction]).hit&.t&.< distance
+      light.visibility(point, self, 1) < 1.0
     end
 
     def self.default

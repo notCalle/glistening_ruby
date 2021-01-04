@@ -2,11 +2,12 @@
 
 require 'yaml'
 require_relative 'base'
+require_relative 'color'
 require_relative 'matrix'
 
 module GlisteningRuby
   # The camera that renders the world
-  class Camera < Base
+  class Camera < Base # rubocop:disable Metrics/ClassLength
     def initialize(width, height, fov)
       @w = width
       @h = height
@@ -36,13 +37,12 @@ module GlisteningRuby
       Ray.new(origin, direction)
     end
 
-    def render(world, limit: World::RECURSION_LIMIT, threads: 1)
-      return render_threaded(world, threads, limit) if threads > 1
+    def render(world, threads: 1, **options)
+      return render_threaded(world, threads, **options) if threads > 1
 
       Canvas.new(@w, @h) do |canvas|
         canvas.each do |_, x, y|
-          ray = ray_for_pixel(x, y)
-          canvas[x, y] = world.color_at ray, limit
+          canvas[x, y] = color_for_pixel(world, x, y, **options)
           @progress&.call(x, y)
         end
       rescue Interrupt
@@ -52,43 +52,75 @@ module GlisteningRuby
 
     private
 
-    def render_threaded(world, threads, limit) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
+    # rubocop:disable Security/MarshalLoad
+    # rubocop:disable Metrics/AbcSize, Metrics/BlockLength, Metrics/MethodLength
+    def render_threaded(world, threads, **options)
       jobs = []
       Canvas.new(@w, @h) do |canvas|
-        canvas.each_line do |l, y|
-          file = Tempfile.new(["line-#{y}-", '.yaml'])
-          pid = Process.fork do
-            file.write render_line(world, @w, y, limit).to_yaml
-            file.rewind
-          end
-          jobs[pid] = { file: file, line: l }
-          next if y + 1 < threads
+        begin
+          canvas.each_line do |l, y|
+            file = Tempfile.new(["line-#{y}-", '.yaml'])
+            pid = Process.fork do
+              Marshal.dump render_line(world, @w, y, **options), file
+              file.rewind
+            rescue Interrupt
+              nil
+            end
+            jobs[pid] = { file: file, line: l }
+            next if y + 1 < threads
 
-          pid, = Process.waitpid2
-          job = jobs[pid]
-          job[:line].replace YAML.safe_load(job[:file],
-                                            permitted_classes: [Color])
-          job[:file].close!
-          @progress&.call(@w - 1, y)
+            pid, = Process.waitpid2
+            job = jobs[pid]
+            job[:line].replace Marshal.load(job[:file])
+            job[:file].close!
+            @progress&.call(@w - 1, y)
+          end
+        ensure
+          Process.waitall.each do |pid, _|
+            job = jobs[pid]
+            job[:line].replace Marshal.load(job[:file])
+          rescue EOFError
+            nil
+          ensure
+            job[:file].close!
+          end
         end
       rescue Interrupt
         canvas
-      ensure
-        Process.waitall.each do |pid, _|
-          job = jobs[pid]
-          job[:line].replace YAML.safe_load(job[:file],
-                                            permitted_classes: [Color])
-          job[:file].close!
-        end
+      end
+    end
+    # rubocop:enable Metrics/AbcSize, Metrics/BlockLength, Metrics/MethodLength
+    # rubocop:enable Security/MarshalLoad
+
+    def render_line(world, width, y_pos, **options)
+      0.upto(width - 1).with_object([]) do |x, result|
+        result << color_for_pixel(world, x, y_pos, **options)
       end
     end
 
-    def render_line(world, width, y_pos, limit)
-      0.upto(width - 1).with_object([]) do |x, result|
-        ray = ray_for_pixel(x, y_pos)
-        result << world.color_at(ray, limit)
-      end
+    def color_for_pixel(world, px_x, px_y,
+                        ssaa: false, limit: World::RECURSION_LIMIT)
+      return color_for_ssaa(world, px_x, px_y, ssaa, limit) if ssaa
+
+      ray = ray_for_pixel(px_x, px_y)
+      world.color_at(ray, limit)
     end
+
+    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    def color_for_ssaa(world, px_x, px_y, samples, limit)
+      step = 1.0 / samples
+      offset = - 0.5 / samples
+      c = Color::BLACK
+      1.upto(samples) do |ssx|
+        1.upto(samples) do |ssy|
+          ray = ray_for_pixel(px_x + offset + step * ssx,
+                              px_y + offset + step * ssy)
+          c += world.color_at(ray, limit)
+        end
+      end
+      c / samples**2
+    end
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
     def initialize_half(aspect, fov)
       half_view = Math.tan(fov * Math::PI)

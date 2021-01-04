@@ -29,7 +29,7 @@ Feature: Surface materials
         Given eyev := Vector[0, √2/2, -√2/2]
           And p := Point[0, 0, -10]
          When light := PointLight[p, c]
-          And result := m.lighting spahe, light, position, eyev, normalv
+          And result := m.lighting shape, light, position, eyev, normalv
          Then result = Color[1.0, 1.0, 1.0]
 
     Scenario: Lighting with eye opposite surface, light offset 45°
@@ -62,8 +62,8 @@ Feature: Surface materials
           And normalv := Vector[0, 0, -1]
           And p := Point[0, 0, -10]
           And light := PointLight[p, c]
-          And inshadow := true
-         When result := m.lighting shape, light, position, eyev, normalv, inshadow
+          And lit := 0.0
+         When result := m.lighting shape, light, position, eyev, normalv, lit
          Then result = Color[0.1, 0.1, 0.1]
 
     Scenario: Lighting with a pattern applied
