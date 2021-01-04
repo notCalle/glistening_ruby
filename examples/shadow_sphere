@@ -15,7 +15,7 @@ class Main
   end
 
   def progress(done, total)
-    STDOUT << "#{100 * done / total}% done.\r"
+    $stdout << "#{100 * done / total}% done.\r"
   end
 
   def render(pixel, projection, color)

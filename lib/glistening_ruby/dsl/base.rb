@@ -43,7 +43,7 @@ module GlisteningRuby
 
       def copy_ivars(other)
         ivars.each do |ivar|
-          other.send("#{ivar[1..-1]}=", instance_variable_get(ivar))
+          other.send("#{ivar[1..]}=", instance_variable_get(ivar))
         end
         other
       end

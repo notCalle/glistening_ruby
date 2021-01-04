@@ -20,11 +20,13 @@ module GlisteningRuby
     end
 
     attr_accessor :cast_shadows
+
     def cast_shadows?
       @cast_shadows
     end
 
     attr_writer :material
+
     def material
       @material ||= @parent&.material || Material[]
     end

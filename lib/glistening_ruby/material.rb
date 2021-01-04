@@ -18,10 +18,10 @@ module GlisteningRuby
       super
     end
 
-    attr_accessor :ambient, :diffuse, :pattern, :reflective
-    attr_accessor :refractive_index, :shininess, :specular, :transparency
+    attr_accessor :ambient, :diffuse, :pattern, :reflective, :refractive_index, :shininess, :specular, :transparency
 
     attr_reader :color
+
     def color=(new_color)
       new_color = Color[*new_color] if new_color.is_a?(Array)
       @color = new_color
@@ -47,7 +47,7 @@ module GlisteningRuby
       reflective? && transparent?
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/ParameterLists
+    # rubocop:disable Metrics/ParameterLists
     def lighting(object, light, point, eyev, normalv, lit = 1.0)
       effective_color = color_at(object, point) * light.intensity(point)
       color = effective_color * @ambient
@@ -62,7 +62,7 @@ module GlisteningRuby
 
       color + specular_lighting(point, light, lightv, normalv, eyev) * lit
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/ParameterLists
+    # rubocop:enable Metrics/ParameterLists
 
     private
 

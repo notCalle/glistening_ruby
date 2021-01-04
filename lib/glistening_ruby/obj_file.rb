@@ -72,7 +72,7 @@ module GlisteningRuby
       end
     end
 
-    def face_to_triangle(face, vtx1, nml1, step) # rubocop:disable Metrics/AbcSize, Metrics/LineLength
+    def face_to_triangle(face, vtx1, nml1, step) # rubocop:disable /AbcSize, Metrics/
       f2 = face[step]
       f3 = face[step + 1]
       if nml1.nil? || nml1.zero?
@@ -85,7 +85,7 @@ module GlisteningRuby
 
     # 1/2/3 => [1, 2, 3]
     def match_to_faceinfo(matchdata)
-      matchdata.to_s.split[1..-1].map { |v| v.split('/').map(&:to_i) }
+      matchdata.to_s.split[1..].map { |v| v.split('/').map(&:to_i) }
     end
   end
 end
