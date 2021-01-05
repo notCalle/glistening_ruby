@@ -1,5 +1,4 @@
-![.github/workflows/tests.yml](https://github.com/notCalle/glistening_ruby/workflows/.github/workflows/tests.yml/badge.svg)
-
+[![Tests](https://github.com/notCalle/glistening_ruby/workflows/Tests/badge.svg)](https://github.com/notCalle/glistening_ruby/actions?query=workflow%3ATests)
 # GlisteningRuby
 
 This is my [Devember][] project for 2018, to build a Raytracer in a test-first methodology, by following [The Raytracer Challenge][].
