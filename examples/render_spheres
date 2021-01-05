@@ -8,7 +8,7 @@ require 'glistening_ruby'
 class Main < GlisteningRuby::Base
   include GlisteningRuby
 
-  def initialize
+  def initialize # rubocop:disable Lint/MissingSuper
     @camera = Camera.new(128, 128, '1/4'.to_r) do |camera|
       origin = Point[0, 0, -2]
       look_at = Point[0, 0, 0]

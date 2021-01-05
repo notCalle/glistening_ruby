@@ -11,7 +11,7 @@ module GlisteningRuby
   module DSL
     # Scene builder DSL class
     class Scene < Base
-      def initialize(&block)
+      def initialize(&block) # rubocop:disable Lint/MissingSuper
         @block = block
       end
 
@@ -35,7 +35,7 @@ module GlisteningRuby
         w << Shape[name, *args, &block]
       end
 
-      def render(*args, verbose: false, **kwargs) # rubocop:disable /AbcSize, Metrics/MethodLength, Metrics/
+      def render(*args, verbose: false, **kwargs) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
         @world = nil
         @t0 = Time.now
         instance_exec(*args, &@block)

@@ -14,7 +14,7 @@ module GlisteningRuby
       new(*intersections.map { |i| Intersection.new(i, object) })
     end
 
-    def initialize(*intersections)
+    def initialize(*intersections) # rubocop:disable Lint/MissingSuper
       @intersections = []
       @hit = nil
       self << intersections
@@ -22,10 +22,11 @@ module GlisteningRuby
 
     def <<(intersections)
       intersections.each do |intersection|
-        if intersection.positive?
-          @hit = intersection unless @hit && @hit < intersection
-        end
         @intersections << intersection
+        next unless intersection.positive?
+        next if @hit && @hit < intersection
+
+        @hit = intersection
       end
       @intersections.sort!
       self

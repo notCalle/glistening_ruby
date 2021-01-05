@@ -14,7 +14,7 @@ module GlisteningRuby
                     end
       end
 
-      def shadows(maybe = true)
+      def shadows(maybe = true) # rubocop:disable Style/OptionalBooleanParameter
         @cast_shadows = maybe
       end
     end

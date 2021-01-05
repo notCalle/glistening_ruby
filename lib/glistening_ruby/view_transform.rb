@@ -5,7 +5,7 @@ require_relative 'matrix'
 module GlisteningRuby
   # 4x4 Translation matrix for 3D vector space
   class ViewTransform < Matrix
-    def initialize(origin = Point[0, 0, 0],
+    def initialize(origin = Point[0, 0, 0], # rubocop:disable Lint/MissingSuper
                    look_at = Point[0, 0, -1],
                    upish = Vector[0, 1, 0])
       leftward, upward, backward = initialize_vectors(origin, look_at, upish)

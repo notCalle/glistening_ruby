@@ -72,7 +72,7 @@ module GlisteningRuby
       end
     end
 
-    def face_to_triangle(face, vtx1, nml1, step) # rubocop:disable /AbcSize, Metrics/
+    def face_to_triangle(face, vtx1, nml1, step) # rubocop:disable Metrics/AbcSize
       f2 = face[step]
       f3 = face[step + 1]
       if nml1.nil? || nml1.zero?

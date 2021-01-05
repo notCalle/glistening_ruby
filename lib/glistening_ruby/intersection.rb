@@ -10,7 +10,7 @@ module GlisteningRuby
     include Comparable
     extend Forwardable
 
-    def initialize(t_intersect, object, u = nil, v = nil)
+    def initialize(t_intersect, object, u = nil, v = nil) # rubocop:disable Lint/MissingSuper
       u, v = object.uv if u.nil? && object.respond_to?(:uv)
       @t = t_intersect
       @object = object

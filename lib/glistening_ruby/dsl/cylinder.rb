@@ -13,7 +13,7 @@ module GlisteningRuby
         ::GlisteningRuby::Cylinder.new { |i| copy_ivars(i) }
       end
 
-      def closed(maybe = true)
+      def closed(maybe = true)  # rubocop:disable Style/OptionalBooleanParameter
         @closed = maybe
       end
 
