@@ -1,4 +1,4 @@
-[![Build Status](https://dev.azure.com/notCalle/GitHub%20CI/_apis/build/status/notCalle.glistening_ruby)](https://dev.azure.com/notCalle/GitHub%20CI/_build/latest?definitionId=5)
+![.github/workflows/tests.yml](https://github.com/notCalle/glistening_ruby/workflows/.github/workflows/tests.yml/badge.svg)
 
 # GlisteningRuby
 
