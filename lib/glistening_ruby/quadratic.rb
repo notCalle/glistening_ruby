@@ -18,7 +18,6 @@ module GlisteningRuby
   module Quadratic
     private
 
-    # rubocop:disable Naming/UncommunicativeMethodParamName
     def quadratic(a, b, c)
       discriminant = b * b - 4 * a * c
       return [] if discriminant.negative?
@@ -38,6 +37,5 @@ module GlisteningRuby
       x1 = -0.5 * (b - d) / a
       [x0, x1]
     end
-    # rubocop:enable Naming/UncommunicativeMethodParamName
   end
 end

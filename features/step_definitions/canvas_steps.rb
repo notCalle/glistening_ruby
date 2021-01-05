@@ -31,9 +31,9 @@ Then(
   'lines {int} to {int} of {variable} are'
 ) do |from, to, var, example|
   text = seval(var).lines[(from - 1)..(to - 1)].join
-  expect(text).to eq(example + "\n")
+  expect(text).to eq("#{example}\n")
 end
 
 Then('the last character of {variable} is a newline') do |var|
-  expect(seval(var)[-1..-1]).to eq "\n"
+  expect(seval(var)[-1..]).to eq "\n"
 end

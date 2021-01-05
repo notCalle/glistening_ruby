@@ -8,7 +8,7 @@ require 'glistening_ruby'
 class Main < GlisteningRuby::Base # rubocop:disable Metrics/ClassLength
   include GlisteningRuby
 
-  def initialize(blend_mode = :arithmetic)
+  def initialize(blend_mode = :arithmetic) # rubocop:disable Lint/MissingSuper
     @blend_mode = blend_mode
     @world = scene
   end

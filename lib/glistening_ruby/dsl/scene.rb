@@ -11,7 +11,7 @@ module GlisteningRuby
   module DSL
     # Scene builder DSL class
     class Scene < Base
-      def initialize(&block)
+      def initialize(&block) # rubocop:disable Lint/MissingSuper
         @block = block
       end
 
@@ -35,7 +35,7 @@ module GlisteningRuby
         w << Shape[name, *args, &block]
       end
 
-      def render(*args, verbose: false, **kwargs) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
+      def render(*args, verbose: false, **kwargs) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
         @world = nil
         @t0 = Time.now
         instance_exec(*args, &@block)
@@ -68,8 +68,8 @@ module GlisteningRuby
           next if pct.zero?
 
           t2 = Time.now
-          STDOUT << "#{(pct * 100).to_i}% done, "
-          STDOUT << "#{((t2 - @t1) * (1.0 - pct) / pct).to_i} s to go.  \r"
+          $stdout << "#{(pct * 100).to_i}% done, "
+          $stdout << "#{((t2 - @t1) * (1.0 - pct) / pct).to_i} s to go.  \r"
         end
       end
 

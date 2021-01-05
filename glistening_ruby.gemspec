@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.platform = Gem::Platform::RUBY
-  spec.required_ruby_version = '~> 2.5'
+  spec.required_ruby_version = '~> 3.0'
 
   spec.add_dependency 'perlin', '~> 0.2.2'
 

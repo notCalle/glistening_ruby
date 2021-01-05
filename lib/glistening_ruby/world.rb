@@ -88,7 +88,7 @@ module GlisteningRuby
       light.visibility(point, self, 1) < 1.0
     end
 
-    def self.default
+    def self.default # rubocop:disable Metrics/AbcSize
       World.new do |w|
         w << Sphere.new do |s|
           s.material.color = [0.8, 1.0, 0.6]

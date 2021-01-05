@@ -21,7 +21,7 @@ module GlisteningRuby
     end
 
     def row_to_s(row)
-      +'[' << row.map { |f| format('% .5f', f) }.join(', ') << ']'
+      +'[' << row.map { |f| format('% .5f', f) }.join(', ') << ']' # rubocop:disable Style/FormatStringToken
     end
 
     def multiply_matrix_by_matrix(other)

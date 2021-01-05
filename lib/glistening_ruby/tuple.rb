@@ -7,7 +7,7 @@ module GlisteningRuby
   class Tuple < Base # rubocop:disable Metrics/ClassLength
     include Enumerable
 
-    def initialize(x_axis = 0, y_axis = 0, z_axis = 0, w_axis = 0)
+    def initialize(x_axis = 0, y_axis = 0, z_axis = 0, w_axis = 0) # rubocop:disable Lint/MissingSuper
       @x = x_axis
       @y = y_axis
       @z = z_axis

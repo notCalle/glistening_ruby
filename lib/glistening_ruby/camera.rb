@@ -106,7 +106,7 @@ module GlisteningRuby
       world.color_at(ray, limit)
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:disable Metrics/MethodLength
     def color_for_ssaa(world, px_x, px_y, samples, limit)
       step = 1.0 / samples
       offset = - 0.5 / samples
@@ -120,7 +120,7 @@ module GlisteningRuby
       end
       c / samples**2
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:enable Metrics/MethodLength
 
     def initialize_half(aspect, fov)
       half_view = Math.tan(fov * Math::PI)

@@ -8,7 +8,7 @@ require 'glistening_ruby'
 class Main < GlisteningRuby::Base # rubocop:disable Metrics/ClassLength
   include GlisteningRuby
 
-  def initialize
+  def initialize # rubocop:disable Lint/MissingSuper
     @world = scene
   end
 

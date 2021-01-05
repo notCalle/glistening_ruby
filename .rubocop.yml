@@ -1,5 +1,12 @@
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 3.0
+  NewCops: enable
+
+Naming/MethodParameterName:
+  Enabled: false
+
+Lint/BinaryOperatorWithIdenticalOperands:
+  Enabled: false
 
 Metrics/BlockLength:
   Exclude:

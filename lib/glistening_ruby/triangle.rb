@@ -33,7 +33,7 @@ module GlisteningRuby
       @normal
     end
 
-    def intersections(ray) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
+    def intersections(ray) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       ray_x_e2 = ray.direction.cross @e2
       determinant = @e1.dot ray_x_e2
       return [] if close?(determinant, 0)
